@@ -13,6 +13,24 @@ export function setBodyScrollLock(locked) {
   document.body.classList.toggle('cb-scroll-lock', locked);
 }
 
+export function clampTooltipToViewport(id, axis) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const prop = axis === 'y' ? '--cb-tooltip-shift-y' : '--cb-tooltip-shift-x';
+  el.style.setProperty(prop, '0px');
+  const margin = 8;
+  const rect = el.getBoundingClientRect();
+  let shift = 0;
+  if (axis === 'y') {
+    if (rect.top < margin) shift = margin - rect.top;
+    else if (rect.bottom > window.innerHeight - margin) shift = (window.innerHeight - margin) - rect.bottom;
+  } else {
+    if (rect.left < margin) shift = margin - rect.left;
+    else if (rect.right > window.innerWidth - margin) shift = (window.innerWidth - margin) - rect.right;
+  }
+  if (shift) el.style.setProperty(prop, `${shift}px`);
+}
+
 export function trapFocus(rootId, event) {
   if (event.key !== 'Tab') return;
   const root = document.getElementById(rootId);

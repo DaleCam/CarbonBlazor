@@ -1,10 +1,28 @@
-<CbPopover Class="@Class">
-    <Trigger><span aria-hidden="true">?</span><span class="cb-sr-only">@Label</span></Trigger>
-    <ChildContent>@ChildContent</ChildContent>
-</CbPopover>
+<span class="@ClassName">
+    <button class="cb-popover__trigger" type="button" aria-expanded="@Open" aria-describedby="@ContentId" @onclick="Toggle">
+        <span aria-hidden="true">?</span><span class="cb-sr-only">@Label</span>
+    </button>
+    @if (Open)
+    {
+        <span id="@ContentId" class="cb-tooltip__content" role="dialog">@ChildContent</span>
+    }
+</span>
 
 @code {
+    private readonly string ContentId = $"cb-toggletip-{Guid.NewGuid():N}";
+
     [Parameter] public string Label { get; set; } = "More information";
+    [Parameter] public CbTooltipDirection Direction { get; set; } = CbTooltipDirection.Top;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
+
+    private bool Open { get; set; }
+
+    private string ClassName => new CssBuilder("cb-tooltip")
+        .Add("cb-toggletip")
+        .Add($"cb-tooltip--{Direction.ToString().ToLowerInvariant()}")
+        .Add(Class)
+        .ToString();
+
+    private void Toggle() => Open = !Open;
 }

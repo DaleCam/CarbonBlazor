@@ -1,13 +1,39 @@
-<span class="@ClassName" @attributes="AdditionalAttributes">
+@implements IAsyncDisposable
+@inject IJSRuntime Js
+
+<span class="@ClassName" @attributes="AdditionalAttributes" @onmouseenter="Reposition" @onfocusin="Reposition">
     <span class="cb-tooltip__trigger" tabindex="0" aria-describedby="@TooltipId">@ChildContent</span>
     <span id="@TooltipId" class="cb-tooltip__content" role="tooltip">@Text</span>
 </span>
 
 @code {
     private readonly string TooltipId = $"cb-tooltip-{Guid.NewGuid():N}";
+    private IJSObjectReference? _module;
+
     [Parameter] public string Text { get; set; } = string.Empty;
+    [Parameter] public CbTooltipDirection Direction { get; set; } = CbTooltipDirection.Top;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
-    private string ClassName => new CssBuilder("cb-tooltip").Add(Class).ToString();
+
+    private string ClassName => new CssBuilder("cb-tooltip")
+        .Add($"cb-tooltip--{Direction.ToString().ToLowerInvariant()}")
+        .Add(Class)
+        .ToString();
+
+    private bool IsVertical => Direction is CbTooltipDirection.Left or CbTooltipDirection.Right;
+
+    private async Task Reposition()
+    {
+        _module ??= await Js.InvokeAsync<IJSObjectReference>("import", "./_content/CarbonBlazor/carbon-blazor.js");
+        await _module.InvokeVoidAsync("clampTooltipToViewport", TooltipId, IsVertical ? "y" : "x");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.DisposeAsync();
+        }
+    }
 }

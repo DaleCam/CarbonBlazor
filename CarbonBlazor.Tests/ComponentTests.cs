@@ -319,6 +319,7 @@ public sealed class ComponentTests : BunitContext
     [Fact]
     public void Popover_TogglesOpenState()
     {
+        JSInterop.Mode = JSRuntimeMode.Loose;
         var cut = Render<CbPopover>(parameters => parameters
             .Add(p => p.Trigger, builder => builder.AddContent(0, "Open"))
             .AddChildContent("Panel"));

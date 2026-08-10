@@ -66,6 +66,14 @@ public enum CbModalSize
     Large
 }
 
+public enum CbTooltipDirection
+{
+    Top,
+    Right,
+    Bottom,
+    Left
+}
+
 public enum CbProgressStatus
 {
     Incomplete,
