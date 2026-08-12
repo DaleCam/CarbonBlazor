@@ -74,6 +74,14 @@ public enum CbProgressStatus
     Invalid
 }
 
+public enum CbIconSize
+{
+    Size16 = 16,
+    Size20 = 20,
+    Size24 = 24,
+    Size32 = 32
+}
+
 public enum CbIconName
 {
     Close,
