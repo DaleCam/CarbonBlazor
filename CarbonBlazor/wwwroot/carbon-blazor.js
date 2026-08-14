@@ -13,6 +13,24 @@ export function setBodyScrollLock(locked) {
   document.body.classList.toggle('cb-scroll-lock', locked);
 }
 
+export function clampTooltipToViewport(id, axis) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const prop = axis === 'y' ? '--cb-tooltip-shift-y' : '--cb-tooltip-shift-x';
+  el.style.setProperty(prop, '0px');
+  const margin = 8;
+  const rect = el.getBoundingClientRect();
+  let shift = 0;
+  if (axis === 'y') {
+    if (rect.top < margin) shift = margin - rect.top;
+    else if (rect.bottom > window.innerHeight - margin) shift = (window.innerHeight - margin) - rect.bottom;
+  } else {
+    if (rect.left < margin) shift = margin - rect.left;
+    else if (rect.right > window.innerWidth - margin) shift = (window.innerWidth - margin) - rect.right;
+  }
+  if (shift) el.style.setProperty(prop, `${shift}px`);
+}
+
 export function trapFocus(rootId, event) {
   if (event.key !== 'Tab') return;
   const root = document.getElementById(rootId);
@@ -34,8 +52,21 @@ export function clickOutside(rootId, dotNetRef, methodName) {
   const root = document.getElementById(rootId);
   if (!root) return;
 
+  const previousController = outsideClickControllers.get(rootId);
+  previousController?.abort();
+
+  const controller = new AbortController();
+  outsideClickControllers.set(rootId, controller);
+
+  const cleanup = () => {
+    if (outsideClickControllers.get(rootId) === controller) {
+      outsideClickControllers.delete(rootId);
+    }
+  };
+
   const listen = () => {
-    document.addEventListener('click', handler, { once: true, capture: true });
+    if (controller.signal.aborted) return;
+    document.addEventListener('click', handler, { once: true, capture: true, signal: controller.signal });
   };
 
   const handler = (event) => {
@@ -44,10 +75,15 @@ export function clickOutside(rootId, dotNetRef, methodName) {
       return;
     }
 
+    cleanup();
     dotNetRef.invokeMethodAsync(methodName).catch(() => {});
   };
 
-  window.setTimeout(listen, 0);
+  controller.signal.addEventListener('abort', cleanup, { once: true });
+  window.setTimeout(() => {
+    if (outsideClickControllers.get(rootId) !== controller) return;
+    listen();
+  }, 0);
 }
 
 export function rove(rootId, nextIndex) {
@@ -82,3 +118,5 @@ function getFocusable(root) {
   return [...root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
     .filter((element) => !element.hasAttribute('disabled') && !element.getAttribute('aria-hidden'));
 }
+
+const outsideClickControllers = new Map();

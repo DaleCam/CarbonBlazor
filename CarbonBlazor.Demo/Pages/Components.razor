@@ -189,12 +189,35 @@
 <section class="docs-section">
     <h2>Overlays and tabs</h2>
     <CbButton OnClick="OpenModal">Open modal</CbButton>
-    <CbPopover>
+    <CbPopover Caret="true">
         <Trigger>Open popover</Trigger>
-        <ChildContent><p>Popover content appears on click.</p></ChildContent>
+        <ChildContent><p>Popover content with a caret appears on click.</p></ChildContent>
+    </CbPopover>
+    <CbPopover>
+        <Trigger>
+            A more complex popover
+        </Trigger>
+        <ChildContent>
+            <div style="padding:.75rem;min-width:14rem;">
+                <CbRadioGroup Legend="Row height" @bind-Value="_rowHeight">
+                    <CbRadio Value="small">Small</CbRadio>
+                    <CbRadio Value="large">Large</CbRadio>
+                </CbRadioGroup>
+                <hr style="border:0;border-top:1px solid var(--cb-border-subtle);margin:.75rem 0;" />
+                <div class="cb-label">Edit columns</div>
+                <div style="display:flex;flex-direction:column;gap:.375rem;">
+                <CbCheckbox @bind-Value="_columnName">Name</CbCheckbox>
+                <CbCheckbox @bind-Value="_columnType">Type</CbCheckbox>
+                <CbCheckbox @bind-Value="_columnLocation">Location</CbCheckbox>
+                </div>
+            </div>
+        </ChildContent>
     </CbPopover>
     <CbTooltip Text="Tooltip content is connected with aria-describedby.">
         <span>Tooltip trigger</span>
+    </CbTooltip>
+    <CbTooltip Text="Positioned to the right of the trigger." Direction="CbTooltipDirection.Right">
+        <span>Right-direction trigger</span>
     </CbTooltip>
     <CbToggletip Label="More information">
         <p>Toggletip content uses dialog semantics through the popover primitive.</p>
@@ -227,6 +250,10 @@
     private double? _number = 42;
     private double _slider = 40;
     private bool _modalOpen;
+    private string? _rowHeight = "small";
+    private bool _columnName = true;
+    private bool _columnType = true;
+    private bool _columnLocation = true;
     private bool _tileClicked;
     private bool _tileSelected;
     private IReadOnlyList<string> Options { get; } = ["Alpha", "Beta", "Gamma"];

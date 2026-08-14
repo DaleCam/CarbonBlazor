@@ -1,4 +1,5 @@
 @page "/"
+@inject NavigationManager Nav
 
 <PageTitle>CarbonBlazor template</PageTitle>
 
@@ -10,8 +11,8 @@
     <h1>Carbon-inspired Blazor WebAssembly template</h1>
     <p>Reusable Blazor components, runtime theme tokens, accessible interaction patterns, and a documentation app for building product interfaces with Carbon-like logic.</p>
     <CbButtonSet>
-        <CbButton>Browse components</CbButton>
-        <CbButton Variant="CbButtonVariant.Secondary">View foundations</CbButton>
+        <CbButton OnClick="@(() => Nav.NavigateTo("/components"))">Browse components</CbButton>
+        <CbButton OnClick="@(() => Nav.NavigateTo("/foundations"))" Variant="CbButtonVariant.Secondary">View foundations</CbButton>
     </CbButtonSet>
 </section>
 
