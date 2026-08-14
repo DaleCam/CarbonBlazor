@@ -126,6 +126,7 @@ p {
     position: absolute;
     text-align: center;
     font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
     inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
 }
 
