@@ -1,3 +1,9 @@
+# Fork Notice
+
+I forked this from the good dev here: https://github.com/portalbh/CarbonBlazor
+He built a fantastic foundation and its a great start!
+Im just building on his awesome work as I needed a faster turnaround for my projects that im actively developing.
+
 # Carbon Blazor - AI Skills
 
 CarbonBlazor is a Blazor WebAssembly template and Razor Class Library inspired by the Carbon Design System. It provides reusable Blazor components, runtime CSS-variable themes, accessibility-focused interaction behavior, and a documentation/demo app.
