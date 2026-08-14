@@ -1,8 +1,8 @@
 @implements IAsyncDisposable
 @inject IJSRuntime Js
 
-<span class="@ClassName" @attributes="AdditionalAttributes" @onmouseenter="Reposition" @onfocusin="Reposition">
-    <span class="cb-tooltip__trigger" tabindex="0" aria-describedby="@TooltipId">@ChildContent</span>
+<span class="@ClassName" @attributes="AdditionalAttributes">
+    <span class="cb-tooltip__trigger" tabindex="0" aria-describedby="@TooltipId" @onmouseenter="Reposition" @onfocusin="Reposition">@ChildContent</span>
     <span id="@TooltipId" class="cb-tooltip__content" role="tooltip">@Text</span>
 </span>
 
