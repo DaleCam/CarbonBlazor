@@ -45,6 +45,10 @@
   --cb-spacing-10: 4rem;
   --cb-spacing-11: 5rem;
   --cb-spacing-12: 6rem;
+  --cb-icon-size-sm: 1rem;
+  --cb-icon-size-md: 1.25rem;
+  --cb-icon-size-lg: 1.5rem;
+  --cb-icon-size-xl: 2rem;
   --cb-motion-fast: 110ms cubic-bezier(0.2, 0, 0.38, 0.9);
   --cb-motion-moderate: 240ms cubic-bezier(0.4, 0, 0.2, 1);
   --cb-motion-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -886,6 +890,11 @@ a.cb-link:hover { text-decoration: underline; }
   vertical-align: middle;
   flex-shrink: 0;
 }
+
+.cb-icon--sm { width: var(--cb-icon-size-sm); height: var(--cb-icon-size-sm); }
+.cb-icon--md { width: var(--cb-icon-size-md); height: var(--cb-icon-size-md); }
+.cb-icon--lg { width: var(--cb-icon-size-lg); height: var(--cb-icon-size-lg); }
+.cb-icon--xl { width: var(--cb-icon-size-xl); height: var(--cb-icon-size-xl); }
 
 /* ── Tag filter variant ─────────────────────────── */
 

@@ -83,7 +83,7 @@
         @foreach (var icon in _iconSamples)
         {
             <span style="display:flex;flex-direction:column;align-items:center;gap:.25rem;font-size:.65rem;color:var(--cb-text-secondary)">
-                <CbIcon Name="@icon" Size="24" />
+                <CbIcon Name="@icon" SizeToken="CbIconSize.Size24"  />
                 @icon
             </span>
         }
@@ -165,7 +165,7 @@
     <h2>Empty state</h2>
     <div style="border:1px solid var(--cb-border-subtle);">
         <div class="cb-empty-state">
-            <CbIcon Name="CbIconName.Information" Size="32" Class="cb-empty-state__icon" />
+            <CbIcon Name="CbIconName.Information" SizeToken="CbIconSize.Size32" Class="cb-empty-state__icon" />
             <p class="cb-empty-state__title">No patients yet</p>
             <p class="cb-empty-state__body">Search by National ID, MRN, name, or mobile before creating a new patient.</p>
         </div>

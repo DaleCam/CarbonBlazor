@@ -463,5 +463,45 @@ public sealed class ComponentTests : BunitContext
         Assert.Contains(JSInterop.Invocations, invocation => invocation.Identifier == "import");
     }
 
+    [Fact]
+    public void Icon_WithoutLabel_IsHiddenFromAccessibilityTree()
+    {
+        var cut = Render<CbIcon>(parameters => parameters
+            .Add(p => p.Name, CbIconName.Home));
+
+        var svg = cut.Find("svg");
+        Assert.Equal("true", svg.GetAttribute("aria-hidden"));
+        Assert.False(svg.HasAttribute("aria-label"));
+        Assert.False(svg.HasAttribute("role"));
+        Assert.Equal("_content/CarbonBlazor/icons.svg#home", cut.Find("use").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Icon_WithLabel_ExposesImgRoleAndAriaLabel()
+    {
+        var cut = Render<CbIcon>(parameters => parameters
+            .Add(p => p.Name, CbIconName.Settings)
+            .Add(p => p.Label, "Settings"));
+
+        var svg = cut.Find("svg");
+        Assert.False(svg.HasAttribute("aria-hidden"));
+        Assert.Equal("Settings", svg.GetAttribute("aria-label"));
+        Assert.Equal("img", svg.GetAttribute("role"));
+        Assert.Equal("_content/CarbonBlazor/icons.svg#settings", cut.Find("use").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Icon_SizeTokenControlsDimensionsAndSizeClass()
+    {
+        var cut = Render<CbIcon>(parameters => parameters
+            .Add(p => p.Name, CbIconName.Add)
+            .Add(p => p.SizeToken, CbIconSize.Size24));
+
+        var svg = cut.Find("svg");
+        Assert.Equal("24", svg.GetAttribute("width"));
+        Assert.Equal("24", svg.GetAttribute("height"));
+        Assert.Contains("cb-icon--lg", svg.GetAttribute("class"));
+    }
+
     private sealed record Person(string Name, string Role);
 }

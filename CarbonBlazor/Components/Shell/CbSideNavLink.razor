@@ -4,7 +4,7 @@
 <NavLink class="cb-side-nav__link" href="@Href" Match="@Match" @attributes="MergedAttributes">
     @if (IconName.HasValue)
     {
-        <CbIcon Name="@IconName.Value" Size="16" Class="cb-side-nav__icon" />
+        <CbIcon Name="@IconName.Value" SizeToken="CbIconSize.Size16" Class="cb-side-nav__icon" />
     }
     else if (!string.IsNullOrWhiteSpace(Icon))
     {
