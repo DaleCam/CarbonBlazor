@@ -55,6 +55,6 @@
         CbIconName.Pharmacy => "pharmacy",
         CbIconName.Hospital => "hospital",
         CbIconName.Report => "report",
-        _ => ""
+        _ => throw new System.ArgumentOutOfRangeException(nameof(Name), Name, "Unsupported icon name")
     };
 }
