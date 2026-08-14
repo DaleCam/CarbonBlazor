@@ -751,8 +751,7 @@ a.cb-link:hover { text-decoration: underline; }
 .cb-modal__label { color: var(--cb-text-secondary); font-size: 0.75rem; }
 .cb-modal__close { position: absolute; top: 0; right: 0; width: 3rem; height: 3rem; border: 0; background: transparent; color: var(--cb-icon-primary); }
 .cb-modal__body { flex: 1 1 auto; overflow-y: auto; padding: 0 var(--cb-spacing-05) var(--cb-spacing-06); }
-.cb-modal__footer { display: flex; justify-content: flex-end; flex: 0 0 auto; height: 4rem; margin-block-start: auto; }
-.cb-modal__footer .cb-btn { flex: 0 1 50%; max-width: none; height: 4rem; margin: 0; }
+.cb-modal__footer .cb-btn { flex: 1 1 0; max-width: none; height: 4rem; margin: 0; }
 
 @media (min-width: 672px) {
   .cb-modal { position: relative; width: 84%; height: auto; max-height: 90%; }
