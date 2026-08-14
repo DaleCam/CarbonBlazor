@@ -1,5 +1,5 @@
 <span class="@ClassName">
-    <button class="cb-popover__trigger" type="button" aria-expanded="@Open" aria-describedby="@ContentId" @onclick="Toggle">
+<button class="cb-popover__trigger" type="button" aria-expanded="@Open" aria-haspopup="dialog" aria-controls="@ContentId" @onclick="Toggle">
         <span aria-hidden="true">?</span><span class="cb-sr-only">@Label</span>
     </button>
     @if (Open)
