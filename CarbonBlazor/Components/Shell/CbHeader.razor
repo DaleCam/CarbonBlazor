@@ -1,8 +1,8 @@
 <header class="@ClassName" @attributes="AdditionalAttributes">
     @if (ShowMenuButton)
     {
-        <button class="cb-header__button" type="button" aria-label="@MenuLabel" aria-expanded="@SideNavOpen" aria-controls="@MenuControls" @onclick="ToggleSideNav">
-            <CbIcon Name="CbIconName.Menu" SizeToken="CbIconSize.Size20" />
+        <button class="cb-header__button" type="button" aria-label="@MenuLabel" aria-expanded="@AriaExpanded" aria-controls="@MenuControls" @onclick="ToggleSideNav">
+            <CbIcon Name="@(SideNavOpen ? CbIconName.Close : CbIconName.Menu)" SizeToken="CbIconSize.Size20" />
         </button>
     }
     <a class="cb-header__name" href="@Href">
@@ -37,6 +37,7 @@
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ClassName => new CssBuilder("cb-header").Add("cb-header--nav-open", SideNavOpen).Add(Class).ToString();
+    private string AriaExpanded => SideNavOpen ? "true" : "false";
 
     private async Task ToggleSideNav()
     {

@@ -412,6 +412,29 @@ public sealed class ComponentTests : BunitContext
     }
 
     [Fact]
+    public void SideNav_PersistentIsOptInAndDefaultsOff()
+    {
+        var cut = Render<CbSideNav>(parameters => parameters
+            .Add(p => p.Open, true)
+            .AddChildContent("<a class='cb-side-nav__link'>Link</a>"));
+
+        var className = cut.Find("aside").GetAttribute("class") ?? string.Empty;
+        Assert.DoesNotContain("cb-side-nav--persistent", className);
+    }
+
+    [Fact]
+    public void SideNav_PersistentAppliesModifierClass()
+    {
+        var cut = Render<CbSideNav>(parameters => parameters
+            .Add(p => p.Open, true)
+            .Add(p => p.Persistent, true)
+            .AddChildContent("<a class='cb-side-nav__link'>Link</a>"));
+
+        var className = cut.Find("aside").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("cb-side-nav--persistent", className);
+    }
+
+    [Fact]
     public void SideNav_DoesNotSetAriaHiddenAttribute()
     {
         var cut = Render<CbSideNav>(parameters => parameters
@@ -502,6 +525,157 @@ public sealed class ComponentTests : BunitContext
         Assert.Equal("24", svg.GetAttribute("width"));
         Assert.Equal("24", svg.GetAttribute("height"));
         Assert.Contains("cb-icon--lg", svg.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void SkipToContent_RendersHrefAndDefaultText()
+    {
+        var cut = Render<CbSkipToContent>(parameters => parameters
+            .Add(p => p.Href, "#main-content"));
+
+        var anchor = cut.Find("a.cb-skip-to-content");
+        Assert.Equal("#main-content", anchor.GetAttribute("href"));
+        Assert.Equal("Skip to main content", anchor.TextContent.Trim());
+    }
+
+    [Fact]
+    public void SideNavDivider_RendersHrElement()
+    {
+        var cut = Render<CbSideNavDivider>();
+
+        Assert.NotNull(cut.Find("hr.cb-side-nav__divider"));
+    }
+
+    [Fact]
+    public void SideNavMenu_TogglesOpenStateAndRaisesCallback()
+    {
+        var open = false;
+        var cut = Render<CbSideNavMenu>(parameters => parameters
+            .Add(p => p.Text, "Kubernetes")
+            .Add(p => p.Open, open)
+            .Add(p => p.OpenChanged, value => open = value)
+            .AddChildContent("<li class='cb-side-nav__menu-item'><a class='cb-side-nav__link' href='#'>Clusters</a></li>"));
+
+        Assert.Equal("false", cut.Find("button.cb-side-nav__submenu").GetAttribute("aria-expanded"));
+
+        cut.Find("button.cb-side-nav__submenu").Click();
+
+        Assert.True(open);
+    }
+
+    [Fact]
+    public void SideNavMenuItem_RendersNestedLink()
+    {
+        var cut = Render<CbSideNavMenuItem>(parameters => parameters
+            .Add(p => p.Href, "/kubernetes/clusters")
+            .AddChildContent("Clusters"));
+
+        Assert.NotNull(cut.Find("a.cb-side-nav__link--nested"));
+        Assert.Equal("Clusters", cut.Find(".cb-side-nav__label").TextContent.Trim());
+    }
+
+    [Fact]
+    public void HeaderNavMenu_TogglesOpenStateOnTriggerClick()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbHeaderNavMenu>(parameters => parameters
+            .Add(p => p.Text, "Manage")
+            .AddChildContent("<li class='cb-header__menu-item'><a class='cb-header__link' href='#'>Account</a></li>"));
+
+        Assert.Empty(cut.FindAll("ul.cb-header__menu"));
+
+        cut.Find("button.cb-header__menu-title").Click();
+
+        Assert.Single(cut.FindAll("ul.cb-header__menu"));
+        Assert.Single(cut.FindAll("li.cb-header__menu-item"));
+        Assert.Equal("true", cut.Find("button.cb-header__menu-title").GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public void HeaderMenuItem_RendersListItemWithLink()
+    {
+        var cut = Render<CbHeaderMenuItem>(parameters => parameters
+            .Add(p => p.Href, "/account")
+            .AddChildContent("Account"));
+
+        Assert.NotNull(cut.Find("li.cb-header__menu-item"));
+        Assert.Equal("Account", cut.Find("a.cb-header__link").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Header_MenuButtonSwapsIconAndAriaExpandedWithSideNavOpen()
+    {
+        var cut = Render<CbHeader>(parameters => parameters
+            .Add(p => p.SideNavOpen, true));
+
+        var button = cut.Find("button.cb-header__button");
+        Assert.Equal("true", button.GetAttribute("aria-expanded"));
+        Assert.Contains("close", cut.Find("button.cb-header__button use").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Grid_FullWidthAppliesModifierClass()
+    {
+        var cut = Render<CbGrid>(parameters => parameters
+            .Add(p => p.FullWidth, true)
+            .AddChildContent("content"));
+
+        var className = cut.Find("div").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("cb-layout-grid", className);
+        Assert.Contains("cb-layout-grid--full-width", className);
+    }
+
+    [Fact]
+    public void Row_CondensedAndNarrowApplyModifierClasses()
+    {
+        var cut = Render<CbRow>(parameters => parameters
+            .Add(p => p.Condensed, true)
+            .Add(p => p.Narrow, true));
+
+        var className = cut.Find("div").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("cb-layout-row--condensed", className);
+        Assert.Contains("cb-layout-row--narrow", className);
+    }
+
+    [Fact]
+    public void Column_BreakpointParametersProduceSpanClasses()
+    {
+        var cut = Render<CbColumn>(parameters => parameters
+            .Add(p => p.Sm, 4)
+            .Add(p => p.Md, 8)
+            .Add(p => p.Lg, 12));
+
+        var className = cut.Find("div").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("cb-layout-col-sm-4", className);
+        Assert.Contains("cb-layout-col-md-8", className);
+        Assert.Contains("cb-layout-col-lg-12", className);
+    }
+
+    [Fact]
+    public void Column_RejectsSpansBeyondThatBreakpointsColumnCount()
+    {
+        // sm has 4 columns and lg has 16; a span of 5 is only valid at lg.
+        var cut = Render<CbColumn>(parameters => parameters
+            .Add(p => p.Sm, 5)
+            .Add(p => p.Lg, 16));
+
+        var className = cut.Find("div").GetAttribute("class") ?? string.Empty;
+        Assert.DoesNotContain("cb-layout-col-sm-5", className);
+        Assert.Contains("cb-layout-col-lg-16", className);
+    }
+
+    [Fact]
+    public void Column_NoGutterAppliesModifierClasses()
+    {
+        var cut = Render<CbColumn>(parameters => parameters
+            .Add(p => p.NoGutter, true)
+            .Add(p => p.NoGutterLeft, true)
+            .Add(p => p.NoGutterRight, true));
+
+        var className = cut.Find("div").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("cb-layout-col--no-gutter", className);
+        Assert.Contains("cb-layout-col--no-gutter-left", className);
+        Assert.Contains("cb-layout-col--no-gutter-right", className);
     }
 
     private sealed record Person(string Name, string Role);

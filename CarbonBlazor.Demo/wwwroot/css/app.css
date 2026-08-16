@@ -17,10 +17,6 @@ h2 {
     font-weight: 400;
 }
 
-p {
-    max-width: 64rem;
-}
-
 .docs-hero {
     display: grid;
     gap: 1rem;

@@ -1,0 +1,12 @@
+<li class="cb-side-nav__menu-item" @attributes="AdditionalAttributes">
+    <NavLink class="cb-side-nav__link cb-side-nav__link--nested" href="@Href" Match="@Match">
+        <span class="cb-side-nav__label">@ChildContent</span>
+    </NavLink>
+</li>
+
+@code {
+    [Parameter] public string Href { get; set; } = "#";
+    [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}

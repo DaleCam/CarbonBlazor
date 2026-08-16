@@ -1,0 +1,31 @@
+<div class="@ClassName" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public int? Sm { get; set; }
+    [Parameter] public int? Md { get; set; }
+    [Parameter] public int? Lg { get; set; }
+    [Parameter] public int? Xlg { get; set; }
+    [Parameter] public int? Max { get; set; }
+    [Parameter] public bool NoGutter { get; set; }
+    [Parameter] public bool NoGutterLeft { get; set; }
+    [Parameter] public bool NoGutterRight { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    // Column counts follow Carbon's 2x grid: sm has 4 columns, md has 8,
+    // lg/xlg/max have 16. A span of 4 at md is half-width, not full-width.
+    private string ClassName => new CssBuilder("cb-layout-col")
+        .Add($"cb-layout-col-sm-{Sm}", Sm is >= 0 and <= 4)
+        .Add($"cb-layout-col-md-{Md}", Md is >= 0 and <= 8)
+        .Add($"cb-layout-col-lg-{Lg}", Lg is >= 0 and <= 16)
+        .Add($"cb-layout-col-xlg-{Xlg}", Xlg is >= 0 and <= 16)
+        .Add($"cb-layout-col-max-{Max}", Max is >= 0 and <= 16)
+        .Add("cb-layout-col--no-gutter", NoGutter)
+        .Add("cb-layout-col--no-gutter-left", NoGutterLeft)
+        .Add("cb-layout-col--no-gutter-right", NoGutterRight)
+        .Add(Class)
+        .ToString();
+}

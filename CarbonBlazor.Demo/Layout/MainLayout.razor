@@ -2,7 +2,7 @@
 @inject CarbonBlazorJsModule JsModule
 
 <CbThemeProvider Theme="_theme">
-    <CbHeader Prefix="Open source" ProductName="CarbonBlazor" SideNavOpen="_isMobileSideNavOpen" SideNavOpenChanged="OnMobileSideNavChanged" MenuLabel="Toggle navigation" MenuControls="main-side-nav" OnMenuToggle="ToggleNavigationAsync">
+    <CbHeader Prefix="Open source" ProductName="CarbonBlazor" SideNavOpen="_isNavExpanded" SideNavOpenChanged="OnMobileSideNavChanged" MenuLabel="Toggle navigation" MenuControls="main-side-nav" OnMenuToggle="ToggleNavigationAsync">
         <NavContent>
             <CbHeaderNavLink Href="/" Match="NavLinkMatch.All">Overview</CbHeaderNavLink>
             <CbHeaderNavLink Href="/components">Components</CbHeaderNavLink>
@@ -11,13 +11,17 @@
         </NavContent>
         <Actions>
             <CbIconButton Label="Cycle theme" OnClick="CycleTheme">
-                <CbIcon Name="CbIconName.Settings" SizeToken="CbIconSize.Size16" />
+                <CbIcon Name="CbIconName.BrightnessContrast" SizeToken="CbIconSize.Size16" />
             </CbIconButton>
         </Actions>
     </CbHeader>
-    <CbSideNav id="main-side-nav" Open="_isMobileSideNavOpen" OpenChanged="OnMobileSideNavChanged" Collapsed="_isDesktopSideNavCollapsed">
+    <CbSideNav id="main-side-nav" Open="_isMobileSideNavOpen" OpenChanged="OnMobileSideNavChanged" Collapsed="_isDesktopSideNavCollapsed" Persistent="true">
         <CbSideNavLink Href="/" Match="NavLinkMatch.All" IconName="CbIconName.Home">Overview</CbSideNavLink>
         <CbSideNavLink Href="/foundations" IconName="CbIconName.Dashboard">Foundations</CbSideNavLink>
+        <CbSideNavMenu Text="Layout" @bind-Open="_shellLayoutOpen">
+            <CbSideNavMenuItem Href="/layout#shell">Shell</CbSideNavMenuItem>
+            <CbSideNavMenuItem Href="/layout#grid">Grid</CbSideNavMenuItem>
+        </CbSideNavMenu>
         <CbSideNavLink Href="/components" IconName="CbIconName.DocumentBlank">Components</CbSideNavLink>
         <CbSideNavLink Href="/patterns" IconName="CbIconName.Report">Patterns</CbSideNavLink>
         <CbSideNavLink Href="/data" IconName="CbIconName.Filter">Data</CbSideNavLink>
@@ -32,6 +36,20 @@
     private CbTheme _theme = CbTheme.White;
     private bool _isMobileSideNavOpen;
     private bool _isDesktopSideNavCollapsed;
+    private bool _isDesktop = true;
+    private bool _shellLayoutOpen = true;
+
+    private bool _isNavExpanded => _isDesktop ? !_isDesktopSideNavCollapsed : _isMobileSideNavOpen;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var module = await JsModule.GetModuleAsync();
+            _isDesktop = await module.InvokeAsync<bool>("matchesMedia", "(min-width: 1056px)");
+            StateHasChanged();
+        }
+    }
 
     private void CycleTheme()
     {
@@ -55,6 +73,7 @@
     {
         var module = await JsModule.GetModuleAsync();
         var isDesktop = await module.InvokeAsync<bool>("matchesMedia", "(min-width: 1056px)");
+        _isDesktop = isDesktop;
 
         if (isDesktop)
         {

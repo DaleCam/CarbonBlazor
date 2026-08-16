@@ -251,6 +251,8 @@
     private double _slider = 40;
     private bool _modalOpen;
     private string? _rowHeight = "small";
+    private bool _shellSideNavOpen = true;
+    private bool _shellKubernetesOpen = true;
     private bool _columnName = true;
     private bool _columnType = true;
     private bool _columnLocation = true;
@@ -265,7 +267,8 @@
         CbIconName.Calendar, CbIconName.Edit, CbIconName.TrashCan, CbIconName.Close,
         CbIconName.ChevronDown, CbIconName.ChevronRight, CbIconName.Information,
         CbIconName.Warning, CbIconName.CheckmarkFilled, CbIconName.ErrorFilled,
-        CbIconName.OverflowMenuVertical, CbIconName.Hospital, CbIconName.Pharmacy, CbIconName.Report
+        CbIconName.OverflowMenuVertical, CbIconName.Hospital, CbIconName.Pharmacy, CbIconName.Report,
+        CbIconName.BrightnessContrast
     ];
 
     private IReadOnlyList<string> _filterOptions { get; } = ["All", "Waiting", "Arrived", "Missed", "Done"];

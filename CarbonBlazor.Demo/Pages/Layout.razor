@@ -1,0 +1,123 @@
+@page "/Layout"
+<h3>Layout</h3>
+<section>
+    <CbBreadcrumb>
+        <CbBreadcrumbItem Href="/">Home</CbBreadcrumbItem>
+        <CbBreadcrumbItem Current="true">Layout</CbBreadcrumbItem>
+    </CbBreadcrumb>
+</section>
+<section id="shell" class="docs-section">
+    <h2>UI shell</h2>
+    <p>
+        <code>CbHeaderNavMenu</code> adds a dropdown submenu to the header nav, <code>CbSideNavMenu</code>/<code>CbSideNavMenuItem</code>
+        add a collapsible group to the side nav, and <code>CbSideNavDivider</code>/<code>CbSkipToContent</code> round
+        out parity with
+        Carbon's UI Shell.
+    </p>
+    <div style="position:relative;border:1px solid var(--cb-border-subtle);overflow:hidden;">
+        <CbSkipToContent Href="#shell-demo-content"/>
+        <CbHeader ProductName="Cloud" Prefix="IBM" SideNavOpen="_shellSideNavOpen"
+                  SideNavOpenChanged="@(value => _shellSideNavOpen = value)">
+            <NavContent>
+                <CbHeaderNavLink Href="#">Catalog</CbHeaderNavLink>
+                <CbHeaderNavLink Href="#">Docs</CbHeaderNavLink>
+                <CbHeaderNavLink Href="#">Support</CbHeaderNavLink>
+                <CbHeaderNavMenu Text="Manage">
+                    <CbHeaderMenuItem Href="#">Account</CbHeaderMenuItem>
+                    <CbHeaderMenuItem Href="#">Access (IAM)</CbHeaderMenuItem>
+                    <CbHeaderMenuItem Href="#">Billing and usage</CbHeaderMenuItem>
+                </CbHeaderNavMenu>
+                <CbHeaderNavLink Href="#">Status</CbHeaderNavLink>
+            </NavContent>
+        </CbHeader>
+        <div style="position:relative;height:20rem;overflow:hidden;">
+            <CbSideNav Open="_shellSideNavOpen" OpenChanged="@(value => _shellSideNavOpen = value)" ShowOverlay="false"
+                       style="position:absolute;top:0;">
+                <CbSideNavLink Href="#" aria-current="page">Dashboard</CbSideNavLink>
+                <CbSideNavLink Href="#">Resource list</CbSideNavLink>
+                <CbSideNavLink Href="#">Activity tracker</CbSideNavLink>
+                <CbSideNavMenu Text="Kubernetes" @bind-Open="_shellKubernetesOpen">
+                    <CbSideNavMenuItem Href="#">Clusters</CbSideNavMenuItem>
+                    <CbSideNavMenuItem Href="#">Worker pools</CbSideNavMenuItem>
+                    <CbSideNavMenuItem Href="#">Container registry</CbSideNavMenuItem>
+                </CbSideNavMenu>
+                <CbSideNavDivider/>
+                <CbSideNavLink Href="#">Account settings</CbSideNavLink>
+            </CbSideNav>
+            <div id="shell-demo-content"
+                 style="@(_shellSideNavOpen ? "padding:1rem;margin-left:16rem;" : "padding:1rem;")">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="grid" class="docs-section">
+    <h2>Layout grid</h2>
+    <h2>Basic</h2>
+    <p>
+        The Carbon grid system uses a responsive column structure where the total number of columns changes based on
+        screen size. Column spans are relative to the total columns at each breakpoint — to create a full-width column,
+        use sm={4} md={8} lg={16} instead of the same value across all breakpoints.
+        Create a basic grid layout with equal-width columns.
+        Isolated preview
+        For more information check out: <a href="https://react.carbondesignsystem.com/?path=/docs/elements-grid--overview#full-width-grid">Carbon Grid Documentation</a>
+        
+    </p>
+    <p>
+        <CbGrid >
+            <CbRow>
+                <CbColumn Sm="1" Md="4" Lg="8">
+                    <div style="background:var(--cb-layer);padding:1rem;">Sm1 / Md4 / L8</div>
+                </CbColumn>
+                <CbColumn  Sm="1" Md="2" Lg="2">
+                    <div style="background:var(--cb-layer);padding:1rem;">Sm1 / Md2 / Lg2</div>
+                </CbColumn>
+                <CbColumn Sm="2" Md="2" Lg="6">
+                    <div style="background:var(--cb-layer);padding:1rem;">Sm2 / Md2 / Lg6</div>
+                </CbColumn>
+            </CbRow>
+        </CbGrid>
+    </p>
+    <table class="cb-doc-table">
+        <thead>
+        <tr>
+            <th>Breakpoint</th>
+            <th>Viewport width</th>
+            <th>Columns</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>Small (<code>sm</code>)</strong></td>
+            <td>0–671px</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td><strong>Medium (<code>md</code>)</strong></td>
+            <td>672–1055px</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td><strong>Large (<code>lg</code>)</strong></td>
+            <td>1056–1311px</td>
+            <td>16</td>
+        </tr>
+        <tr>
+            <td><strong>X-Large (<code>xlg</code>)</strong></td>
+            <td>1312–1583px</td>
+            <td>16</td>
+        </tr>
+        <tr>
+            <td><strong>Max (<code>max</code>)</strong></td>
+            <td>1584px and above</td>
+            <td>16</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+@code {
+    private bool _shellSideNavOpen = true;
+    private bool _shellKubernetesOpen = true;
+}
