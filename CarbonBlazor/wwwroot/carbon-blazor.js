@@ -86,6 +86,11 @@ export function clickOutside(rootId, dotNetRef, methodName) {
   }, 0);
 }
 
+export function disposeClickOutside(rootId) {
+  const controller = outsideClickControllers.get(rootId);
+  controller?.abort();
+}
+
 export function rove(rootId, nextIndex) {
   const root = document.getElementById(rootId);
   if (!root) return;
