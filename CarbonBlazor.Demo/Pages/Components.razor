@@ -220,7 +220,7 @@
         <span>Right-direction trigger</span>
     </CbTooltip>
     <CbToggletip Label="More information">
-        <p>Toggletip content uses dialog semantics through the popover primitive.</p>
+        <p>Toggletip content uses dialog semantics with its own click-to-toggle trigger. Click the icon again to close it.</p>
     </CbToggletip>
     <CbModal @bind-Open="_modalOpen" Title="Transactional modal">
         <ChildContent>
@@ -251,8 +251,6 @@
     private double _slider = 40;
     private bool _modalOpen;
     private string? _rowHeight = "small";
-    private bool _shellSideNavOpen = true;
-    private bool _shellKubernetesOpen = true;
     private bool _columnName = true;
     private bool _columnType = true;
     private bool _columnLocation = true;

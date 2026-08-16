@@ -12,7 +12,7 @@ This project is not affiliated with, sponsored by, or endorsed by IBM. Carbon De
 
 ## Published Demo
 
-https://carbonblazor.coder-portal-bh.workers.dev/
+https://carbonblazor.dale.workers.dev/
 
 ## Projects
 
