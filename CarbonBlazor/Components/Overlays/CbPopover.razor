@@ -59,10 +59,7 @@
     {
         if (_module is not null)
         {
-            if (_listeningForOutsideClick)
-            {
-                await _module.InvokeVoidAsync("disposeClickOutside", RootId);
-            }
+            await _module.InvokeVoidAsync("disposeClickOutside", RootId);
             await _module.DisposeAsync();
         }
         _dotNetRef?.Dispose();
