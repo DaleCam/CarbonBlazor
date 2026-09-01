@@ -1,0 +1,57 @@
+@page "/components/list"
+@using CarbonBlazor
+
+<PageTitle>List Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">List</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>List</h1>
+<p class="docs-lede">List displays an ordered or unordered list of items.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbList>
+        <li>First item</li>
+        <li>Second item</li>
+        <li>Third item</li>
+    </CbList>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>List item elements.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/contained-list">ContainedList</a></li>
+    </ul>
+</section>

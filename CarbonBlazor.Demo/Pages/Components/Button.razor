@@ -1,0 +1,115 @@
+@page "/components/button"
+@using CarbonBlazor
+
+<PageTitle>Button Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Button</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Button</h1>
+<p class="docs-lede">Button triggers an action or navigation when clicked.</p>
+
+<section class="docs-section">
+    <h2>Variants</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbButton>Primary</CbButton>
+        <CbButton Variant="CbButtonVariant.Secondary">Secondary</CbButton>
+        <CbButton Variant="CbButtonVariant.Tertiary">Tertiary</CbButton>
+        <CbButton Variant="CbButtonVariant.Ghost">Ghost</CbButton>
+        <CbButton Variant="CbButtonVariant.Danger">Danger</CbButton>
+        <CbButton Variant="CbButtonVariant.DangerTertiary">Danger Tertiary</CbButton>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Sizes</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <CbButton Size="CbSize.Small">Small</CbButton>
+        <CbButton Size="CbSize.Medium">Medium</CbButton>
+        <CbButton Size="CbSize.Large">Large</CbButton>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>States</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbButton Disabled="true">Disabled</CbButton>
+        <CbButton Variant="CbButtonVariant.Secondary" Disabled="true">Secondary Disabled</CbButton>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Variant</code></td>
+                <td><code>CbButtonVariant</code></td>
+                <td><code>Primary</code></td>
+                <td>Visual style of the button: Primary, Secondary, Tertiary, Ghost, Danger, or DangerGhost.</td>
+            </tr>
+            <tr>
+                <td><code>Size</code></td>
+                <td><code>CbSize</code></td>
+                <td><code>Medium</code></td>
+                <td>Button size: Small, Medium, or Large.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the button and prevents click events.</td>
+            </tr>
+            <tr>
+                <td><code>Type</code></td>
+                <td><code>string</code></td>
+                <td><code>"button"</code></td>
+                <td>HTML button type: button, submit, or reset.</td>
+            </tr>
+            <tr>
+                <td><code>Icon</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Optional icon HTML to display after button text.</td>
+            </tr>
+            <tr>
+                <td><code>OnClick</code></td>
+                <td><code>EventCallback&lt;MouseEventArgs&gt;</code></td>
+                <td>-</td>
+                <td>Fired when button is clicked.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Button text content.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/button-set">ButtonSet</a></li>
+        <li><a href="/components/icon-button">IconButton</a></li>
+        <li><a href="/components/menu-button">MenuButton</a></li>
+    </ul>
+</section>

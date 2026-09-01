@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build *)",
+      "Bash(dotnet test *)",
+      "Bash(dotnet run *)",
+      "Bash(dotnet msbuild *)",
+      "Bash(lsof -ti:*)",
+      "Bash(lsof -i *)",
+      "Bash(ilspycmd *)"
+    ]
+  }
+}

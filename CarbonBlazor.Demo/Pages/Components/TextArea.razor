@@ -1,0 +1,81 @@
+@page "/components/text-area"
+@using CarbonBlazor
+
+<PageTitle>TextArea Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">TextArea</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>TextArea</h1>
+<p class="docs-lede">TextArea allows users to enter multi-line text content.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbTextArea Label="Comments" Placeholder="Enter your comments..." @bind-Value="_textValue" />
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Label text displayed above textarea.</td>
+            </tr>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Current text value. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;string?&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when text changes.</td>
+            </tr>
+            <tr>
+                <td><code>Placeholder</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Placeholder text.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables textarea input.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/text-input">TextInput</a></li>
+    </ul>
+</section>
+
+@code {
+    private string? _textValue;
+}

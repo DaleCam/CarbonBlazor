@@ -1,0 +1,115 @@
+@page "/components/heading"
+@using CarbonBlazor
+@using CarbonBlazor.Components.Content
+
+<PageTitle>Heading Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Heading</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Heading</h1>
+<p class="docs-lede">Heading reads its semantic level (h1–h6) from the nearest Section. Levels advance automatically as sections nest, so document structure stays correct without hand-tracking levels.</p>
+
+<section class="docs-section">
+    <h2>Standalone</h2>
+    <p>Outside a Section a Heading renders as <code>h1</code>.</p>
+    <CbHeading>Page title</CbHeading>
+    <CbCodeSnippet>&lt;CbHeading&gt;Page title&lt;/CbHeading&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Nested sections</h2>
+    <CbSection>
+        <CbHeading>Level 1</CbHeading>
+        <CbSection>
+            <CbHeading>Level 2</CbHeading>
+            <CbSection>
+                <CbHeading>Level 3</CbHeading>
+            </CbSection>
+        </CbSection>
+    </CbSection>
+    <CbCodeSnippet>&lt;CbSection&gt;
+    &lt;CbHeading&gt;Level 1&lt;/CbHeading&gt;
+    &lt;CbSection&gt;
+        &lt;CbHeading&gt;Level 2&lt;/CbHeading&gt;
+        &lt;CbSection&gt;
+            &lt;CbHeading&gt;Level 3&lt;/CbHeading&gt;
+        &lt;/CbSection&gt;
+    &lt;/CbSection&gt;
+&lt;/CbSection&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Custom starting level</h2>
+    <p>Set <code>Level</code> on a Section to start deeper in the hierarchy.</p>
+    <CbSection Level="3">
+        <CbHeading>Starts at h3</CbHeading>
+        <CbSection>
+            <CbHeading>h4</CbHeading>
+        </CbSection>
+    </CbSection>
+    <CbCodeSnippet>&lt;CbSection Level="3"&gt;
+    &lt;CbHeading&gt;Starts at h3&lt;/CbHeading&gt;
+    &lt;CbSection&gt;
+        &lt;CbHeading&gt;h4&lt;/CbHeading&gt;
+    &lt;/CbSection&gt;
+&lt;/CbSection&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Custom wrapper element</h2>
+    <p>Use <code>Tag</code> to change the Section element while keeping level management.</p>
+    <CbSection Tag="article">
+        <CbHeading>Inside an article</CbHeading>
+    </CbSection>
+    <CbCodeSnippet>&lt;CbSection Tag="article"&gt;
+    &lt;CbHeading&gt;Inside an article&lt;/CbHeading&gt;
+&lt;/CbSection&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Props — Heading</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td><code>null</code></td><td>Heading text.</td></tr>
+            <tr><td><code>Class</code></td><td><code>string?</code></td><td><code>null</code></td><td>Additional CSS classes.</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Props — Section</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>Level</code></td><td><code>int?</code></td><td><code>null</code></td><td>Explicit starting level (1–6). Derived from nesting when omitted.</td></tr>
+            <tr><td><code>Tag</code></td><td><code>string</code></td><td><code>"section"</code></td><td>Element rendered for the wrapper.</td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td><code>null</code></td><td>Section content.</td></tr>
+            <tr><td><code>Class</code></td><td><code>string?</code></td><td><code>null</code></td><td>Additional CSS classes.</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Accessibility</h2>
+    <ul>
+        <li>Heading levels never skip and are capped at <code>h6</code>.</li>
+        <li>Nesting Sections keeps the outline valid for assistive technology.</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/link">Link</a></li>
+        <li><a href="/components/list">List</a></li>
+    </ul>
+</section>

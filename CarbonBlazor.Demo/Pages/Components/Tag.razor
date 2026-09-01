@@ -1,0 +1,70 @@
+@page "/components/tag"
+@using CarbonBlazor
+
+<PageTitle>Tag Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Tag</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Tag</h1>
+<p class="docs-lede">Tag displays small, categorized content with optional dismiss action.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbTag Kind="CbTagKind.Blue">Blue tag</CbTag>
+        <CbTag Kind="CbTagKind.Green">Green tag</CbTag>
+        <CbTag Kind="CbTagKind.Red">Red tag</CbTag>
+        <CbTag Kind="CbTagKind.Blue" Dismissible="true">Dismissible tag</CbTag>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Kind</code></td>
+                <td><code>CbTagKind</code></td>
+                <td><code>Blue</code></td>
+                <td>Tag color/kind.</td>
+            </tr>
+            <tr>
+                <td><code>Dismissible</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Show close button to dismiss tag.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Tag text content.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/notification">Notification</a></li>
+    </ul>
+</section>

@@ -1,0 +1,42 @@
+@namespace CarbonBlazor.Components.Content
+
+<CascadingValue Name="CbHeadingLevel" Value="_level" IsFixed="true">
+    @Element
+</CascadingValue>
+
+@code {
+    /// <summary>Level cascaded from an enclosing <see cref="CbSection"/>, if any.</summary>
+    [CascadingParameter(Name = "CbHeadingLevel")] public int? ParentLevel { get; set; }
+
+    /// <summary>Explicit starting heading level (1-6). When omitted the level is derived from nesting.</summary>
+    [Parameter] public int? Level { get; set; }
+
+    /// <summary>Element rendered for the section wrapper. Defaults to <c>section</c>.</summary>
+    [Parameter] public string Tag { get; set; } = "section";
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private int _level = 1;
+
+    private string ClassName => new CssBuilder("cb-section").Add(Class).ToString();
+
+    protected override void OnParametersSet()
+    {
+        var derived = Level ?? (ParentLevel is int p ? p + 1 : 1);
+        _level = Math.Clamp(derived, 1, 6);
+    }
+
+    private RenderFragment Element => builder =>
+    {
+        builder.OpenElement(0, Tag);
+        if (AdditionalAttributes is not null)
+        {
+            builder.AddMultipleAttributes(1, AdditionalAttributes);
+        }
+        builder.AddAttribute(2, "class", ClassName);
+        builder.AddContent(3, ChildContent);
+        builder.CloseElement();
+    };
+}

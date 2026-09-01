@@ -1,0 +1,100 @@
+@page "/components/tooltip"
+@using CarbonBlazor
+
+<PageTitle>Tooltip Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Tooltip</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Tooltip</h1>
+<p class="docs-lede">Tooltip displays additional information on hover or focus, connected via aria-describedby.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+        <CbTooltip Text="Tooltip content is connected with aria-describedby.">
+            <span>Hover or focus me</span>
+        </CbTooltip>
+        <CbTooltip Text="Positioned to the right of the trigger." Direction="CbTooltipDirection.Right">
+            <span>Right direction</span>
+        </CbTooltip>
+        <CbTooltip Text="Below the trigger element." Direction="CbTooltipDirection.Bottom">
+            <span>Bottom direction</span>
+        </CbTooltip>
+        <CbTooltip Text="To the left of trigger." Direction="CbTooltipDirection.Left">
+            <span>Left direction</span>
+        </CbTooltip>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Text</code> <span class="docs-required">*</span></td>
+                <td><code>string</code></td>
+                <td>-</td>
+                <td>Text content displayed in the tooltip (required).</td>
+            </tr>
+            <tr>
+                <td><code>Direction</code></td>
+                <td><code>CbTooltipDirection</code></td>
+                <td><code>Top</code></td>
+                <td>Position of tooltip: Top, Bottom, Left, or Right.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Trigger element content that shows the tooltip on hover/focus.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbTooltipDirection Enum</h2>
+    <ul>
+        <li><code>Top</code> - Tooltip appears above trigger (default)</li>
+        <li><code>Bottom</code> - Tooltip appears below trigger</li>
+        <li><code>Left</code> - Tooltip appears to left of trigger</li>
+        <li><code>Right</code> - Tooltip appears to right of trigger</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Accessibility</h2>
+    <ul>
+        <li>Tooltip content is connected to trigger via aria-describedby</li>
+        <li>Uses tooltip role for screen readers</li>
+        <li>Trigger element is keyboard focusable (tabindex="0")</li>
+        <li>Tooltip automatically repositions to stay within viewport</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/popover">Popover</a></li>
+        <li><a href="/components/toggletip">Toggletip</a></li>
+        <li><a href="/components/modal">Modal</a></li>
+    </ul>
+</section>

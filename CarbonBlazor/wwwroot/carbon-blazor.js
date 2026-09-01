@@ -114,6 +114,17 @@ export function moveTreeFocus(rootId, delta) {
   items[nextIndex]?.focus();
 }
 
+export async function copyElementText(id) {
+  const el = document.getElementById(id);
+  const text = el ? el.textContent ?? '' : '';
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function matchesMedia(query) {
   return window.matchMedia(query).matches;
 }

@@ -1,0 +1,74 @@
+@page "/components/radio-group"
+@using CarbonBlazor
+
+<PageTitle>RadioGroup Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">RadioGroup</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>RadioGroup</h1>
+<p class="docs-lede">RadioGroup manages a group of radio buttons for mutually exclusive selections.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbRadioGroup Legend="Select frequency" @bind-Value="_selected">
+        <CbRadio Value="daily">Daily</CbRadio>
+        <CbRadio Value="weekly">Weekly</CbRadio>
+        <CbRadio Value="monthly">Monthly</CbRadio>
+    </CbRadioGroup>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Currently selected value. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;string?&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when selection changes.</td>
+            </tr>
+            <tr>
+                <td><code>Legend</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Legend text for the group.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>CbRadio components to display in group.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/radio-button">RadioButton</a></li>
+        <li><a href="/components/checkbox">Checkbox</a></li>
+    </ul>
+</section>
+
+@code {
+    private string? _selected = "weekly";
+}

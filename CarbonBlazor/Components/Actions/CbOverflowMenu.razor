@@ -1,12 +1,24 @@
 @implements IAsyncDisposable
+@implements IMenuHost
 @inject IJSRuntime Js
 
-<div id="@MenuId" class="@ClassName" @attributes="AdditionalAttributes">
-    <CbIconButton Label="@Label" Icon="@Icon" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@Open" />
+<div id="@MenuId" class="@ClassName" @onkeydown="OnKeyDown" @attributes="AdditionalAttributes">
+    <CbIconButton Label="@Label" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@Open">
+        @if (Icon is not null)
+        {
+            @Icon
+        }
+        else
+        {
+            <CbIcon Name="IconName" />
+        }
+    </CbIconButton>
     @if (Open)
     {
-        <div class="cb-menu cb-menu--overflow" role="menu" @onkeydown="OnKeyDown">
-            @ChildContent
+        <div class="cb-menu cb-menu--overflow" role="menu">
+            <CascadingValue Value="(IMenuHost)this" IsFixed="true">
+                @ChildContent
+            </CascadingValue>
         </div>
     }
 </div>
@@ -18,7 +30,8 @@
     private bool _listeningForOutsideClick;
 
     [Parameter] public string Label { get; set; } = "More actions";
-    [Parameter] public string Icon { get; set; } = "⋯";
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public CbIconName IconName { get; set; } = CbIconName.OverflowMenuVertical;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
@@ -51,18 +64,24 @@
     {
         if (args.Key == "Escape")
         {
-            Open = false;
-            _listeningForOutsideClick = false;
+            CloseMenu();
         }
     }
 
-    [JSInvokable]
-    public void CloseFromOutside()
+    public void CloseMenu()
     {
+        if (!Open)
+        {
+            return;
+        }
+
         Open = false;
         _listeningForOutsideClick = false;
         StateHasChanged();
     }
+
+    [JSInvokable]
+    public void CloseFromOutside() => CloseMenu();
 
     public async ValueTask DisposeAsync()
     {

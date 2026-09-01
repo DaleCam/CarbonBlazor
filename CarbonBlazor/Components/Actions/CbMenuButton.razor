@@ -1,14 +1,17 @@
 @implements IAsyncDisposable
+@implements IMenuHost
 @inject IJSRuntime Js
 
-<div id="@MenuId" class="@ClassName" @attributes="AdditionalAttributes">
+<div id="@MenuId" class="@ClassName" @onkeydown="OnKeyDown" @attributes="AdditionalAttributes">
     <CbButton Variant="@Variant" Disabled="@Disabled" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@Open">
         @Label
     </CbButton>
     @if (Open)
     {
-        <div class="cb-menu" role="menu" @onkeydown="OnKeyDown">
-            @ChildContent
+        <div class="cb-menu" role="menu">
+            <CascadingValue Value="(IMenuHost)this" IsFixed="true">
+                @ChildContent
+            </CascadingValue>
         </div>
     }
 </div>
@@ -54,18 +57,24 @@
     {
         if (args.Key == "Escape")
         {
-            Open = false;
-            _listeningForOutsideClick = false;
+            CloseMenu();
         }
     }
 
-    [JSInvokable]
-    public void CloseFromOutside()
+    public void CloseMenu()
     {
+        if (!Open)
+        {
+            return;
+        }
+
         Open = false;
         _listeningForOutsideClick = false;
         StateHasChanged();
     }
+
+    [JSInvokable]
+    public void CloseFromOutside() => CloseMenu();
 
     public async ValueTask DisposeAsync()
     {

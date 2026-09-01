@@ -1,0 +1,118 @@
+@page "/components/breadcrumb"
+@using CarbonBlazor
+
+<PageTitle>Breadcrumb Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Breadcrumb</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Breadcrumb</h1>
+<p class="docs-lede">Breadcrumb provides navigation context and helps users understand their location within the site hierarchy.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbBreadcrumb>
+        <CbBreadcrumbItem Href="/">Home</CbBreadcrumbItem>
+        <CbBreadcrumbItem Href="/products">Products</CbBreadcrumbItem>
+        <CbBreadcrumbItem Href="/products/electronics">Electronics</CbBreadcrumbItem>
+        <CbBreadcrumbItem Current="true">Laptops</CbBreadcrumbItem>
+    </CbBreadcrumb>
+</section>
+
+<section class="docs-section">
+    <h2>CbBreadcrumb Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td><code>"Breadcrumb"</code></td>
+                <td>aria-label for the breadcrumb navigation element.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>CbBreadcrumbItem components to display in the breadcrumb trail.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbBreadcrumbItem Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Href</code></td>
+                <td><code>string</code></td>
+                <td><code>"#"</code></td>
+                <td>URL to navigate to. Ignored if Current is true.</td>
+            </tr>
+            <tr>
+                <td><code>Current</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Marks this as the current page (last item). Rendered as span instead of link.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Text or content displayed for this breadcrumb item.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Accessibility</h2>
+    <ul>
+        <li>Uses nav element with aria-label</li>
+        <li>Current page item has aria-current="page"</li>
+        <li>Ordered list structure for semantic HTML</li>
+        <li>Last item should always have Current="true"</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Best Practices</h2>
+    <ul>
+        <li>Always mark the current page with Current="true"</li>
+        <li>Include at least 2-3 levels of hierarchy</li>
+        <li>Match breadcrumb structure to site navigation</li>
+        <li>Use clear, descriptive labels</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/header">Header</a></li>
+    </ul>
+</section>

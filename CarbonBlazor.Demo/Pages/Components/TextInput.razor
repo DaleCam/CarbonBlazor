@@ -1,0 +1,132 @@
+@page "/components/text-input"
+@using CarbonBlazor
+
+<PageTitle>TextInput Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">TextInput</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>TextInput</h1>
+<p class="docs-lede">TextInput allows users to enter text. Use for names, emails, addresses, and other short text.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 25rem;">
+        <CbTextInput Label="Name" Placeholder="Enter your name" />
+        <CbTextInput Label="Email" Type="email" Placeholder="name@example.com" HelperText="We'll never share your email." />
+        <CbTextInput Label="Username" Value="@_username" ValueChanged="@OnUsernameChanged" />
+        <CbTextInput Label="Invalid input" Invalid="true" InvalidText="This field is required." />
+        <CbTextInput Label="Disabled" Disabled="true" Placeholder="Cannot edit" />
+        <CbTextInput Label="Read-only" ReadOnly="true" Value="Read only text" />
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code> <span class="docs-required">*</span></td>
+                <td><code>string</code></td>
+                <td>-</td>
+                <td>Label text displayed above the input (required).</td>
+            </tr>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>The current input value. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;string?&gt;</code></td>
+                <td>-</td>
+                <td>Event callback fired when value changes. Used for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>Type</code></td>
+                <td><code>string</code></td>
+                <td><code>"text"</code></td>
+                <td>HTML input type: text, email, password, number, etc.</td>
+            </tr>
+            <tr>
+                <td><code>Placeholder</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Placeholder text shown when input is empty.</td>
+            </tr>
+            <tr>
+                <td><code>HelperText</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Helper text displayed below the input for guidance.</td>
+            </tr>
+            <tr>
+                <td><code>Invalid</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Marks input as invalid. Shows InvalidText when true.</td>
+            </tr>
+            <tr>
+                <td><code>InvalidText</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Error message displayed when Invalid is true.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the input and prevents user interaction.</td>
+            </tr>
+            <tr>
+                <td><code>ReadOnly</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Makes input read-only but still focusable.</td>
+            </tr>
+            <tr>
+                <td><code>Id</code></td>
+                <td><code>string?</code></td>
+                <td>auto-generated</td>
+                <td>HTML id attribute. Auto-generated if not provided.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply to the wrapper.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/text-area">TextArea</a></li>
+        <li><a href="/components/number-input">NumberInput</a></li>
+        <li><a href="/components/search">Search</a></li>
+    </ul>
+</section>
+
+@code {
+    private string? _username;
+
+    private Task OnUsernameChanged(string? value)
+    {
+        _username = value;
+        return Task.CompletedTask;
+    }
+}

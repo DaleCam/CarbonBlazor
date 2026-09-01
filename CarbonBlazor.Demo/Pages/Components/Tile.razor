@@ -1,0 +1,74 @@
+@page "/components/tile"
+@using CarbonBlazor
+
+<PageTitle>Tile Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Tile</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Tile</h1>
+<p class="docs-lede">Tile presents content in an organized card-like container with various interaction types.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <CbTile>Default tile</CbTile>
+        <CbTile Kind="CbTileKind.Clickable" OnClick="@(() => _clickableTile = !_clickableTile)">Clickable tile @(_clickableTile ? "selected" : "")</CbTile>
+        <CbTile Kind="CbTileKind.Selectable" @bind-Selected="_selectableTile">Selectable tile</CbTile>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Kind</code></td>
+                <td><code>CbTileKind</code></td>
+                <td><code>Default</code></td>
+                <td>Tile type: Default, Clickable, or Selectable.</td>
+            </tr>
+            <tr>
+                <td><code>Selected</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Selection state for selectable tiles. Use with @@bind-Selected for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>OnClick</code></td>
+                <td><code>EventCallback&lt;MouseEventArgs&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when clickable tile is clicked.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content displayed inside the tile.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/list">List</a></li>
+    </ul>
+</section>
+
+@code {
+    private bool _clickableTile;
+    private bool _selectableTile;
+}

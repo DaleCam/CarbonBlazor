@@ -41,6 +41,14 @@ public enum CbNotificationKind
     Error
 }
 
+public enum CbNotificationQueuePosition
+{
+    TopRight,
+    TopLeft,
+    BottomRight,
+    BottomLeft
+}
+
 public enum CbTagKind
 {
     Gray,

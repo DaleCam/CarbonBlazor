@@ -1,0 +1,167 @@
+@page "/components/data-table"
+@using CarbonBlazor
+@using CarbonBlazor.Components.Data
+
+<PageTitle>DataTable Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">DataTable</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>DataTable</h1>
+<p class="docs-lede">DataTable renders tabular data with optional column sorting and row selection.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbDataTable TItem="Load" Title="Recent loads" Items="_loads" Columns="_columns" Selectable="true"
+                 SelectedItemsChanged="items => _selected = items" />
+    <p>Selected: @_selected.Count</p>
+</section>
+
+<section class="docs-section">
+    <h2>Defining columns</h2>
+    <p>Columns are supplied as a list of <code>CbDataTableColumn&lt;TItem&gt;</code>. Set <code>Text</code> for a plain value,
+    <code>Template</code> for custom markup, and <code>SortKey</code> to make the header sortable.</p>
+    <CbCodeSnippet>var columns = new List&lt;CbDataTableColumn&lt;Load&gt;&gt;
+{
+    new() { Header = "Name", Text = l =&gt; l.Name, SortKey = l =&gt; l.Name },
+    new() { Header = "Rule", Text = l =&gt; l.Rule },
+    new() { Header = "Status", Text = l =&gt; l.Status },
+};</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Pagination</h2>
+    <p>DataTable does not page internally. Slice <code>Items</code> yourself and render <code>CbPagination</code>
+    in the <code>Footer</code> slot so it attaches to the table.</p>
+    <CbDataTable TItem="Load" Title="All loads" Items="_pageItems" Columns="_columns">
+        <Footer>
+            <CbPagination TotalItems="_allLoads.Count"
+                          Page="_page" PageChanged="p => _page = p"
+                          PageSize="_pageSize" PageSizeChanged="OnPageSizeChanged" />
+        </Footer>
+    </CbDataTable>
+    <CbCodeSnippet>private IReadOnlyList&lt;Load&gt; PageItems =&gt;
+    _allLoads.Skip((_page - 1) * _pageSize).Take(_pageSize).ToList();
+
+&lt;CbDataTable TItem="Load" Items="PageItems" Columns="_columns"&gt;
+    &lt;Footer&gt;
+        &lt;CbPagination TotalItems="_allLoads.Count"
+                      Page="_page" PageChanged="p =&gt; _page = p"
+                      PageSize="_pageSize" PageSizeChanged="OnPageSizeChanged" /&gt;
+    &lt;/Footer&gt;
+&lt;/CbDataTable&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Title</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Optional heading rendered above the table.</td>
+            </tr>
+            <tr>
+                <td><code>Items</code></td>
+                <td><code>IReadOnlyList&lt;TItem&gt;</code></td>
+                <td><code>[]</code></td>
+                <td>Rows to render.</td>
+            </tr>
+            <tr>
+                <td><code>Columns</code></td>
+                <td><code>IReadOnlyList&lt;CbDataTableColumn&lt;TItem&gt;&gt;</code></td>
+                <td><code>[]</code></td>
+                <td>Column definitions.</td>
+            </tr>
+            <tr>
+                <td><code>Selectable</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Adds a checkbox column for row selection.</td>
+            </tr>
+            <tr>
+                <td><code>SelectedItemsChanged</code></td>
+                <td><code>EventCallback&lt;IReadOnlyList&lt;TItem&gt;&gt;</code></td>
+                <td>&mdash;</td>
+                <td>Fires when the selected rows change.</td>
+            </tr>
+            <tr>
+                <td><code>Toolbar</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content rendered in the header next to the title.</td>
+            </tr>
+            <tr>
+                <td><code>Footer</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content rendered below the table, inside the table container (e.g. pagination).</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/structured-list">StructuredList</a></li>
+    </ul>
+</section>
+
+@code {
+    public record Load(string Name, string Rule, string Status);
+
+    private readonly IReadOnlyList<Load> _loads =
+    [
+        new("Nightly export", "Retail feed", "Passed"),
+        new("Hourly sync", "Inventory", "Running"),
+        new("Weekly rollup", "Finance", "Failed"),
+    ];
+
+    private IReadOnlyList<Load> _selected = [];
+
+    private int _page = 1;
+    private int _pageSize = 5;
+
+    private static readonly string[] _rules = ["Retail feed", "Inventory", "Finance", "Logistics", "Marketing"];
+    private static readonly string[] _statuses = ["Passed", "Running", "Failed"];
+
+    private readonly IReadOnlyList<Load> _allLoads =
+        Enumerable.Range(1, 23)
+            .Select(i => new Load($"Load #{i}", _rules[i % _rules.Length], _statuses[i % _statuses.Length]))
+            .ToList();
+
+    private IReadOnlyList<Load> _pageItems =>
+        _allLoads.Skip((_page - 1) * _pageSize).Take(_pageSize).ToList();
+
+    private void OnPageSizeChanged(int size)
+    {
+        _pageSize = size;
+        _page = 1;
+    }
+
+    private readonly IReadOnlyList<CbDataTableColumn<Load>> _columns =
+    [
+        new() { Header = "Name", Text = l => l.Name, SortKey = l => l.Name },
+        new() { Header = "Rule", Text = l => l.Rule, SortKey = l => l.Rule },
+        new() { Header = "Status", Text = l => l.Status, SortKey = l => l.Status },
+    ];
+}

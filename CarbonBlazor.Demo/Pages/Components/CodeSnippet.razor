@@ -1,0 +1,87 @@
+@page "/components/code-snippet"
+@using CarbonBlazor
+
+<PageTitle>CodeSnippet Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">CodeSnippet</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>CodeSnippet</h1>
+<p class="docs-lede">Displays a formatted code sample with a copy-to-clipboard action.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 32rem;">
+        <CbCodeSnippet Code="dotnet build CarbonBlazor.slnx" />
+        <CbCodeSnippet Code="git switch -c feature" ShowCopyButton="false" />
+        <CbCodeSnippet OnCopy="() => _copies++">
+            npm install @@carbon/styles
+        </CbCodeSnippet>
+    </div>
+    <p>Copy callbacks fired: @_copies</p>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Code</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Code text to render and copy.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Alternative content; its text is copied when <code>Code</code> is not set.</td>
+            </tr>
+            <tr>
+                <td><code>ShowCopyButton</code></td>
+                <td><code>bool</code></td>
+                <td><code>true</code></td>
+                <td>Shows the copy-to-clipboard button.</td>
+            </tr>
+            <tr>
+                <td><code>CopyButtonLabel</code></td>
+                <td><code>string</code></td>
+                <td><code>"Copy to clipboard"</code></td>
+                <td>Accessible label for the copy button.</td>
+            </tr>
+            <tr>
+                <td><code>CopiedLabel</code></td>
+                <td><code>string</code></td>
+                <td><code>"Copied!"</code></td>
+                <td>Feedback text shown briefly after a successful copy.</td>
+            </tr>
+            <tr>
+                <td><code>OnCopy</code></td>
+                <td><code>EventCallback</code></td>
+                <td>—</td>
+                <td>Invoked after the text is copied.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+@code {
+    private int _copies;
+}

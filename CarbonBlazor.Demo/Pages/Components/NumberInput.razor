@@ -1,0 +1,76 @@
+@page "/components/number-input"
+@using CarbonBlazor
+
+<PageTitle>NumberInput Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">NumberInput</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>NumberInput</h1>
+<p class="docs-lede">NumberInput allows users to enter numeric values with increment/decrement controls.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbNumberInput Label="Quantity" @bind-Value="_quantity" />
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Label text displayed above input.</td>
+            </tr>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>double?</code></td>
+                <td><code>null</code></td>
+                <td>Current numeric value. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;double?&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when value changes.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the input.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/slider">Slider</a></li>
+        <li><a href="/components/text-input">TextInput</a></li>
+    </ul>
+</section>
+
+@code {
+    private double? _quantity;
+}

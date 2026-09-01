@@ -1,0 +1,109 @@
+@page "/components/tabs"
+@using CarbonBlazor
+
+<PageTitle>Tabs Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Tabs</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Tabs</h1>
+<p class="docs-lede">Tabs organize content into separate views within the same context. Users click tab labels to switch between them.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbTabs Items="@_tabItems" />
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Items</code></td>
+                <td><code>IReadOnlyList&lt;CbTabItem&gt;</code></td>
+                <td>-</td>
+                <td>Collection of tab items containing label and content.</td>
+            </tr>
+            <tr>
+                <td><code>SelectedIndex</code></td>
+                <td><code>int</code></td>
+                <td><code>0</code></td>
+                <td>Index of the currently selected tab (zero-based).</td>
+            </tr>
+            <tr>
+                <td><code>SelectedIndexChanged</code></td>
+                <td><code>EventCallback&lt;int&gt;</code></td>
+                <td>-</td>
+                <td>Event callback fired when selected tab changes.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply to the tab container.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbTabItem Properties</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td>The text displayed on the tab label.</td>
+            </tr>
+            <tr>
+                <td><code>Content</code></td>
+                <td><code>RenderFragment</code></td>
+                <td>The content rendered when this tab is selected.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Keyboard Navigation</h2>
+    <ul>
+        <li><strong>Left/Right arrows:</strong> Move focus to previous/next tab</li>
+        <li><strong>Home:</strong> Jump to first tab</li>
+        <li><strong>End:</strong> Jump to last tab</li>
+        <li><strong>Enter/Space:</strong> Activate selected tab</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/accordion">Accordion</a></li>
+    </ul>
+</section>
+
+@code {
+    private IReadOnlyList<CbTabItem> _tabItems { get; } =
+    [
+        new() { Label = "Documentation", Content = builder => builder.AddContent(0, "Tab content for documentation with examples and usage patterns.") },
+        new() { Label = "Code", Content = builder => builder.AddContent(0, "Code example showing how to use the Tabs component with Blazor.") },
+        new() { Label = "Accessibility", Content = builder => builder.AddContent(0, "Accessibility information including keyboard navigation and ARIA attributes.") }
+    ];
+}
