@@ -1,0 +1,132 @@
+@page "/components/accordion"
+@using CarbonBlazor
+
+<PageTitle>Accordion Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Accordion</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Accordion</h1>
+<p class="docs-lede">Accordion organizes related content into collapsible sections. One or more sections can be open at a time.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbAccordion>
+        <CbAccordionItem Title="First section" @bind-Open="_section1Open">
+            Content for the first accordion section. Click the header to expand or collapse.
+        </CbAccordionItem>
+        <CbAccordionItem Title="Second section" @bind-Open="_section2Open">
+            Content for the second accordion section with additional information.
+        </CbAccordionItem>
+        <CbAccordionItem Title="Third section" @bind-Open="_section3Open">
+            Content for the third accordion section. Multiple sections can be open simultaneously.
+        </CbAccordionItem>
+        <CbAccordionItem Title="Disabled section" Disabled="true">
+            This section cannot be expanded or collapsed.
+        </CbAccordionItem>
+    </CbAccordion>
+</section>
+
+<section class="docs-section">
+    <h2>CbAccordion Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>CbAccordionItem components to display.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbAccordionItem Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Title</code></td>
+                <td><code>string</code></td>
+                <td><code>"Accordion item"</code></td>
+                <td>Header text displayed for the accordion section.</td>
+            </tr>
+            <tr>
+                <td><code>Open</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Whether section is expanded. Use with @@bind-Open for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>OpenChanged</code></td>
+                <td><code>EventCallback&lt;bool&gt;</code></td>
+                <td>-</td>
+                <td>Event callback fired when section expand/collapse state changes.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables expanding/collapsing this section.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content displayed when section is expanded.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Keyboard Navigation</h2>
+    <ul>
+        <li><strong>Enter/Space:</strong> Toggle section open/closed</li>
+        <li><strong>Tab:</strong> Move focus to next section header</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/tabs">Tabs</a></li>
+    </ul>
+</section>
+
+@code {
+    private bool _section1Open;
+    private bool _section2Open;
+    private bool _section3Open;
+}

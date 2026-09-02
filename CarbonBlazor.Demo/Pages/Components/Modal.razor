@@ -1,0 +1,106 @@
+@page "/components/modal"
+@using CarbonBlazor
+
+<PageTitle>Modal Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Modal</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Modal</h1>
+<p class="docs-lede">Modal displays important information or requests user action. Dismissible with Escape key or close button.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbButton OnClick="OpenModal">Open Modal</CbButton>
+    <CbModal @@bind-Open="_modalOpen" Title="Transactional modal">
+        <ChildContent>
+            <p>Modal content is announced through dialog semantics and closes with Escape.</p>
+            <p>Use modals for important confirmations, error states, or to collect required information.</p>
+        </ChildContent>
+        <Footer>
+            <CbButton Variant="CbButtonVariant.Secondary" OnClick="CloseModal">Cancel</CbButton>
+            <CbButton OnClick="CloseModal">Confirm</CbButton>
+        </Footer>
+    </CbModal>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Open</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Controls whether the modal is visible. Use with @@bind-Open for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>OpenChanged</code></td>
+                <td><code>EventCallback&lt;bool&gt;</code></td>
+                <td>-</td>
+                <td>Event callback fired when modal open state changes.</td>
+            </tr>
+            <tr>
+                <td><code>Title</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Modal title displayed at the top of the dialog.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Modal body content.</td>
+            </tr>
+            <tr>
+                <td><code>Footer</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Footer content, typically containing action buttons.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply to the modal.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Accessibility</h2>
+    <ul>
+        <li>Modal is announced as a dialog role for screen readers</li>
+        <li>Title serves as aria-labelledby for the dialog</li>
+        <li>Escape key closes the modal</li>
+        <li>Focus is trapped within the modal when open</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/popover">Popover</a></li>
+        <li><a href="/components/tooltip">Tooltip</a></li>
+        <li><a href="/components/toggletip">Toggletip</a></li>
+    </ul>
+</section>
+
+@code {
+    private bool _modalOpen;
+
+    private void OpenModal() => _modalOpen = true;
+    private void CloseModal() => _modalOpen = false;
+}

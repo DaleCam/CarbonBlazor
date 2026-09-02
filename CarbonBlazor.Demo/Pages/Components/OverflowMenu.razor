@@ -1,0 +1,101 @@
+@page "/components/overflow-menu"
+@using CarbonBlazor
+
+<PageTitle>OverflowMenu Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">OverflowMenu</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>OverflowMenu</h1>
+<p class="docs-lede">An icon-only trigger that reveals a menu of secondary actions. Closes on outside click or Escape.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbOverflowMenu Label="Row actions">
+        <CbMenuItem OnClick="@(() => Pick("Edit"))">Edit</CbMenuItem>
+        <CbMenuItem OnClick="@(() => Pick("Share"))">Share</CbMenuItem>
+        <CbMenuItem OnClick="@(() => Pick("Delete"))">Delete</CbMenuItem>
+    </CbOverflowMenu>
+    <p>Last action: @(_last ?? "none")</p>
+    <CbCodeSnippet>&lt;CbOverflowMenu Label="Row actions"&gt;
+    &lt;CbMenuItem OnClick="() =&gt; Pick("Edit")"&gt;Edit&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem OnClick="() =&gt; Pick("Share")"&gt;Share&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem OnClick="() =&gt; Pick("Delete")"&gt;Delete&lt;/CbMenuItem&gt;
+&lt;/CbOverflowMenu&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Custom icon</h2>
+    <CbOverflowMenu Label="Settings" IconName="CbIconName.Settings">
+        <CbMenuItem>Preferences</CbMenuItem>
+        <CbMenuItem>Sign out</CbMenuItem>
+    </CbOverflowMenu>
+    <CbCodeSnippet>&lt;CbOverflowMenu Label="Settings" IconName="CbIconName.Settings"&gt;
+    &lt;CbMenuItem&gt;Preferences&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem&gt;Sign out&lt;/CbMenuItem&gt;
+&lt;/CbOverflowMenu&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td><code>"More actions"</code></td>
+                <td>Accessible name for the trigger button.</td>
+            </tr>
+            <tr>
+                <td><code>IconName</code></td>
+                <td><code>CbIconName</code></td>
+                <td><code>OverflowMenuVertical</code></td>
+                <td>Icon shown on the trigger.</td>
+            </tr>
+            <tr>
+                <td><code>Icon</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Optional glyph override; takes precedence over <code>IconName</code>.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Menu contents; typically <code>CbMenuItem</code> elements.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Menu items use <a href="/components/menu-button"><code>CbMenuItem</code></a>.</p>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/menu-button">MenuButton</a></li>
+        <li><a href="/components/icon-button">IconButton</a></li>
+    </ul>
+</section>
+
+@code {
+    private string? _last;
+
+    private void Pick(string action) => _last = action;
+}

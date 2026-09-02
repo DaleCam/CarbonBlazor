@@ -1,0 +1,29 @@
+@namespace CarbonBlazor.Components.Content
+
+@Element
+
+@code {
+    /// <summary>
+    /// Heading level cascaded from the nearest <see cref="CbSection"/>. Defaults to 1 when used
+    /// outside a section. Clamped to the 1-6 range so the rendered element is always valid.
+    /// </summary>
+    [CascadingParameter(Name = "CbHeadingLevel")] public int? ContextLevel { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private int Level => Math.Clamp(ContextLevel ?? 1, 1, 6);
+
+    private RenderFragment Element => builder =>
+    {
+        builder.OpenElement(0, $"h{Level}");
+        if (AdditionalAttributes is not null)
+        {
+            builder.AddMultipleAttributes(1, AdditionalAttributes);
+        }
+        builder.AddAttribute(2, "class", new CssBuilder("cb-heading").Add(Class).ToString());
+        builder.AddContent(3, ChildContent);
+        builder.CloseElement();
+    };
+}

@@ -137,6 +137,22 @@ public sealed class ComponentTests : BunitContext
     }
 
     [Fact]
+    public void DataTable_RendersFooterInsideContainer()
+    {
+        var columns = new[]
+        {
+            new CbDataTableColumn<Person> { Header = "Name", Text = item => item.Name }
+        };
+
+        var cut = Render<CbDataTable<Person>>(parameters => parameters
+            .Add(p => p.Items, new[] { new Person("Ada", "Analyst") })
+            .Add(p => p.Columns, columns)
+            .Add(p => p.Footer, builder => builder.AddMarkupContent(0, "<span class=\"pager\">pager</span>")));
+
+        Assert.NotNull(cut.Find(".cb-data-table .cb-data-table__footer .pager"));
+    }
+
+    [Fact]
     public void Pagination_NextButtonRaisesPageChanged()
     {
         var page = 1;
@@ -295,6 +311,91 @@ public sealed class ComponentTests : BunitContext
     }
 
     [Fact]
+    public void Heading_DefaultsToH1WhenStandalone()
+    {
+        var cut = Render<CbHeading>(parameters => parameters.AddChildContent("Title"));
+
+        Assert.NotNull(cut.Find("h1"));
+        Assert.Contains("Title", cut.Find("h1").TextContent);
+    }
+
+    [Fact]
+    public void Heading_AdvancesLevelWithNestedSections()
+    {
+        var cut = Render<CbSection>(parameters => parameters.AddChildContent<CbHeading>(h => h.AddChildContent("One"))
+            .AddChildContent<CbSection>(s => s.AddChildContent<CbHeading>(h => h.AddChildContent("Two"))));
+
+        Assert.Equal("One", cut.Find("section > h1").TextContent);
+        Assert.Equal("Two", cut.Find("section section > h2").TextContent);
+    }
+
+    [Fact]
+    public void Section_RespectsExplicitLevel()
+    {
+        var cut = Render<CbSection>(parameters => parameters
+            .Add(p => p.Level, 3)
+            .AddChildContent<CbHeading>(h => h.AddChildContent("Deep")));
+
+        Assert.Equal("Deep", cut.Find("h3").TextContent);
+    }
+
+    [Fact]
+    public void Section_RendersCustomTag()
+    {
+        var cut = Render<CbSection>(parameters => parameters
+            .Add(p => p.Tag, "article")
+            .AddChildContent<CbHeading>(h => h.AddChildContent("A")));
+
+        Assert.Equal("A", cut.Find("article > h1").TextContent);
+    }
+
+    [Fact]
+    public void NotificationQueue_AddsAndRemovesItems()
+    {
+        var cut = Render<CbNotificationQueue>(parameters => parameters
+            .Add(p => p.AutoDismiss, 0));
+
+        Guid id = Guid.Empty;
+        cut.InvokeAsync(() => id = cut.Instance.Add(CbNotificationKind.Success, "Saved", "Done"));
+
+        Assert.Single(cut.FindAll(".cb-notification"));
+        Assert.Contains("Saved", cut.Markup);
+
+        cut.InvokeAsync(() => cut.Instance.Remove(id));
+        Assert.Empty(cut.FindAll(".cb-notification"));
+    }
+
+    [Fact]
+    public void NotificationQueue_HonorsMaxItems()
+    {
+        var cut = Render<CbNotificationQueue>(parameters => parameters
+            .Add(p => p.AutoDismiss, 0)
+            .Add(p => p.MaxItems, 2));
+
+        cut.InvokeAsync(() =>
+        {
+            cut.Instance.Add(CbNotificationKind.Info, "One");
+            cut.Instance.Add(CbNotificationKind.Info, "Two");
+            cut.Instance.Add(CbNotificationKind.Info, "Three");
+        });
+
+        Assert.Equal(2, cut.FindAll(".cb-notification").Count);
+        Assert.DoesNotContain("One", cut.Markup);
+        Assert.Contains("Three", cut.Markup);
+    }
+
+    [Fact]
+    public void NotificationQueue_CloseButtonMatchesNotification()
+    {
+        var cut = Render<CbNotificationQueue>(parameters => parameters
+            .Add(p => p.AutoDismiss, 0));
+
+        cut.InvokeAsync(() => cut.Instance.Add(CbNotificationKind.Info, "Hi"));
+
+        Assert.Single(cut.FindAll("button.cb-notification__close"));
+    }
+
+    [Fact]
     public void Link_RendersHref()
     {
         var cut = Render<CbLink>(parameters => parameters
@@ -314,6 +415,34 @@ public sealed class ComponentTests : BunitContext
         var tooltip = cut.Find("[role=tooltip]");
         Assert.Equal("More detail", tooltip.TextContent);
         Assert.Equal(tooltip.Id, cut.Find(".cb-tooltip__trigger").GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void CodeSnippet_CopyButton_CopiesCodeViaInterop()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.Setup<bool>("copyElementText", _ => true).SetResult(true);
+
+        var cut = Render<CbCodeSnippet>(parameters => parameters
+            .Add(p => p.Code, "dotnet build"));
+
+        var button = cut.Find("button.cb-code-snippet__copy");
+        Assert.Equal("Copy to clipboard", button.GetAttribute("aria-label"));
+
+        button.Click();
+
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "copyElementText");
+        Assert.Contains("Copied!", cut.Find(".cb-code-snippet__feedback").TextContent);
+    }
+
+    [Fact]
+    public void CodeSnippet_HidesCopyButton_WhenDisabled()
+    {
+        var cut = Render<CbCodeSnippet>(parameters => parameters
+            .Add(p => p.Code, "x")
+            .Add(p => p.ShowCopyButton, false));
+
+        Assert.Empty(cut.FindAll("button.cb-code-snippet__copy"));
     }
 
     [Fact]
@@ -423,11 +552,11 @@ public sealed class ComponentTests : BunitContext
     }
 
     [Fact]
-    public void SideNav_PersistentAppliesModifierClass()
+    public void SideNav_FixedAppliesModifierClass()
     {
         var cut = Render<CbSideNav>(parameters => parameters
             .Add(p => p.Open, true)
-            .Add(p => p.Persistent, true)
+            .Add(p => p.Fixed, true)
             .AddChildContent("<a class='cb-side-nav__link'>Link</a>"));
 
         var className = cut.Find("aside").GetAttribute("class") ?? string.Empty;
@@ -485,6 +614,80 @@ public sealed class ComponentTests : BunitContext
 
         Assert.Contains("Archive", cut.Markup);
         Assert.Contains(JSInterop.Invocations, invocation => invocation.Identifier == "import");
+    }
+
+    [Fact]
+    public void OverflowMenu_TriggerDefaultsToVerticalOverflowIcon()
+    {
+        var cut = Render<CbOverflowMenu>(parameters => parameters
+            .Add(p => p.Label, "Row actions")
+            .AddChildContent<CbMenuItem>(item => item.AddChildContent("Edit")));
+
+        Assert.Equal(
+            "_content/CarbonBlazor/icons.svg#overflow-menu-vertical",
+            cut.Find("button.cb-icon-btn use").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void OverflowMenu_EscapeKeyClosesMenu()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbOverflowMenu>(parameters => parameters
+            .Add(p => p.Label, "Row actions")
+            .AddChildContent<CbMenuItem>(item => item.AddChildContent("Edit")));
+
+        cut.Find("button.cb-icon-btn").Click();
+        Assert.Contains("cb-menu--overflow", cut.Markup);
+
+        cut.Find("div.cb-overflow-menu").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+
+        Assert.DoesNotContain("cb-menu--overflow", cut.Markup);
+    }
+
+    [Fact]
+    public void OverflowMenu_ItemClickClosesMenu()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var clicked = false;
+        var cut = Render<CbOverflowMenu>(parameters => parameters
+            .Add(p => p.Label, "Row actions")
+            .AddChildContent<CbMenuItem>(item => item
+                .Add(i => i.OnClick, () => clicked = true)
+                .AddChildContent("Edit")));
+
+        cut.Find("button.cb-icon-btn").Click();
+        cut.Find("button.cb-menu__item").Click();
+
+        Assert.True(clicked);
+        Assert.DoesNotContain("cb-menu--overflow", cut.Markup);
+    }
+
+    [Fact]
+    public void MenuButton_ItemClickClosesMenu()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbMenuButton>(parameters => parameters
+            .Add(p => p.Label, "Actions")
+            .AddChildContent<CbMenuItem>(item => item.AddChildContent("Archive")));
+
+        cut.Find("button.cb-btn").Click();
+        Assert.Contains("cb-menu__item", cut.Markup);
+
+        cut.Find("button.cb-menu__item").Click();
+
+        Assert.DoesNotContain("cb-menu__item", cut.Markup);
+    }
+
+    [Fact]
+    public void OverflowMenu_IconOverridesDefaultGlyph()
+    {
+        var cut = Render<CbOverflowMenu>(parameters => parameters
+            .Add(p => p.Label, "Settings")
+            .Add(p => p.Icon, "⚙")
+            .AddChildContent<CbMenuItem>(item => item.AddChildContent("Preferences")));
+
+        Assert.Empty(cut.FindAll("button.cb-icon-btn use"));
+        Assert.Contains("⚙", cut.Markup);
     }
 
     [Fact]

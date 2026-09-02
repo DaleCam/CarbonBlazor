@@ -1,0 +1,97 @@
+@page "/components/toggletip"
+@using CarbonBlazor
+
+<PageTitle>Toggletip Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Toggletip</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Toggletip</h1>
+<p class="docs-lede">Toggletip displays information on click via a question mark icon with dialog semantics.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+        <CbToggletip Label="Additional information">
+            <p>Toggletip content uses dialog semantics with its own click-to-toggle trigger. Click the icon again to close it.</p>
+        </CbToggletip>
+        <CbToggletip Label="Help text" Direction="CbTooltipDirection.Right">
+            <p>Toggletip positioned to the right.</p>
+        </CbToggletip>
+        <CbToggletip Label="Details" Direction="CbTooltipDirection.Bottom">
+            <p>Toggletip positioned below.</p>
+        </CbToggletip>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td><code>"More information"</code></td>
+                <td>Accessible label for the toggletip icon button.</td>
+            </tr>
+            <tr>
+                <td><code>Direction</code></td>
+                <td><code>CbTooltipDirection</code></td>
+                <td><code>Top</code></td>
+                <td>Position of toggletip: Top, Bottom, Left, or Right.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content displayed inside the toggletip dialog.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Behavior</h2>
+    <ul>
+        <li>Shows a "?" icon as trigger button</li>
+        <li>Opens/closes on clicking the icon</li>
+        <li>Uses dialog role for proper accessibility</li>
+        <li>Closes when clicking outside (auto-handled)</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Accessibility</h2>
+    <ul>
+        <li>Uses dialog role for screen reader announcement</li>
+        <li>aria-label connects icon to description</li>
+        <li>aria-expanded indicates open/closed state</li>
+        <li>aria-haspopup="dialog" indicates toggletip type</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/tooltip">Tooltip</a></li>
+        <li><a href="/components/popover">Popover</a></li>
+        <li><a href="/components/modal">Modal</a></li>
+    </ul>
+</section>

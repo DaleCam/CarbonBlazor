@@ -5,9 +5,8 @@
     <CbHeader Prefix="Open source" ProductName="CarbonBlazor" SideNavOpen="_isNavExpanded" SideNavOpenChanged="OnMobileSideNavChanged" MenuLabel="Toggle navigation" MenuControls="main-side-nav" OnMenuToggle="ToggleNavigationAsync">
         <NavContent>
             <CbHeaderNavLink Href="/" Match="NavLinkMatch.All">Overview</CbHeaderNavLink>
+            <CbHeaderNavLink Href="/foundations">Foundations</CbHeaderNavLink>
             <CbHeaderNavLink Href="/components">Components</CbHeaderNavLink>
-            <CbHeaderNavLink Href="/data">Data</CbHeaderNavLink>
-            <CbHeaderNavLink Href="/accessibility">Accessibility</CbHeaderNavLink>
         </NavContent>
         <Actions>
             <CbIconButton Label="Cycle theme" OnClick="CycleTheme">
@@ -15,16 +14,19 @@
             </CbIconButton>
         </Actions>
     </CbHeader>
-    <CbSideNav id="main-side-nav" Open="_isMobileSideNavOpen" OpenChanged="OnMobileSideNavChanged" Collapsed="_isDesktopSideNavCollapsed" Persistent="true">
+    <CbSideNav id="main-side-nav" Open="_isNavExpanded" OpenChanged="OnMobileSideNavChanged" Collapsed="_isDesktopSideNavCollapsed">
         <CbSideNavLink Href="/" Match="NavLinkMatch.All" IconName="CbIconName.Home">Overview</CbSideNavLink>
-        <CbSideNavLink Href="/foundations" IconName="CbIconName.Dashboard">Foundations</CbSideNavLink>
-        <CbSideNavMenu Text="Layout" @bind-Open="_shellLayoutOpen">
+        <CbSideNavLink Href="/foundations" IconName="CbIconName.Settings">Foundations</CbSideNavLink>
+        <CbSideNavDivider />
+        <CbSideNavMenu Text="Layout" @bind-Open="_shellLayoutOpen" IconName="CbIconName.Dashboard">
             <CbSideNavMenuItem Href="/layout#shell">Shell</CbSideNavMenuItem>
             <CbSideNavMenuItem Href="/layout#grid">Grid</CbSideNavMenuItem>
+            <CbSideNavDivider />
         </CbSideNavMenu>
-        <CbSideNavLink Href="/components" IconName="CbIconName.DocumentBlank">Components</CbSideNavLink>
-        <CbSideNavLink Href="/patterns" IconName="CbIconName.Report">Patterns</CbSideNavLink>
-        <CbSideNavLink Href="/data" IconName="CbIconName.Filter">Data</CbSideNavLink>
+        <CbSideNavMenu Text="Components" @bind-Open="_componentsOpen" IconName="CbIconName.DocumentBlank">
+            <CbSideNavMenuItem Href="/components">All Components</CbSideNavMenuItem>
+            <CbSideNavDivider />
+        </CbSideNavMenu>
         <CbSideNavLink Href="/accessibility" IconName="CbIconName.Information">Accessibility</CbSideNavLink>
     </CbSideNav>
     <CbContent Class="@(_isDesktopSideNavCollapsed ? "cb-content--side-nav-collapsed" : null)">
@@ -38,6 +40,7 @@
     private bool _isDesktopSideNavCollapsed;
     private bool _isDesktop;
     private bool _shellLayoutOpen = true;
+    private bool _componentsOpen = true;
 
     private bool _isNavExpanded => _isDesktop ? !_isDesktopSideNavCollapsed : _isMobileSideNavOpen;
 

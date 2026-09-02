@@ -1,0 +1,63 @@
+@page "/components/link"
+@using CarbonBlazor
+
+<PageTitle>Link Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Link</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Link</h1>
+<p class="docs-lede">Link component for navigation with consistent styling and accessibility.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <CbLink Href="/">Home</CbLink>
+        <CbLink Href="/components">Components</CbLink>
+        <CbLink Href="https://carbondesignsystem.com">Carbon Design System</CbLink>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Href</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>URL to navigate to.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Link text or content.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/breadcrumb">Breadcrumb</a></li>
+    </ul>
+</section>

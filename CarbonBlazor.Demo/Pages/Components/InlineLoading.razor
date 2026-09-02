@@ -1,0 +1,67 @@
+@page "/components/inline-loading"
+@using CarbonBlazor
+
+<PageTitle>InlineLoading Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">InlineLoading</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>InlineLoading</h1>
+<p class="docs-lede">InlineLoading pairs a small spinner with a status message inside flowing content, such as next to a button or form field.</p>
+
+<section class="docs-section">
+    <h2>Default</h2>
+    <CbInlineLoading />
+</section>
+
+<section class="docs-section">
+    <h2>Custom text</h2>
+    <CbInlineLoading Text="Submitting..." />
+</section>
+
+<section class="docs-section">
+    <h2>Beside an action</h2>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <CbButton Disabled="true">Save</CbButton>
+        <CbInlineLoading Text="Saving changes" />
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Text</code></td>
+                <td><code>string</code></td>
+                <td><code>"Loading"</code></td>
+                <td>Status message shown next to the spinner and announced politely.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/loading">Loading</a></li>
+        <li><a href="/components/progress-bar">ProgressBar</a></li>
+    </ul>
+</section>

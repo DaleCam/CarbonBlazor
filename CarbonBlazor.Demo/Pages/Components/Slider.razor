@@ -1,0 +1,69 @@
+@page "/components/slider"
+@using CarbonBlazor
+
+<PageTitle>Slider Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Slider</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Slider</h1>
+<p class="docs-lede">Slider allows users to select a numeric value within a range by dragging or clicking.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbSlider Label="Volume" @bind-Value="_sliderValue" />
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Label text displayed above slider.</td>
+            </tr>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>double</code></td>
+                <td><code>0</code></td>
+                <td>Current slider value. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;double&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when slider value changes.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/number-input">NumberInput</a></li>
+    </ul>
+</section>
+
+@code {
+    private double _sliderValue;
+}

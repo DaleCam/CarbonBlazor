@@ -1,0 +1,70 @@
+@page "/components/loading"
+@using CarbonBlazor
+
+<PageTitle>Loading Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Loading</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Loading</h1>
+<p class="docs-lede">Loading shows an indeterminate spinner while a full page or region loads.</p>
+
+<section class="docs-section">
+    <h2>Default</h2>
+    <CbLoading />
+</section>
+
+<section class="docs-section">
+    <h2>Custom label</h2>
+    <CbLoading Label="Fetching data" />
+</section>
+
+<section class="docs-section">
+    <h2>Overlay</h2>
+    <p>Set <code>Overlay="true"</code> to render a fixed full-viewport scrim over the app while a route or critical action loads. Not shown here since it would cover this page.</p>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td><code>"Loading"</code></td>
+                <td>Accessible label announced to assistive technology.</td>
+            </tr>
+            <tr>
+                <td><code>Overlay</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Render as a full-cover overlay with a scrim.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/inline-loading">InlineLoading</a></li>
+        <li><a href="/components/progress-bar">ProgressBar</a></li>
+    </ul>
+</section>

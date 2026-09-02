@@ -1,0 +1,99 @@
+@implements IDisposable
+
+<div class="@ClassName" role="region" aria-label="@AriaLabel" @attributes="AdditionalAttributes">
+    @foreach (var item in _items)
+    {
+        <CbNotification @key="item.Id"
+                        Kind="@item.Kind"
+                        Title="@item.Title"
+                        Subtitle="@item.Subtitle"
+                        Closeable="true"
+                        OnClose="@(() => Remove(item.Id))" />
+    }
+</div>
+
+@code {
+    [Parameter] public CbNotificationQueuePosition Position { get; set; } = CbNotificationQueuePosition.TopRight;
+
+    /// <summary>Milliseconds before an item auto-dismisses. Set to 0 to keep items until closed.</summary>
+    [Parameter] public int AutoDismiss { get; set; } = 5000;
+
+    /// <summary>Maximum number of visible items. Oldest items are dropped when exceeded. 0 means unlimited.</summary>
+    [Parameter] public int MaxItems { get; set; } = 5;
+
+    [Parameter] public string AriaLabel { get; set; } = "Notifications";
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly List<QueueItem> _items = new();
+    private readonly Dictionary<Guid, Timer> _timers = new();
+
+    private string ClassName => new CssBuilder("cb-notification-queue")
+        .Add($"cb-notification-queue--{Position.ToString().ToLowerInvariant()}")
+        .Add(Class)
+        .ToString();
+
+    /// <summary>Adds a notification to the queue and returns its id.</summary>
+    public Guid Add(CbNotificationKind kind, string title, string? subtitle = null)
+    {
+        var item = new QueueItem(Guid.NewGuid(), kind, title, subtitle);
+        _items.Add(item);
+
+        if (MaxItems > 0)
+        {
+            while (_items.Count > MaxItems)
+            {
+                Remove(_items[0].Id);
+            }
+        }
+
+        if (AutoDismiss > 0)
+        {
+            var timer = new Timer(_ => _ = InvokeAsync(() => Remove(item.Id)), null, AutoDismiss, Timeout.Infinite);
+            _timers[item.Id] = timer;
+        }
+
+        StateHasChanged();
+        return item.Id;
+    }
+
+    public void Remove(Guid id)
+    {
+        var index = _items.FindIndex(i => i.Id == id);
+        if (index < 0)
+        {
+            return;
+        }
+
+        _items.RemoveAt(index);
+
+        if (_timers.Remove(id, out var timer))
+        {
+            timer.Dispose();
+        }
+
+        StateHasChanged();
+    }
+
+    public void Clear()
+    {
+        _items.Clear();
+        foreach (var timer in _timers.Values)
+        {
+            timer.Dispose();
+        }
+        _timers.Clear();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        foreach (var timer in _timers.Values)
+        {
+            timer.Dispose();
+        }
+        _timers.Clear();
+    }
+
+    private sealed record QueueItem(Guid Id, CbNotificationKind Kind, string Title, string? Subtitle);
+}

@@ -1,0 +1,64 @@
+@page "/components/progress-bar"
+@using CarbonBlazor
+
+<PageTitle>ProgressBar Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">ProgressBar</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>ProgressBar</h1>
+<p class="docs-lede">ProgressBar shows completion percentage of a task.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <CbProgressBar Label="Upload progress" Value="25" />
+        <CbProgressBar Label="Processing" Value="50" />
+        <CbProgressBar Label="Complete" Value="100" />
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Label text displayed above progress bar.</td>
+            </tr>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>double</code></td>
+                <td><code>0</code></td>
+                <td>Progress value (0-100).</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/progress-indicator">ProgressIndicator</a></li>
+        <li><a href="/components/inline-loading">InlineLoading</a></li>
+    </ul>
+</section>

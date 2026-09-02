@@ -1,0 +1,77 @@
+@page "/components/dropdown"
+@using CarbonBlazor
+
+<PageTitle>Dropdown Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Dropdown</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Dropdown</h1>
+<p class="docs-lede">Dropdown select component for choosing from list of options.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbDropdown Label="Choose option" Items="@_options" @bind-Value="_selectedOption" />
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Label text displayed above dropdown.</td>
+            </tr>
+            <tr>
+                <td><code>Items</code></td>
+                <td><code>IEnumerable&lt;string&gt;</code></td>
+                <td>-</td>
+                <td>List of options to display.</td>
+            </tr>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Currently selected value. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;string?&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when selection changes.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/select">Select</a></li>
+        <li><a href="/components/multi-select">MultiSelect</a></li>
+    </ul>
+</section>
+
+@code {
+    private string? _selectedOption;
+    private readonly IReadOnlyList<string> _options = new[] { "Option 1", "Option 2", "Option 3" };
+}

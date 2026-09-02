@@ -1,0 +1,138 @@
+@page "/components/menu-button"
+@using CarbonBlazor
+
+<PageTitle>MenuButton Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">MenuButton</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>MenuButton</h1>
+<p class="docs-lede">A labelled button that toggles a menu of actions. Closes on outside click or Escape.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <CbMenuButton Label="Actions">
+        <CbMenuItem OnClick="@(() => Pick("Duplicate"))">Duplicate</CbMenuItem>
+        <CbMenuItem OnClick="@(() => Pick("Move"))">Move</CbMenuItem>
+        <CbMenuItem Disabled="true">Archive</CbMenuItem>
+        <CbMenuItem OnClick="@(() => Pick("Delete"))">Delete</CbMenuItem>
+    </CbMenuButton>
+    <p>Last action: @(_last ?? "none")</p>
+</section>
+
+<section class="docs-section">
+    <h2>Variants</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbMenuButton Label="Primary" Variant="CbButtonVariant.Primary">
+            <CbMenuItem>Item one</CbMenuItem>
+            <CbMenuItem>Item two</CbMenuItem>
+        </CbMenuButton>
+        <CbMenuButton Label="Tertiary" Variant="CbButtonVariant.Tertiary">
+            <CbMenuItem>Item one</CbMenuItem>
+            <CbMenuItem>Item two</CbMenuItem>
+        </CbMenuButton>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Usage</h2>
+    <CbCodeSnippet>&lt;CbMenuButton Label="Actions"&gt;
+    &lt;CbMenuItem OnClick="Duplicate"&gt;Duplicate&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem Disabled="true"&gt;Archive&lt;/CbMenuItem&gt;
+&lt;/CbMenuButton&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <h3>CbMenuButton</h3>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td><code>"Open menu"</code></td>
+                <td>Text shown on the trigger button.</td>
+            </tr>
+            <tr>
+                <td><code>Variant</code></td>
+                <td><code>CbButtonVariant</code></td>
+                <td><code>Primary</code></td>
+                <td>Visual style of the trigger button.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the trigger button.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Menu contents; typically <code>CbMenuItem</code> elements.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>CbMenuItem</h3>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the menu item.</td>
+            </tr>
+            <tr>
+                <td><code>OnClick</code></td>
+                <td><code>EventCallback&lt;MouseEventArgs&gt;</code></td>
+                <td>&mdash;</td>
+                <td>Fired when the item is selected.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Item label or content.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/button">Button</a></li>
+        <li><a href="/components/overflow-menu">OverflowMenu</a></li>
+    </ul>
+</section>
+
+@code {
+    private string? _last;
+
+    private void Pick(string action) => _last = action;
+}

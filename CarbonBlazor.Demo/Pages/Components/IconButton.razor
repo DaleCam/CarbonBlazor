@@ -1,0 +1,115 @@
+@page "/components/icon-button"
+@using CarbonBlazor
+
+<PageTitle>IconButton Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">IconButton</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>IconButton</h1>
+<p class="docs-lede">A button with only an icon. A required <code>Label</code> supplies the accessible name and tooltip.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <CbIconButton Label="Add" OnClick="() => _count++">
+            <CbIcon Name="CbIconName.Add" />
+        </CbIconButton>
+        <CbIconButton Label="Search">
+            <CbIcon Name="CbIconName.Search" />
+        </CbIconButton>
+        <CbIconButton Label="Filter">
+            <CbIcon Name="CbIconName.Filter" />
+        </CbIconButton>
+        <CbIconButton Label="Delete" Disabled="true">
+            <CbIcon Name="CbIconName.TrashCan" />
+        </CbIconButton>
+    </div>
+    <p>Add clicked: @_count</p>
+</section>
+
+<section class="docs-section">
+    <h2>Usage</h2>
+    <CbCodeSnippet>&lt;CbIconButton Label="Add" OnClick="Add"&gt;
+    &lt;CbIcon Name="CbIconName.Add" /&gt;
+&lt;/CbIconButton&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code> <em>(required)</em></td>
+                <td><code>string</code></td>
+                <td><code>""</code></td>
+                <td>Accessible name; also used as the <code>title</code> tooltip.</td>
+            </tr>
+            <tr>
+                <td><code>Icon</code></td>
+                <td><code>string</code></td>
+                <td><code>"⋯"</code></td>
+                <td>Icon glyph or markup rendered inside the button.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Custom icon content; overrides <code>Icon</code> when set.</td>
+            </tr>
+            <tr>
+                <td><code>Size</code></td>
+                <td><code>CbSize</code></td>
+                <td><code>Medium</code></td>
+                <td>Button size: Small, Medium, or Large.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the button and prevents click events.</td>
+            </tr>
+            <tr>
+                <td><code>Type</code></td>
+                <td><code>string</code></td>
+                <td><code>"button"</code></td>
+                <td>HTML button type.</td>
+            </tr>
+            <tr>
+                <td><code>OnClick</code></td>
+                <td><code>EventCallback&lt;MouseEventArgs&gt;</code></td>
+                <td>&mdash;</td>
+                <td>Fired when the button is clicked.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/button">Button</a></li>
+        <li><a href="/components/overflow-menu">OverflowMenu</a></li>
+    </ul>
+</section>
+
+@code {
+    private int _count;
+}

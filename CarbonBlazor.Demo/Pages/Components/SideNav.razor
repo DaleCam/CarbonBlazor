@@ -1,0 +1,108 @@
+@page "/components/side-nav"
+@using CarbonBlazor
+
+<PageTitle>SideNav Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">SideNav</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>SideNav</h1>
+<p class="docs-lede">SideNav provides vertical navigation panel for application navigation, with support for collapsing and mobile overlay.</p>
+
+<section class="docs-section">
+    <h2>Example</h2>
+    <p>See the SideNav in action in this application's main layout. SideNav can contain CbSideNavLink, CbSideNavMenu, and CbSideNavSection components.</p>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Label</code></td>
+                <td><code>string</code></td>
+                <td><code>"Side navigation"</code></td>
+                <td>aria-label for the navigation element.</td>
+            </tr>
+            <tr>
+                <td><code>Open</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Controls whether mobile SideNav is open. Use with @@bind-Open for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>OpenChanged</code></td>
+                <td><code>EventCallback&lt;bool&gt;</code></td>
+                <td>-</td>
+                <td>Event fired when open state changes.</td>
+            </tr>
+            <tr>
+                <td><code>Collapsed</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Collapses desktop SideNav to icon-only view.</td>
+            </tr>
+            <tr>
+                <td><code>Fixed</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>When true, SideNav uses "rail" pattern: always visible (even when collapsed), with labels appearing in tooltips on hover at desktop widths (1056px+). Keeps the rail at its narrow width even on hover instead of temporarily expanding. Enables icon-only rail mode when combined with Collapsed="true".</td>
+            </tr>
+            <tr>
+                <td><code>ShowOverlay</code></td>
+                <td><code>bool</code></td>
+                <td><code>true</code></td>
+                <td>Show overlay behind SideNav on mobile when open.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Navigation items (CbSideNavLink, CbSideNavMenu, CbSideNavSection).</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Child Components</h2>
+    <ul>
+        <li><strong>CbSideNavLink:</strong> Individual navigation link item</li>
+        <li><strong>CbSideNavMenu:</strong> Collapsible menu group with submenu items</li>
+        <li><strong>CbSideNavSection:</strong> Labeled section grouping navigation items</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Responsive Behavior</h2>
+    <ul>
+        <li><strong>Desktop:</strong> Always visible, can be collapsed to icons</li>
+        <li><strong>Mobile:</strong> Hidden by default, opens on menu toggle with optional overlay</li>
+        <li><strong>Fixed:</strong> Stays visible as a desktop rail when enabled</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/header">Header</a></li>
+        <li><a href="/components/breadcrumb">Breadcrumb</a></li>
+    </ul>
+</section>

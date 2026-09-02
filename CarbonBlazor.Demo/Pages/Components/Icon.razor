@@ -1,0 +1,88 @@
+@page "/components/icon"
+@using CarbonBlazor
+
+<PageTitle>Icon Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Icon</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Icon</h1>
+<p class="docs-lede">Icon renders Carbon Design System icons as inline SVG for consistent visual language.</p>
+
+<section class="docs-section">
+    <h2>Icon Sizes</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <CbIcon Name="CbIconName.Home" SizeToken="CbIconSize.Size16" />
+            <span style="font-size: 0.75rem;">16px</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <CbIcon Name="CbIconName.Home" SizeToken="CbIconSize.Size20" />
+            <span style="font-size: 0.75rem;">20px</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <CbIcon Name="CbIconName.Home" SizeToken="CbIconSize.Size24" />
+            <span style="font-size: 0.75rem;">24px</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <CbIcon Name="CbIconName.Home" SizeToken="CbIconSize.Size32" />
+            <span style="font-size: 0.75rem;">32px</span>
+        </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Name</code> <span class="docs-required">*</span></td>
+                <td><code>CbIconName</code></td>
+                <td>-</td>
+                <td>Icon to display. See CbIconName enum for available icons.</td>
+            </tr>
+            <tr>
+                <td><code>SizeToken</code></td>
+                <td><code>CbIconSize</code></td>
+                <td><code>Size20</code></td>
+                <td>Icon size: Size16, Size20, Size24, or Size32.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbIconSize Enum</h2>
+    <ul>
+        <li><code>Size16</code> - 16px icons</li>
+        <li><code>Size20</code> - 20px icons (default)</li>
+        <li><code>Size24</code> - 24px icons</li>
+        <li><code>Size32</code> - 32px icons</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Best Practices</h2>
+    <ul>
+        <li>Use appropriate size for context</li>
+        <li>Provide aria-label for icon-only buttons</li>
+        <li>Decorative icons should have aria-hidden="true"</li>
+    </ul>
+</section>

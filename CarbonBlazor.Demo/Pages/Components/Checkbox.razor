@@ -1,0 +1,113 @@
+@page "/components/checkbox"
+@using CarbonBlazor
+
+<PageTitle>Checkbox Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Checkbox</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Checkbox</h1>
+<p class="docs-lede">Checkbox allows users to select one or more options from a set.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <CbCheckbox @@bind-Value="_checked1">Option one</CbCheckbox>
+        <CbCheckbox @@bind-Value="_checked2">Option two (checked by default)</CbCheckbox>
+        <CbCheckbox Disabled="true">Disabled option</CbCheckbox>
+        <CbCheckbox Invalid="true">Invalid option</CbCheckbox>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Indeterminate State</h2>
+    <p>Indeterminate checkboxes are useful for showing partial selection in a group.</p>
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+            <CbCheckbox @@bind-Value="_selectAll">Select All</CbCheckbox>
+        </div>
+        <div style="margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <CbCheckbox @@bind-Value="_item1">Item 1</CbCheckbox>
+            <CbCheckbox @@bind-Value="_item2">Item 2</CbCheckbox>
+            <CbCheckbox @@bind-Value="_item3">Item 3</CbCheckbox>
+        </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Value</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Checked state of the checkbox. Use with @@bind-Value for two-way binding.</td>
+            </tr>
+            <tr>
+                <td><code>ValueChanged</code></td>
+                <td><code>EventCallback&lt;bool&gt;</code></td>
+                <td>-</td>
+                <td>Event callback fired when checkbox state changes.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the checkbox and prevents user interaction.</td>
+            </tr>
+            <tr>
+                <td><code>Invalid</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Marks checkbox as invalid.</td>
+            </tr>
+            <tr>
+                <td><code>Id</code></td>
+                <td><code>string?</code></td>
+                <td>auto-generated</td>
+                <td>HTML id attribute. Auto-generated if not provided.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Label text or content for the checkbox.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/radio-button">RadioButton</a></li>
+        <li><a href="/components/toggle">Toggle</a></li>
+    </ul>
+</section>
+
+@code {
+    private bool _checked1 = false;
+    private bool _checked2 = true;
+    private bool _selectAll = false;
+    private bool _item1 = false;
+    private bool _item2 = false;
+    private bool _item3 = false;
+}

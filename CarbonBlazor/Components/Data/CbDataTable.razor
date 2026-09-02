@@ -48,6 +48,10 @@
             }
         </tbody>
     </table>
+    @if (Footer is not null)
+    {
+        <div class="cb-data-table__footer">@Footer</div>
+    }
 </div>
 
 @code {
@@ -57,6 +61,7 @@
     [Parameter] public bool Selectable { get; set; }
     [Parameter] public EventCallback<IReadOnlyList<TItem>> SelectedItemsChanged { get; set; }
     [Parameter] public RenderFragment? Toolbar { get; set; }
+    [Parameter] public RenderFragment? Footer { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 

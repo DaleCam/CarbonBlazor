@@ -1,0 +1,112 @@
+@page "/components/notification-queue"
+@using CarbonBlazor
+
+<PageTitle>NotificationQueue Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">NotificationQueue</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>NotificationQueue</h1>
+<p class="docs-lede">NotificationQueue stacks transient toast notifications in a fixed corner of the viewport and auto-dismisses them. The close button matches the Notification component exactly.</p>
+
+<section class="docs-section">
+    <h2>Demo</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <CbButton OnClick="@(() => _queue?.Add(CbNotificationKind.Success, "Saved", "Your changes were saved."))">Push success</CbButton>
+        <CbButton OnClick="@(() => _queue?.Add(CbNotificationKind.Info, "Heads up", "A background job started."))">Push info</CbButton>
+        <CbButton OnClick="@(() => _queue?.Add(CbNotificationKind.Warning, "Careful", "Storage is almost full."))">Push warning</CbButton>
+        <CbButton OnClick="@(() => _queue?.Add(CbNotificationKind.Error, "Failed", "Upload could not complete."))">Push error</CbButton>
+        <CbButton Variant="CbButtonVariant.Tertiary" OnClick="@(() => _queue?.Clear())">Clear</CbButton>
+    </div>
+</section>
+
+<CbNotificationQueue @ref="_queue" Position="CbNotificationQueuePosition.TopRight" AutoDismiss="5000" />
+
+<section class="docs-section">
+    <h2>Usage</h2>
+    <CbCodeSnippet Code="@_usage" />
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Position</code></td>
+                <td><code>CbNotificationQueuePosition</code></td>
+                <td><code>TopRight</code></td>
+                <td>Viewport corner the queue anchors to.</td>
+            </tr>
+            <tr>
+                <td><code>AutoDismiss</code></td>
+                <td><code>int</code></td>
+                <td><code>5000</code></td>
+                <td>Milliseconds before an item dismisses itself. 0 keeps items until closed.</td>
+            </tr>
+            <tr>
+                <td><code>MaxItems</code></td>
+                <td><code>int</code></td>
+                <td><code>5</code></td>
+                <td>Cap on visible items. Oldest are dropped when exceeded. 0 means unlimited.</td>
+            </tr>
+            <tr>
+                <td><code>AriaLabel</code></td>
+                <td><code>string</code></td>
+                <td><code>"Notifications"</code></td>
+                <td>Label for the live region wrapper.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Methods</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr><th>Method</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>Guid Add(kind, title, subtitle?)</code></td><td>Enqueue a notification, returns its id.</td></tr>
+            <tr><td><code>void Remove(Guid id)</code></td><td>Dismiss a specific notification.</td></tr>
+            <tr><td><code>void Clear()</code></td><td>Dismiss all notifications.</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/notification">Notification</a></li>
+        <li><a href="/components/inline-loading">InlineLoading</a></li>
+    </ul>
+</section>
+
+@code {
+    private CbNotificationQueue? _queue;
+
+    private const string _usage = @"<CbNotificationQueue @ref=""_queue"" Position=""CbNotificationQueuePosition.TopRight"" AutoDismiss=""5000"" />
+
+@code {
+    private CbNotificationQueue? _queue;
+
+    private void Notify() =>
+        _queue?.Add(CbNotificationKind.Success, ""Saved"", ""Your changes were saved."");
+}";
+}

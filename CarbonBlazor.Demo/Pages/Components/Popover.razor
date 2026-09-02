@@ -1,0 +1,89 @@
+@page "/components/popover"
+@using CarbonBlazor
+
+<PageTitle>Popover Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Popover</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Popover</h1>
+<p class="docs-lede">Popover displays content on click, with optional caret pointing to trigger element.</p>
+
+<section class="docs-section">
+    <h2>Examples</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <CbPopover>
+            <Trigger>Open popover</Trigger>
+            <ChildContent>
+                <p>Popover content appears on click.</p>
+            </ChildContent>
+        </CbPopover>
+        <CbPopover Caret="true">
+            <Trigger>With caret</Trigger>
+            <ChildContent>
+                <p>Popover with caret pointing to trigger.</p>
+            </ChildContent>
+        </CbPopover>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Trigger</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content displayed on the trigger button/element.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Content displayed inside the popover panel.</td>
+            </tr>
+            <tr>
+                <td><code>Caret</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Show caret pointing from popover to trigger element.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes to apply.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Behavior</h2>
+    <ul>
+        <li>Closes when clicking outside the popover</li>
+        <li>Toggle by clicking the trigger button</li>
+        <li>Uses dialog role for accessibility</li>
+    </ul>
+</section>
+
+<section class="docs-section">
+    <h2>Related</h2>
+    <ul>
+        <li><a href="/components/tooltip">Tooltip</a></li>
+        <li><a href="/components/modal">Modal</a></li>
+        <li><a href="/components/toggletip">Toggletip</a></li>
+    </ul>
+</section>
