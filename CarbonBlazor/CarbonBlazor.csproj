@@ -5,12 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>DaleCam.CarbonBlazor</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <!-- Keep the shipped asset path as _content/CarbonBlazor/ regardless of PackageId -->
-    <StaticWebAssetBasePath>CarbonBlazor</StaticWebAssetBasePath>
-    <Authors>CarbonBlazor contributors</Authors>
-    <Company>CarbonBlazor contributors</Company>
-    <Description>Carbon-inspired reusable Blazor components, runtime themes, and accessibility-focused interaction patterns.</Description>
+    <StaticWebAssetBasePath>_content/CarbonBlazor</StaticWebAssetBasePath>
+    <Authors>Dale Cameron, CarbonBlazor contributors</Authors>
+    <Description>Carbon inspired reusable Blazor components, runtime themes, and accessibility-focused interaction patterns.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/DaleCam/CarbonBlazor</RepositoryUrl>
