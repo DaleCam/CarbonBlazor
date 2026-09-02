@@ -38,8 +38,12 @@ The demo app loads the component stylesheet from:
 ## Install
 
 ```bash
-dotnet add package CarbonBlazor
+dotnet add package DaleCam.CarbonBlazor
 ```
+
+The package ID is `DaleCam.CarbonBlazor` (the unprefixed `CarbonBlazor` ID on
+nuget.org belongs to a different project - but you can check it out, its pretty good). Assembly name, namespaces,
+and the `_content/CarbonBlazor/` asset path are unchanged.
 
 ## Basic Usage
 
@@ -185,49 +189,6 @@ The local release tag is `v0.1.0`. GitHub publishing is intentionally deferred u
 git remote add origin https://github.com/<owner>/<repo>.git
 git push -u origin master
 git push origin v0.1.0
-```
-
-## Publishing to NuGet
-
-The `CarbonBlazor` project is packable. Static web assets (`carbon-blazor.css`,
-`carbon-blazor.js`, `icons.svg`) are bundled automatically and served to consumers
-from `_content/CarbonBlazor/`. Source Link + a symbol package (`.snupkg`) are produced.
-
-Publishing runs from GitHub Actions (`.github/workflows/publish.yml`) using nuget.org
-**trusted publishing** (OIDC) - no long-lived API key.
-
-### One-time setup
-
-1. Create a nuget.org account (sign in with a Microsoft account, pick a username,
-   verify email).
-2. Add a repo secret `NUGET_USER` = your nuget.org username (profile name, not email).
-3. On nuget.org: username menu -> **Trusted Publishing** -> **Add**:
-   - Repository Owner: `DaleCam`
-   - Repository: `CarbonBlazor`
-   - Workflow File: `publish.yml`
-   - Environment: empty
-   - Scopes: *Push new packages and package versions*, glob `CarbonBlazor`
-
-   A private-repo policy is "pending activation" for 7 days; the first successful
-   publish in that window locks it permanently.
-
-### Each release
-
-1. Bump `<Version>` in `CarbonBlazor/CarbonBlazor.csproj`, commit.
-2. Tag and push:
-
-   ```bash
-   git tag v<version> && git push origin v<version>
-   ```
-
-The workflow tests, packs, exchanges the OIDC token for a short-lived key, and pushes
-the `.nupkg` + `.snupkg` to nuget.org.
-
-### Local pack (verify only)
-
-```bash
-dotnet pack CarbonBlazor/CarbonBlazor.csproj -c Release -o ./artifacts
-dotnet nuget add source "$(pwd)/artifacts" --name carbonblazor-local
 ```
 
 ## Cloudflare Workers
