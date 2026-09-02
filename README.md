@@ -43,40 +43,79 @@ dotnet add package CarbonBlazor
 
 ## Basic Usage
 
-1. Register the library services in `Program.cs`:
+Three steps, regardless of hosting model:
 
-```csharp
-builder.Services.AddCarbonBlazor();
-```
+1. **Register services** in `Program.cs`:
 
-2. Inject the component stylesheet (and IBM Plex Sans font). Add `<CarbonBlazorStyles />`
-   once, near the root of the app (`App.razor`, `MainLayout.razor`, or `Routes.razor`).
-   This renders into `<head>` via `HeadOutlet`, which the default Blazor templates
-   already register:
+   ```csharp
+   builder.Services.AddCarbonBlazor();
+   ```
 
-```razor
-@using CarbonBlazor
+2. **Add `@using` entries** to `_Imports.razor`. Components live in per-feature
+   namespaces, so add the ones you use (or all of them):
 
-<CarbonBlazorStyles />
-```
+   ```razor
+   @using CarbonBlazor
+   @using CarbonBlazor.Components.Actions
+   @using CarbonBlazor.Components.Content
+   @using CarbonBlazor.Components.Data
+   @using CarbonBlazor.Components.Feedback
+   @using CarbonBlazor.Components.Forms
+   @using CarbonBlazor.Components.Foundations
+   @using CarbonBlazor.Components.Overlays
+   @using CarbonBlazor.Components.Shell
+   @using CarbonBlazor.Components.Structure
+   ```
 
-   Parameters:
-   - `IncludeFont` (default `true`) - also emit the IBM Plex Sans `<link>` tags.
-   - `PathPrefix` (default empty) - prefix for apps hosted under a sub-path, e.g. `"/myapp/"`.
+3. **Load the stylesheet** - see the hosting-model table below.
 
-   Alternatively, add the `<link>` manually in `index.html` / `App.razor`:
+The JS interop helpers are imported lazily from `_content/CarbonBlazor/carbon-blazor.js`
+by the components that need them - no script tag required, in any hosting model.
+
+### Loading the stylesheet per hosting model
+
+The CSS ships as a static web asset at `_content/CarbonBlazor/carbon-blazor.css`.
+CarbonBlazor also needs the IBM Plex Sans font. How you reference them depends on
+where the app's `<head>` is defined.
+
+| Hosting model | `<head>` lives in | Recommended |
+|---|---|---|
+| Blazor WebAssembly (standalone) | `wwwroot/index.html` | `<link>` in `index.html`, or `<CarbonBlazorStyles />` (template registers `HeadOutlet`) |
+| Blazor Web App (.NET 8+) | `Components/App.razor` | `<link>` in `App.razor`'s `<head>`, or `<CarbonBlazorStyles />` |
+| Blazor Server (.NET 6/7) | `Pages/_Host.cshtml` / `Pages/_Layout.cshtml` | `<link>` in the host page (`HeadOutlet` may not be wired) |
+
+**Option A - direct `<link>` (works everywhere, no flash of unstyled content).**
+Add to `index.html`, `App.razor`, or `_Host.cshtml`:
 
 ```html
 <link rel="stylesheet" href="_content/CarbonBlazor/carbon-blazor.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap" />
 ```
 
-   As a last-resort fallback, the first component that uses JS interop through the
-   registered `CarbonBlazorJsModule` service injects the stylesheet at runtime if
-   it is missing. The static `<CarbonBlazorStyles />` path is preferred (no flash of
-   unstyled content).
+In a `.cshtml` host page you can fingerprint the RCL asset:
 
-The JS interop helpers are imported lazily from `_content/CarbonBlazor/carbon-blazor.js`
-by the components that need them - no script tag required.
+```html
+<link rel="stylesheet" href="~/_content/CarbonBlazor/carbon-blazor.css" asp-append-version="true" />
+```
+
+**Option B - `<CarbonBlazorStyles />` component.** Drop it once near the app root
+(`App.razor`, `Routes.razor`, or `MainLayout.razor`). It renders into `<head>` via
+`HeadOutlet`, so it only works when `HeadOutlet` is registered - true for the
+WebAssembly and Blazor Web App templates, not always for older Blazor Server
+`_Host.cshtml` setups.
+
+```razor
+<CarbonBlazorStyles />
+```
+
+Parameters:
+- `IncludeFont` (default `true`) - also emit the IBM Plex Sans `<link>` tags.
+- `PathPrefix` (default empty) - prefix for apps under a sub-path, e.g. `"/myapp/"`.
+
+**Fallback.** If neither is present, the first component that uses JS interop through
+the registered `CarbonBlazorJsModule` service injects the stylesheet `<link>` at
+runtime. This avoids a completely unstyled app but flashes unstyled content on first
+paint - use Option A or B in production.
 
 Wrap the app in a theme provider:
 
