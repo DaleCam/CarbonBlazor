@@ -1,0 +1,58 @@
+name: Publish to NuGet (int test gallery)
+
+# Manual dry-run against https://int.nugettest.org (throwaway staging of nuget.org).
+# Requires a separate account + trusted publishing policy on int.nugettest.org
+# registered against this workflow file (publish-int.yml).
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-suffix:
+        description: 'Prerelease suffix appended to the csproj version'
+        required: true
+        default: 'ci'
+
+jobs:
+  publish-int:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore CarbonBlazor.slnx
+
+      - name: Read version
+        id: ver
+        run: |
+          v=$(grep -oPm1 '(?<=<Version>)[^<]+' CarbonBlazor/CarbonBlazor.csproj)
+          echo "value=$v-${{ inputs.version-suffix }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Pack
+        run: >
+          dotnet pack CarbonBlazor/CarbonBlazor.csproj
+          --configuration Release --no-restore --output artifacts
+          -p:PackageVersion=${{ steps.ver.outputs.value }}
+
+      - name: NuGet login (OIDC -> short-lived API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_INT_USER }}
+          token-service-url: https://int.nugettest.org/api/v2/token
+          audience: https://int.nugettest.org
+
+      - name: Push
+        run: >
+          dotnet nuget push "artifacts/*.nupkg"
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://apiint.nugettest.org/v3/index.json
+          --skip-duplicate
