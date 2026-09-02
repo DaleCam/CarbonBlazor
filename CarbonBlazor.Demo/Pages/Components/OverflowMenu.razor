@@ -20,21 +20,22 @@
         <CbMenuItem OnClick="@(() => Pick("Delete"))">Delete</CbMenuItem>
     </CbOverflowMenu>
     <p>Last action: @(_last ?? "none")</p>
+    <CbCodeSnippet>&lt;CbOverflowMenu Label="Row actions"&gt;
+    &lt;CbMenuItem OnClick="() =&gt; Pick("Edit")"&gt;Edit&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem OnClick="() =&gt; Pick("Share")"&gt;Share&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem OnClick="() =&gt; Pick("Delete")"&gt;Delete&lt;/CbMenuItem&gt;
+&lt;/CbOverflowMenu&gt;</CbCodeSnippet>
 </section>
 
 <section class="docs-section">
     <h2>Custom icon</h2>
-    <CbOverflowMenu Label="Settings" Icon="">
+    <CbOverflowMenu Label="Settings" IconName="CbIconName.Settings">
         <CbMenuItem>Preferences</CbMenuItem>
         <CbMenuItem>Sign out</CbMenuItem>
     </CbOverflowMenu>
-</section>
-
-<section class="docs-section">
-    <h2>Usage</h2>
-    <CbCodeSnippet>&lt;CbOverflowMenu Label="Row actions"&gt;
-    &lt;CbMenuItem OnClick="Edit"&gt;Edit&lt;/CbMenuItem&gt;
-    &lt;CbMenuItem OnClick="Delete"&gt;Delete&lt;/CbMenuItem&gt;
+    <CbCodeSnippet>&lt;CbOverflowMenu Label="Settings" IconName="CbIconName.Settings"&gt;
+    &lt;CbMenuItem&gt;Preferences&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem&gt;Sign out&lt;/CbMenuItem&gt;
 &lt;/CbOverflowMenu&gt;</CbCodeSnippet>
 </section>
 

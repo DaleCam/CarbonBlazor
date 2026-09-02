@@ -487,11 +487,11 @@ a.cb-link:hover { text-decoration: underline; }
 
 .cb-side-nav__link--nested {
   min-height: 2rem;
-  padding-left: 3.5rem !important;
+  padding-left: var(--cb-spacing-09);
 }
 
 .cb-side-nav__menu .cb-side-nav__link {
-  padding-left: 3.5rem;
+  padding-left: var(--cb-spacing-09);
 }
 
 .cb-side-nav__overlay {
@@ -557,11 +557,6 @@ a.cb-link:hover { text-decoration: underline; }
   cursor: default;
 }
 
-/* .cb-side-nav--persistent opts a side nav into the "rail" pattern: always
-   at least icon-width visible on desktop and collapsible to a hover/focus
-   tooltip rail instead of disappearing. Without this modifier, Open/OpenChanged
-   is the single source of truth and the nav fully slides off-screen when
-   closed at any viewport width (matching Carbon's default, non-rail SideNav). */
 @media (min-width: 1056px) {
   .cb-side-nav {
     transform: translateX(0);

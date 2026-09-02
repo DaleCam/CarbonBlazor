@@ -4,13 +4,13 @@
 
 <div id="@MenuId" class="@ClassName" @onkeydown="OnKeyDown" @attributes="AdditionalAttributes">
     <CbIconButton Label="@Label" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@Open">
-        @if (Icon is not null)
+        @if (!Icon.IsNullOrEmpty())
         {
             @Icon
         }
         else
         {
-            <CbIcon Name="IconName" />
+            <CbIcon Name="@IconName" />
         }
     </CbIconButton>
     @if (Open)
