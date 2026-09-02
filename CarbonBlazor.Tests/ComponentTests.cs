@@ -881,5 +881,28 @@ public sealed class ComponentTests : BunitContext
         Assert.Contains("cb-layout-col--no-gutter-right", className);
     }
 
+    [Fact]
+    public void CarbonBlazorStyles_EmitsStylesheetLink()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var head = Render<HeadOutlet>();
+        Render<CarbonBlazorStyles>(parameters => parameters
+            .Add(p => p.IncludeFont, false));
+
+        Assert.Contains("_content/CarbonBlazor/carbon-blazor.css", head.Markup);
+    }
+
+    [Fact]
+    public void CarbonBlazorStyles_AppliesPathPrefix()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var head = Render<HeadOutlet>();
+        Render<CarbonBlazorStyles>(parameters => parameters
+            .Add(p => p.IncludeFont, false)
+            .Add(p => p.PathPrefix, "/myapp/"));
+
+        Assert.Contains("/myapp/_content/CarbonBlazor/carbon-blazor.css", head.Markup);
+    }
+
     private sealed record Person(string Name, string Role);
 }

@@ -35,13 +35,48 @@ The demo app loads the component stylesheet from:
 <link rel="stylesheet" href="_content/CarbonBlazor/carbon-blazor.css" />
 ```
 
+## Install
+
+```bash
+dotnet add package CarbonBlazor
+```
+
 ## Basic Usage
 
-Register the library services:
+1. Register the library services in `Program.cs`:
 
 ```csharp
 builder.Services.AddCarbonBlazor();
 ```
+
+2. Inject the component stylesheet (and IBM Plex Sans font). Add `<CarbonBlazorStyles />`
+   once, near the root of the app (`App.razor`, `MainLayout.razor`, or `Routes.razor`).
+   This renders into `<head>` via `HeadOutlet`, which the default Blazor templates
+   already register:
+
+```razor
+@using CarbonBlazor
+
+<CarbonBlazorStyles />
+```
+
+   Parameters:
+   - `IncludeFont` (default `true`) - also emit the IBM Plex Sans `<link>` tags.
+   - `PathPrefix` (default empty) - prefix for apps hosted under a sub-path, e.g. `"/myapp/"`.
+
+   Alternatively, add the `<link>` manually in `index.html` / `App.razor`:
+
+```html
+<link rel="stylesheet" href="_content/CarbonBlazor/carbon-blazor.css" />
+```
+
+   As a last-resort fallback, the first component that uses JS interop through the
+   registered `CarbonBlazorJsModule` service injects the stylesheet at runtime if
+   it is missing. The static `<CarbonBlazorStyles />` path is preferred (no flash of
+   unstyled content).
+
+The JS interop helpers are imported lazily from `_content/CarbonBlazor/carbon-blazor.js`
+by the components that need them - no script tag required.
 
 Wrap the app in a theme provider:
 
@@ -111,6 +146,49 @@ The local release tag is `v0.1.0`. GitHub publishing is intentionally deferred u
 git remote add origin https://github.com/<owner>/<repo>.git
 git push -u origin master
 git push origin v0.1.0
+```
+
+## Publishing to NuGet
+
+The `CarbonBlazor` project is packable. Static web assets (`carbon-blazor.css`,
+`carbon-blazor.js`, `icons.svg`) are bundled automatically and served to consumers
+from `_content/CarbonBlazor/`. Source Link + a symbol package (`.snupkg`) are produced.
+
+Publishing runs from GitHub Actions (`.github/workflows/publish.yml`) using nuget.org
+**trusted publishing** (OIDC) - no long-lived API key.
+
+### One-time setup
+
+1. Create a nuget.org account (sign in with a Microsoft account, pick a username,
+   verify email).
+2. Add a repo secret `NUGET_USER` = your nuget.org username (profile name, not email).
+3. On nuget.org: username menu -> **Trusted Publishing** -> **Add**:
+   - Repository Owner: `DaleCam`
+   - Repository: `CarbonBlazor`
+   - Workflow File: `publish.yml`
+   - Environment: empty
+   - Scopes: *Push new packages and package versions*, glob `CarbonBlazor`
+
+   A private-repo policy is "pending activation" for 7 days; the first successful
+   publish in that window locks it permanently.
+
+### Each release
+
+1. Bump `<Version>` in `CarbonBlazor/CarbonBlazor.csproj`, commit.
+2. Tag and push:
+
+   ```bash
+   git tag v<version> && git push origin v<version>
+   ```
+
+The workflow tests, packs, exchanges the OIDC token for a short-lived key, and pushes
+the `.nupkg` + `.snupkg` to nuget.org.
+
+### Local pack (verify only)
+
+```bash
+dotnet pack CarbonBlazor/CarbonBlazor.csproj -c Release -o ./artifacts
+dotnet nuget add source "$(pwd)/artifacts" --name carbonblazor-local
 ```
 
 ## Cloudflare Workers

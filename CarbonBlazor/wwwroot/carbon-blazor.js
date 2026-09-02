@@ -129,6 +129,15 @@ export function matchesMedia(query) {
   return window.matchMedia(query).matches;
 }
 
+export function ensureStyles(href) {
+  if (document.querySelector('link[data-carbon-blazor]')) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  link.setAttribute('data-carbon-blazor', '');
+  document.head.appendChild(link);
+}
+
 function getFocusable(root) {
   if (!root) return [];
   return [...root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]

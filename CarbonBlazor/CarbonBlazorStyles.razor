@@ -1,0 +1,23 @@
+@namespace CarbonBlazor
+
+@* Injects the CarbonBlazor stylesheet (and, optionally, the IBM Plex Sans web font)
+   into <head>. Drop a single <CarbonBlazorStyles /> into App.razor or MainLayout.razor.
+   Requires <HeadOutlet> to be registered (the default Blazor templates do this). *@
+
+<HeadContent>
+    @if (IncludeFont)
+    {
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@@300;400;600&display=swap" />
+    }
+    <link rel="stylesheet" href="@($"{PathPrefix}_content/CarbonBlazor/carbon-blazor.css")" />
+</HeadContent>
+
+@code {
+    /// <summary>Also emit the IBM Plex Sans web font links. Default <c>true</c>.</summary>
+    [Parameter] public bool IncludeFont { get; set; } = true;
+
+    /// <summary>Base path prefix when the app is hosted under a sub-path (e.g. <c>"/myapp/"</c>).</summary>
+    [Parameter] public string PathPrefix { get; set; } = string.Empty;
+}
