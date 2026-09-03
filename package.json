@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "build:cloudflare": "bash scripts/build-cloudflare.sh",
-    "build:local": "dotnet publish CarbonBlazor.Demo/CarbonBlazor.Demo.csproj -c Release -o publish",
-    "deploy": "wrangler deploy"
+    "build:local": "dotnet publish CarbonBlazor.Demo/CarbonBlazor.Demo.csproj -c Release -o publish"
   },
   "devDependencies": {
     "wrangler": "^4.90.1"
