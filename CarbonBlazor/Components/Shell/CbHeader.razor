@@ -15,6 +15,7 @@
     <nav class="cb-header__nav" aria-label="@NavLabel">
         @NavContent
     </nav>
+    @Search
     <div class="cb-header__actions">
         @Actions
     </div>
@@ -32,6 +33,7 @@
     [Parameter] public EventCallback<bool> SideNavOpenChanged { get; set; }
     [Parameter] public EventCallback OnMenuToggle { get; set; }
     [Parameter] public RenderFragment? NavContent { get; set; }
+    [Parameter] public RenderFragment? Search { get; set; }
     [Parameter] public RenderFragment? Actions { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }

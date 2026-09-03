@@ -14,8 +14,11 @@
 
 <section class="docs-section">
     <h2>Example</h2>
-    <CbButton OnClick="OpenModal">Open Modal</CbButton>
-    <CbModal @@bind-Open="_modalOpen" Title="Transactional modal">
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbButton OnClick="OpenModal">Open Modal</CbButton>
+        <CbButton Variant="CbButtonVariant.Danger" OnClick="OpenDeleteModal">Delete</CbButton>
+    </div>
+    <CbModal @bind-Open="_modalOpen" Title="Transactional modal">
         <ChildContent>
             <p>Modal content is announced through dialog semantics and closes with Escape.</p>
             <p>Use modals for important confirmations, error states, or to collect required information.</p>
@@ -25,6 +28,47 @@
             <CbButton OnClick="CloseModal">Confirm</CbButton>
         </Footer>
     </CbModal>
+    <CbModal @bind-Open="_deleteModalOpen" Title="Delete resource">
+        <ChildContent>
+            <p>Are you sure you want to delete <strong>web-prod-01</strong>? This action cannot be undone.</p>
+        </ChildContent>
+        <Footer>
+            <CbButton Variant="CbButtonVariant.Secondary" OnClick="CloseDeleteModal">Cancel</CbButton>
+            <CbButton Variant="CbButtonVariant.Danger" OnClick="CloseDeleteModal">Delete</CbButton>
+        </Footer>
+    </CbModal>
+    <CbCodeSnippet>&lt;CbButton OnClick="OpenModal"&gt;Open Modal&lt;/CbButton&gt;
+&lt;CbButton Variant="CbButtonVariant.Danger" OnClick="OpenDeleteModal"&gt;Delete&lt;/CbButton&gt;
+
+&lt;CbModal @@bind-Open="_modalOpen" Title="Transactional modal"&gt;
+    &lt;ChildContent&gt;
+        &lt;p&gt;Modal content is announced through dialog semantics and closes with Escape.&lt;/p&gt;
+    &lt;/ChildContent&gt;
+    &lt;Footer&gt;
+        &lt;CbButton Variant="CbButtonVariant.Secondary" OnClick="CloseModal"&gt;Cancel&lt;/CbButton&gt;
+        &lt;CbButton OnClick="CloseModal"&gt;Confirm&lt;/CbButton&gt;
+    &lt;/Footer&gt;
+&lt;/CbModal&gt;
+
+&lt;CbModal @@bind-Open="_deleteModalOpen" Title="Delete resource"&gt;
+    &lt;ChildContent&gt;
+        &lt;p&gt;Are you sure you want to delete web-prod-01? This action cannot be undone.&lt;/p&gt;
+    &lt;/ChildContent&gt;
+    &lt;Footer&gt;
+        &lt;CbButton Variant="CbButtonVariant.Secondary" OnClick="CloseDeleteModal"&gt;Cancel&lt;/CbButton&gt;
+        &lt;CbButton Variant="CbButtonVariant.Danger" OnClick="CloseDeleteModal"&gt;Delete&lt;/CbButton&gt;
+    &lt;/Footer&gt;
+&lt;/CbModal&gt;
+
+@@code {
+    private bool _modalOpen;
+    private bool _deleteModalOpen;
+
+    private void OpenModal() =&gt; _modalOpen = true;
+    private void CloseModal() =&gt; _modalOpen = false;
+    private void OpenDeleteModal() =&gt; _deleteModalOpen = true;
+    private void CloseDeleteModal() =&gt; _deleteModalOpen = false;
+}</CbCodeSnippet>
 </section>
 
 <section class="docs-section">
@@ -100,7 +144,10 @@
 
 @code {
     private bool _modalOpen;
+    private bool _deleteModalOpen;
 
     private void OpenModal() => _modalOpen = true;
     private void CloseModal() => _modalOpen = false;
+    private void OpenDeleteModal() => _deleteModalOpen = true;
+    private void CloseDeleteModal() => _deleteModalOpen = false;
 }

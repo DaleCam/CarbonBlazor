@@ -1,0 +1,406 @@
+@page "/components/grid"
+@using CarbonBlazor
+
+<PageTitle>Grid Component</PageTitle>
+
+<style>
+    .docs-grid-demo {
+        outline: 1px dashed var(--cb-border-strong);
+        outline-offset: 4px;
+    }
+
+    .docs-grid-demo .cb-layout-row + .cb-layout-row {
+        margin-top: 1rem;
+    }
+
+    .docs-grid-cell {
+        background-color: var(--cb-layer-accent);
+        outline: 1px solid var(--cb-border-subtle);
+        padding: 1rem 0.5rem;
+        text-align: center;
+        font-size: 0.8125rem;
+        color: var(--cb-text-primary);
+        min-height: 3rem;
+        box-sizing: border-box;
+    }
+
+    .docs-grid-cell--alt {
+        background-color: var(--cb-layer-selected, var(--cb-layer-hover));
+    }
+
+    .docs-bp-indicator {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        border: 1px solid var(--cb-border-subtle);
+        border-radius: 2px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        background-color: var(--cb-layer);
+    }
+
+    .docs-bp-indicator::after {
+        content: 'Viewport now: small — 4 columns (0–671px)';
+        color: var(--cb-support-error);
+    }
+
+    @@media (min-width: 42rem) {
+        .docs-bp-indicator::after {
+            content: 'Viewport now: medium — 8 columns (672–1055px)';
+            color: var(--cb-support-warning);
+        }
+    }
+
+    @@media (min-width: 66rem) {
+        .docs-bp-indicator::after {
+            content: 'Viewport now: large — 16 columns (1056px and up)';
+            color: var(--cb-support-success);
+        }
+    }
+</style>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Grid</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Grid</h1>
+<p class="docs-lede">
+    <code>CbGrid</code>, <code>CbRow</code>, and <code>CbColumn</code> implement Carbon's responsive 2x grid.
+    The total column count changes per breakpoint, so a full-width column uses
+    <code>Sm="4" Md="8" Lg="16"</code> &mdash; not the same number everywhere.
+</p>
+
+<section class="docs-section">
+    <h2>Breakpoints</h2>
+    <p>Resize the window to move between breakpoints. The indicator below updates live.</p>
+    <span class="docs-bp-indicator"></span>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Breakpoint</th>
+                <th>Parameter</th>
+                <th>Viewport width</th>
+                <th>Columns</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Small</td><td><code>Sm</code></td><td>0&ndash;671px</td><td>4</td></tr>
+            <tr><td>Medium</td><td><code>Md</code></td><td>672&ndash;1055px</td><td>8</td></tr>
+            <tr><td>Large</td><td><code>Lg</code></td><td>1056&ndash;1311px</td><td>16</td></tr>
+            <tr><td>X-Large</td><td><code>Xlg</code></td><td>1312&ndash;1583px</td><td>16</td></tr>
+            <tr><td>Max</td><td><code>Max</code></td><td>1584px and up</td><td>16</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Full-width column</h2>
+    <p>Span every column at each breakpoint: <code>Sm="4" Md="8" Lg="16"</code>.</p>
+    <div class="docs-grid-demo">
+        <CbGrid>
+            <CbRow>
+                <CbColumn Sm="4" Md="8" Lg="16">
+                    <div class="docs-grid-cell">Sm 4 / Md 8 / Lg 16</div>
+                </CbColumn>
+            </CbRow>
+        </CbGrid>
+    </div>
+    <CbCodeSnippet>&lt;CbGrid&gt;
+    &lt;CbRow&gt;
+        &lt;CbColumn Sm="4" Md="8" Lg="16"&gt;
+            &lt;div&gt;Full width&lt;/div&gt;
+        &lt;/CbColumn&gt;
+    &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Responsive three-column</h2>
+    <p>
+        Mobile: three stacked rows. Tablet: two columns on the first row, the third wraps full width.
+        Desktop: three columns side by side.
+    </p>
+    <div class="docs-grid-demo">
+        <CbGrid>
+            <CbRow>
+                <CbColumn Sm="4" Md="4" Lg="4">
+                    <div class="docs-grid-cell">Sm 4 / Md 4 / Lg 4</div>
+                </CbColumn>
+                <CbColumn Sm="4" Md="4" Lg="4">
+                    <div class="docs-grid-cell">Sm 4 / Md 4 / Lg 4</div>
+                </CbColumn>
+                <CbColumn Sm="4" Md="8" Lg="8">
+                    <div class="docs-grid-cell docs-grid-cell--alt">Sm 4 / Md 8 / Lg 8</div>
+                </CbColumn>
+            </CbRow>
+        </CbGrid>
+    </div>
+    <CbCodeSnippet>&lt;CbGrid&gt;
+    &lt;CbRow&gt;
+        &lt;CbColumn Sm="4" Md="4" Lg="4"&gt;&lt;div&gt;One&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="4" Md="4" Lg="4"&gt;&lt;div&gt;Two&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="4" Md="8" Lg="8"&gt;&lt;div&gt;Three&lt;/div&gt;&lt;/CbColumn&gt;
+    &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Equal columns</h2>
+    <p>Four cells: two per row on mobile, four per row on tablet and desktop.</p>
+    <div class="docs-grid-demo">
+        <CbGrid>
+            <CbRow>
+                <CbColumn Sm="2" Md="2" Lg="4"><div class="docs-grid-cell">1</div></CbColumn>
+                <CbColumn Sm="2" Md="2" Lg="4"><div class="docs-grid-cell">2</div></CbColumn>
+                <CbColumn Sm="2" Md="2" Lg="4"><div class="docs-grid-cell">3</div></CbColumn>
+                <CbColumn Sm="2" Md="2" Lg="4"><div class="docs-grid-cell">4</div></CbColumn>
+            </CbRow>
+        </CbGrid>
+    </div>
+    <CbCodeSnippet>&lt;CbGrid&gt;
+    &lt;CbRow&gt;
+        &lt;CbColumn Sm="2" Md="2" Lg="4"&gt;&lt;div&gt;1&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="2" Md="2" Lg="4"&gt;&lt;div&gt;2&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="2" Md="2" Lg="4"&gt;&lt;div&gt;3&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="2" Md="2" Lg="4"&gt;&lt;div&gt;4&lt;/div&gt;&lt;/CbColumn&gt;
+    &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Sidebar and content</h2>
+    <p>
+        Sidebar stacks above the content on mobile, takes a quarter on tablet, and a narrow rail on desktop.
+    </p>
+    <div class="docs-grid-demo">
+        <CbGrid>
+            <CbRow>
+                <CbColumn Sm="4" Md="2" Lg="3">
+                    <div class="docs-grid-cell docs-grid-cell--alt">Sidebar<br />Sm 4 / Md 2 / Lg 3</div>
+                </CbColumn>
+                <CbColumn Sm="4" Md="6" Lg="13">
+                    <div class="docs-grid-cell">Content<br />Sm 4 / Md 6 / Lg 13</div>
+                </CbColumn>
+            </CbRow>
+        </CbGrid>
+    </div>
+    <CbCodeSnippet>&lt;CbGrid&gt;
+    &lt;CbRow&gt;
+        &lt;CbColumn Sm="4" Md="2" Lg="3"&gt;&lt;div&gt;Sidebar&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="4" Md="6" Lg="13"&gt;&lt;div&gt;Content&lt;/div&gt;&lt;/CbColumn&gt;
+    &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Hide at a breakpoint</h2>
+    <p>A span of <code>0</code> hides the column. This cell is hidden on mobile and shown from tablet up.</p>
+    <div class="docs-grid-demo">
+        <CbGrid>
+            <CbRow>
+                <CbColumn Sm="4" Md="4" Lg="8"><div class="docs-grid-cell">Always visible</div></CbColumn>
+                <CbColumn Sm="0" Md="4" Lg="8"><div class="docs-grid-cell docs-grid-cell--alt">Hidden on mobile (Sm 0)</div></CbColumn>
+            </CbRow>
+        </CbGrid>
+    </div>
+    <CbCodeSnippet>&lt;CbGrid&gt;
+    &lt;CbRow&gt;
+        &lt;CbColumn Sm="4" Md="4" Lg="8"&gt;&lt;div&gt;Always&lt;/div&gt;&lt;/CbColumn&gt;
+        &lt;CbColumn Sm="0" Md="4" Lg="8"&gt;&lt;div&gt;Hidden on mobile&lt;/div&gt;&lt;/CbColumn&gt;
+    &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Row gutter variants</h2>
+    <p><code>Condensed</code> removes the gutter to 2px; <code>Narrow</code> keeps the right gutter only.</p>
+    <div class="docs-grid-demo">
+        <CbGrid>
+            <CbRow Condensed="true">
+                <CbColumn Sm="2" Md="4" Lg="8"><div class="docs-grid-cell">Condensed</div></CbColumn>
+                <CbColumn Sm="2" Md="4" Lg="8"><div class="docs-grid-cell">Condensed</div></CbColumn>
+            </CbRow>
+            <CbRow Narrow="true">
+                <CbColumn Sm="2" Md="4" Lg="8"><div class="docs-grid-cell">Narrow</div></CbColumn>
+                <CbColumn Sm="2" Md="4" Lg="8"><div class="docs-grid-cell">Narrow</div></CbColumn>
+            </CbRow>
+        </CbGrid>
+    </div>
+    <CbCodeSnippet>&lt;CbGrid&gt;
+    &lt;CbRow Condensed="true"&gt; ... &lt;/CbRow&gt;
+    &lt;CbRow Narrow="true"&gt; ... &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Full-bleed grid</h2>
+    <p><code>FullWidth</code> drops the max-width and centering so the grid fills its container.</p>
+    <CbCodeSnippet>&lt;CbGrid FullWidth="true"&gt;
+    &lt;CbRow&gt; ... &lt;/CbRow&gt;
+&lt;/CbGrid&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>CbGrid props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>FullWidth</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Removes the max-width and horizontal centering so the grid fills its container.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Grid content, typically one or more <code>CbRow</code> elements.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes applied to the grid element.</td>
+            </tr>
+            <tr>
+                <td><code>AdditionalAttributes</code></td>
+                <td><code>IReadOnlyDictionary&lt;string, object&gt;?</code></td>
+                <td><code>null</code></td>
+                <td>Unmatched attributes are forwarded to the grid element.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbRow props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Condensed</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Collapses the column gutter to 2px for dense layouts.</td>
+            </tr>
+            <tr>
+                <td><code>Narrow</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Keeps the right-hand gutter only, hanging content into the left margin.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Row content, typically one or more <code>CbColumn</code> elements.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes applied to the row element.</td>
+            </tr>
+            <tr>
+                <td><code>AdditionalAttributes</code></td>
+                <td><code>IReadOnlyDictionary&lt;string, object&gt;?</code></td>
+                <td><code>null</code></td>
+                <td>Unmatched attributes are forwarded to the row element.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>CbColumn props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Sm</code></td>
+                <td><code>int?</code></td>
+                <td><code>null</code></td>
+                <td>Column span at the small breakpoint (0&ndash;4). <code>0</code> hides the column.</td>
+            </tr>
+            <tr>
+                <td><code>Md</code></td>
+                <td><code>int?</code></td>
+                <td><code>null</code></td>
+                <td>Column span at the medium breakpoint (0&ndash;8).</td>
+            </tr>
+            <tr>
+                <td><code>Lg</code></td>
+                <td><code>int?</code></td>
+                <td><code>null</code></td>
+                <td>Column span at the large breakpoint (0&ndash;16).</td>
+            </tr>
+            <tr>
+                <td><code>Xlg</code></td>
+                <td><code>int?</code></td>
+                <td><code>null</code></td>
+                <td>Column span at the x-large breakpoint (0&ndash;16).</td>
+            </tr>
+            <tr>
+                <td><code>Max</code></td>
+                <td><code>int?</code></td>
+                <td><code>null</code></td>
+                <td>Column span at the max breakpoint (0&ndash;16).</td>
+            </tr>
+            <tr>
+                <td><code>NoGutter</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Removes both the left and right padding from the column.</td>
+            </tr>
+            <tr>
+                <td><code>NoGutterLeft</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Removes the left padding from the column.</td>
+            </tr>
+            <tr>
+                <td><code>NoGutterRight</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Removes the right padding from the column.</td>
+            </tr>
+            <tr>
+                <td><code>ChildContent</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td><code>null</code></td>
+                <td>Column content.</td>
+            </tr>
+            <tr>
+                <td><code>Class</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Additional CSS classes applied to the column element.</td>
+            </tr>
+            <tr>
+                <td><code>AdditionalAttributes</code></td>
+                <td><code>IReadOnlyDictionary&lt;string, object&gt;?</code></td>
+                <td><code>null</code></td>
+                <td>Unmatched attributes are forwarded to the column element.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Reference</h2>
+    <ul>
+        <li>
+            <a href="https://react.carbondesignsystem.com/?path=/docs/elements-grid--overview" target="_blank" rel="noopener">
+                Carbon Grid documentation
+            </a>
+        </li>
+    </ul>
+</section>

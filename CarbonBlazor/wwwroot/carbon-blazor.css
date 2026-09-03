@@ -344,6 +344,136 @@ a.cb-link:hover { text-decoration: underline; }
   background: var(--cb-layer-hover);
 }
 
+.cb-header__search {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.cb-header__search-trigger {
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  background: transparent;
+  color: var(--cb-icon-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cb-header__search-trigger:hover {
+  background: var(--cb-layer-hover);
+}
+
+/* Active: grow into the space the nav row already had, never over the actions. */
+.cb-header__search--active {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 10rem;
+}
+
+/* Let the nav collapse to its links so the field takes the leftover width,
+   or, when the nav is short, the field still gets its min-width from here. */
+.cb-header:has(.cb-header__search--active) .cb-header__nav {
+  flex: 0 1 auto;
+}
+
+.cb-header__search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  background: var(--cb-background);
+  border-bottom: 1px solid var(--cb-border-strong);
+}
+
+.cb-header__search-magnifier {
+  position: absolute;
+  left: var(--cb-spacing-05);
+  color: var(--cb-icon-primary);
+  pointer-events: none;
+}
+
+.cb-header__search-input {
+  flex: 1;
+  height: 3rem;
+  padding: 0 3rem 0 var(--cb-spacing-09);
+  border: 0;
+  background: transparent;
+  color: var(--cb-text-primary);
+  font-size: var(--cb-body-compact-01-font-size, 0.875rem);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+
+.cb-header__search-input::placeholder {
+  color: var(--cb-text-placeholder);
+}
+
+.cb-header__search-input:focus-visible {
+  outline-color: var(--cb-focus);
+}
+
+.cb-header__search-close {
+  position: absolute;
+  right: 0;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  background: transparent;
+  color: var(--cb-icon-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cb-header__search-close:hover {
+  background: var(--cb-layer-hover);
+}
+
+.cb-header__search-menu {
+  position: absolute;
+  z-index: 8000;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--cb-layer);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  max-height: 18.75rem;
+  overflow-y: auto;
+}
+
+.cb-header__search-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-spacing-01);
+  min-height: 3rem;
+  justify-content: center;
+  padding: var(--cb-spacing-03) var(--cb-spacing-05);
+  color: var(--cb-text-primary);
+  text-decoration: none;
+}
+
+.cb-header__search-link:hover {
+  background: var(--cb-layer-hover);
+}
+
+.cb-header__search-link:focus-visible {
+  outline: 2px solid var(--cb-focus);
+  outline-offset: -2px;
+}
+
+.cb-header__search-result-description {
+  color: var(--cb-text-secondary);
+  font-size: 0.75rem;
+}
+
 .cb-side-nav {
   position: fixed;
   top: 3rem;

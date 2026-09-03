@@ -1,0 +1,52 @@
+<li class="cb-header__search-result" role="presentation" @attributes="AdditionalAttributes">
+    <a class="cb-header__search-link" href="@Href" role="option" @onclick="OnClick" @onclick:preventDefault="@PreventDefault">
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <span class="cb-header__search-result-text">@Text</span>
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <span class="cb-header__search-result-description">@Description</span>
+            }
+        }
+    </a>
+</li>
+
+@code {
+    /// <summary>Link target for the result. Defaults to <c>#</c>.</summary>
+    [Parameter] public string Href { get; set; } = "#";
+
+    /// <summary>Primary result label, used when <see cref="ChildContent"/> is not supplied.</summary>
+    [Parameter] public string? Text { get; set; }
+
+    /// <summary>Secondary description text, used when <see cref="ChildContent"/> is not supplied.</summary>
+    [Parameter] public string? Description { get; set; }
+
+    /// <summary>Fully custom result markup. Overrides <see cref="Text"/>/<see cref="Description"/>.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Raised when the result is selected. Prevents default navigation when a handler is attached.</summary>
+    [Parameter] public EventCallback OnSelect { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [CascadingParameter] private CbHeaderSearch? Parent { get; set; }
+
+    private bool PreventDefault => OnSelect.HasDelegate;
+
+    private async Task OnClick()
+    {
+        if (OnSelect.HasDelegate)
+        {
+            await OnSelect.InvokeAsync();
+        }
+
+        if (Parent is not null)
+        {
+            await Parent.NotifyResultSelected();
+        }
+    }
+}

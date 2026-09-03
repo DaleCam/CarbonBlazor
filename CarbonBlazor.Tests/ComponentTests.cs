@@ -904,5 +904,103 @@ public sealed class ComponentTests : BunitContext
         Assert.Contains("/myapp/_content/CarbonBlazor/carbon-blazor.css", head.Markup);
     }
 
+    [Fact]
+    public void HeaderSearch_TriggerActivatesExpandedInput()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbHeaderSearch>(parameters => parameters
+            .Add(p => p.Placeholder, "Search resources"));
+
+        Assert.Empty(cut.FindAll("input.cb-header__search-input"));
+
+        cut.Find("button.cb-header__search-trigger").Click();
+
+        var input = cut.Find("input.cb-header__search-input");
+        Assert.Equal("Search resources", input.GetAttribute("placeholder"));
+    }
+
+    [Fact]
+    public void HeaderSearch_RendersCustomResultsWhenActive()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbHeaderSearch>(parameters => parameters
+            .Add(p => p.Active, true)
+            .AddChildContent<CbHeaderSearchResult>(result => result
+                .Add(r => r.Text, "web-prod-01")
+                .Add(r => r.Description, "Virtual server")));
+
+        var menu = cut.Find("ul.cb-header__search-menu");
+        Assert.Equal("listbox", menu.GetAttribute("role"));
+        Assert.Contains("web-prod-01", menu.TextContent);
+        Assert.Contains("Virtual server", menu.TextContent);
+        Assert.Equal("option", cut.Find("a.cb-header__search-link").GetAttribute("role"));
+    }
+
+    [Fact]
+    public void HeaderSearch_EscapeDeactivatesAndClearsValue()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        string? value = "web";
+        var cut = Render<CbHeaderSearch>(parameters => parameters
+            .Add(p => p.Active, true)
+            .Add(p => p.Value, "web")
+            .Add(p => p.ValueChanged, changed => value = changed));
+
+        cut.Find("div.cb-header__search-field").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+
+        Assert.Empty(cut.FindAll("input.cb-header__search-input"));
+        Assert.Equal(string.Empty, value);
+    }
+
+    [Fact]
+    public void HeaderSearchResult_SelectRaisesCallback()
+    {
+        var selected = false;
+        var cut = Render<CbHeaderSearchResult>(parameters => parameters
+            .Add(p => p.Text, "billing-db")
+            .Add(p => p.OnSelect, () => selected = true));
+
+        cut.Find("a.cb-header__search-link").Click();
+
+        Assert.True(selected);
+    }
+
+    [Fact]
+    public void HeaderSearch_ClosesAfterResultSelectedByDefault()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbHeaderSearch>(parameters => parameters
+            .Add(p => p.Active, true)
+            .AddChildContent<CbHeaderSearchResult>(result => result.Add(r => r.Text, "billing-db")));
+
+        cut.Find("a.cb-header__search-link").Click();
+
+        Assert.Empty(cut.FindAll("input.cb-header__search-input"));
+    }
+
+    [Fact]
+    public void HeaderSearch_KeepsOpenAfterSelectWhenCloseOnSelectFalse()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbHeaderSearch>(parameters => parameters
+            .Add(p => p.Active, true)
+            .Add(p => p.CloseOnSelect, false)
+            .AddChildContent<CbHeaderSearchResult>(result => result.Add(r => r.Text, "billing-db")));
+
+        cut.Find("a.cb-header__search-link").Click();
+
+        Assert.Single(cut.FindAll("input.cb-header__search-input"));
+    }
+
+    [Fact]
+    public void Header_RendersSearchFragment()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbHeader>(parameters => parameters
+            .Add(p => p.Search, "<div class=\"probe\">search slot</div>"));
+
+        Assert.Contains("search slot", cut.Find(".probe").TextContent);
+    }
+
     private sealed record Person(string Name, string Role);
 }

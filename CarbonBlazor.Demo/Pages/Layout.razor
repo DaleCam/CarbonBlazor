@@ -29,6 +29,16 @@
                 </CbHeaderNavMenu>
                 <CbHeaderNavLink Href="#">Status</CbHeaderNavLink>
             </NavContent>
+            <Search>
+                <CbHeaderSearch @bind-Value="_shellSearch" @bind-Active="_shellSearchActive"
+                                Placeholder="Search resources">
+                    @foreach (var result in FilteredResults)
+                    {
+                        <CbHeaderSearchResult Text="@result.Name" Description="@result.Kind"
+                                              OnSelect="@(() => _shellSelected = result.Name)" />
+                    }
+                </CbHeaderSearch>
+            </Search>
         </CbHeader>
         <div style="position:relative;height:20rem;overflow:hidden;">
             <CbSideNav Open="_shellSideNavOpen" OpenChanged="@(value => _shellSideNavOpen = value)" ShowOverlay="true"
@@ -47,77 +57,52 @@
             <div id="shell-demo-content"
                  style="@(_shellSideNavOpen ? "padding:1rem;margin-left:16rem;" : "padding:1rem;")">
                 <h1>Dashboard</h1>
+                <p>Last selected search result: <strong>@(_shellSelected ?? "none")</strong></p>
             </div>
         </div>
     </div>
-</section>
-
-<section id="grid" class="docs-section">
-    <h2>Layout grid</h2>
-    <h2>Basic</h2>
+    <h3>Header search with custom results</h3>
     <p>
-        The Carbon grid system uses a responsive column structure where the total number of columns changes based on
-        screen size. Column spans are relative to the total columns at each breakpoint — to create a full-width column,
-        use sm={4} md={8} lg={16} instead of the same value across all breakpoints.
-        Create a basic grid layout with equal-width columns.
-        Isolated preview
-        For more information check out: <a href="https://react.carbondesignsystem.com/?path=/docs/elements-grid--overview#full-width-grid">Carbon Grid Documentation</a>
-        
+        Slot a <code>CbHeaderSearch</code> into the header's <code>Search</code> fragment and render
+        <code>CbHeaderSearchResult</code> items (or fully custom markup via child content) for the current query.
+        The field expands over the header, closes on <kbd>Esc</kbd> or an outside click, and supports
+        <code>@@bind-Value</code>/<code>@@bind-Active</code>.
     </p>
-    <p>
-        <CbGrid >
-            <CbRow>
-                <CbColumn Sm="1" Md="4" Lg="8">
-                    <div style="background:var(--cb-layer);padding:1rem;">Sm1 / Md4 / L8</div>
-                </CbColumn>
-                <CbColumn  Sm="1" Md="2" Lg="2">
-                    <div style="background:var(--cb-layer);padding:1rem;">Sm1 / Md2 / Lg2</div>
-                </CbColumn>
-                <CbColumn Sm="2" Md="2" Lg="6">
-                    <div style="background:var(--cb-layer);padding:1rem;">Sm2 / Md2 / Lg6</div>
-                </CbColumn>
-            </CbRow>
-        </CbGrid>
-    </p>
-    <table class="cb-doc-table">
-        <thead>
-        <tr>
-            <th>Breakpoint</th>
-            <th>Viewport width</th>
-            <th>Columns</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><strong>Small (<code>sm</code>)</strong></td>
-            <td>0–671px</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td><strong>Medium (<code>md</code>)</strong></td>
-            <td>672–1055px</td>
-            <td>8</td>
-        </tr>
-        <tr>
-            <td><strong>Large (<code>lg</code>)</strong></td>
-            <td>1056–1311px</td>
-            <td>16</td>
-        </tr>
-        <tr>
-            <td><strong>X-Large (<code>xlg</code>)</strong></td>
-            <td>1312–1583px</td>
-            <td>16</td>
-        </tr>
-        <tr>
-            <td><strong>Max (<code>max</code>)</strong></td>
-            <td>1584px and above</td>
-            <td>16</td>
-        </tr>
-        </tbody>
-    </table>
+    <CbCodeSnippet>&lt;CbHeader ProductName="Cloud" Prefix="IBM"&gt;
+    &lt;Search&gt;
+        &lt;CbHeaderSearch @@bind-Value="_query" @@bind-Active="_active" Placeholder="Search resources"&gt;
+            @@foreach (var result in Filtered)
+            {
+                &lt;CbHeaderSearchResult Text="@@result.Name" Description="@@result.Kind"
+                                      OnSelect="@@(() =&gt; Select(result))" /&gt;
+            }
+        &lt;/CbHeaderSearch&gt;
+    &lt;/Search&gt;
+&lt;/CbHeader&gt;</CbCodeSnippet>
 </section>
 
 @code {
     private bool _shellSideNavOpen = true;
     private bool _shellKubernetesOpen = true;
+    private string? _shellSearch;
+    private bool _shellSearchActive;
+    private string? _shellSelected;
+
+    private record Resource(string Name, string Kind);
+
+    private static readonly Resource[] AllResources =
+    {
+        new("web-prod-01", "Virtual server"),
+        new("web-prod-02", "Virtual server"),
+        new("billing-db", "Databases for PostgreSQL"),
+        new("assets-cos", "Cloud Object Storage"),
+        new("edge-lb", "Load Balancer"),
+        new("cluster-eu", "Kubernetes cluster"),
+    };
+
+    private IEnumerable<Resource> FilteredResults =>
+        string.IsNullOrWhiteSpace(_shellSearch)
+            ? AllResources
+            : AllResources.Where(r => r.Name.Contains(_shellSearch, StringComparison.OrdinalIgnoreCase)
+                                      || r.Kind.Contains(_shellSearch, StringComparison.OrdinalIgnoreCase));
 }
