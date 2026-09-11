@@ -1,5 +1,6 @@
 @page "/components/icon"
 @using CarbonBlazor
+@using System.Linq
 
 <PageTitle>Icon Component</PageTitle>
 
@@ -31,6 +32,22 @@
             <CbIcon Name="CbIconName.Home" SizeToken="CbIconSize.Size32" />
             <span style="font-size: 0.75rem;">32px</span>
         </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>All Icons</h2>
+    <div style="max-width: 20rem; margin-bottom: 1rem;">
+        <CbSearch Label="Filter icons" Placeholder="Filter by icon name" Value="@_iconFilter" ValueChanged="@(v => _iconFilter = v)" />
+    </div>
+    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        @foreach (var name in Enum.GetValues<CbIconName>().Where(MatchesFilter))
+        {
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 6rem;">
+                <CbIcon Name="name" SizeToken="CbIconSize.Size24" />
+                <span style="font-size: 0.75rem; text-align: center; word-break: break-word;">@name</span>
+            </div>
+        }
     </div>
 </section>
 
@@ -86,3 +103,10 @@
         <li>Decorative icons should have aria-hidden="true"</li>
     </ul>
 </section>
+
+@code {
+    private string? _iconFilter;
+
+    private bool MatchesFilter(CbIconName name) =>
+        string.IsNullOrWhiteSpace(_iconFilter) || name.ToString().Contains(_iconFilter, StringComparison.OrdinalIgnoreCase);
+}
