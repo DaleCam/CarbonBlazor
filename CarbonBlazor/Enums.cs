@@ -90,6 +90,12 @@ public enum CbProgressStatus
     Invalid
 }
 
+public enum CbOrientation
+{
+    Vertical,
+    Horizontal
+}
+
 public enum CbIconSize
 {
     Size16 = 16,

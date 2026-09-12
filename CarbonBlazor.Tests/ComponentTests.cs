@@ -190,6 +190,55 @@ public sealed class ComponentTests : BunitContext
     }
 
     [Fact]
+    public void RadioGroup_SelectsValueOnChange()
+    {
+        string? value = null;
+        var cut = Render<CbRadioGroup>(parameters => parameters
+            .Add(p => p.ValueChanged, changed => value = changed)
+            .AddChildContent<CbRadio>(p => p.Add(x => x.Value, "one").AddChildContent("One"))
+            .AddChildContent<CbRadio>(p => p.Add(x => x.Value, "two").AddChildContent("Two")));
+
+        cut.FindAll("input")[1].Change(true);
+
+        Assert.Equal("two", value);
+    }
+
+    [Fact]
+    public void RadioGroup_DisabledDisablesRadios()
+    {
+        var cut = Render<CbRadioGroup>(parameters => parameters
+            .Add(p => p.Disabled, true)
+            .AddChildContent<CbRadio>(p => p.Add(x => x.Value, "one").AddChildContent("One")));
+
+        Assert.True(cut.Find("input").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void RadioGroup_ReadOnlyBlocksValueChange()
+    {
+        string? value = null;
+        var cut = Render<CbRadioGroup>(parameters => parameters
+            .Add(p => p.ReadOnly, true)
+            .Add(p => p.ValueChanged, changed => value = changed)
+            .AddChildContent<CbRadio>(p => p.Add(x => x.Value, "one").AddChildContent("One")));
+
+        cut.Find("input").Change(true);
+
+        Assert.Null(value);
+    }
+
+    [Fact]
+    public void RadioGroup_InvalidRendersInvalidText()
+    {
+        var cut = Render<CbRadioGroup>(parameters => parameters
+            .Add(p => p.Invalid, true)
+            .Add(p => p.InvalidText, "Selection required")
+            .AddChildContent<CbRadio>(p => p.Add(x => x.Value, "one").AddChildContent("One")));
+
+        Assert.Contains("Selection required", cut.Markup);
+    }
+
+    [Fact]
     public void Toggle_TogglesBoolValue()
     {
         var value = false;

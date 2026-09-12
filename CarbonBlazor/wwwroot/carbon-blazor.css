@@ -1056,14 +1056,27 @@ a.cb-link:hover { text-decoration: underline; }
   transform: scale(0.5);
 }
 .cb-radio input:disabled + .cb-radio__dot { border-color: var(--cb-icon-disabled); }
+.cb-radio input:disabled ~ span:last-child { color: var(--cb-text-disabled); }
 .cb-radio input:focus-visible + .cb-radio__dot { outline: 2px solid var(--cb-focus); outline-offset: 1px; }
+.cb-radio--readonly { cursor: default; }
+.cb-radio--readonly input { cursor: default; }
 
 .cb-radio-group {
-  display: grid;
-  gap: 0.375rem;
   padding: 0;
   border: 0;
 }
+.cb-radio-group:disabled { opacity: 0.5; }
+.cb-radio-group__items {
+  display: grid;
+  gap: 0.375rem;
+}
+.cb-radio-group--horizontal .cb-radio-group__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cb-spacing-05);
+}
+.cb-radio-group--invalid .cb-radio__dot { border-color: var(--cb-support-error); }
+.cb-radio-group--invalid .cb-radio input:checked + .cb-radio__dot::after { background: var(--cb-support-error); }
 
 .cb-toggle__track {
   position: relative;

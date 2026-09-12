@@ -21,6 +21,27 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - name: Verify version and changelog
+        run: |
+          CSPROJ_VERSION=$(grep -oPm1 '(?<=<Version>)[^<]+' CarbonBlazor/CarbonBlazor.csproj)
+          echo "csproj version: $CSPROJ_VERSION"
+
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            TAG_VERSION="${GITHUB_REF_NAME#v}"
+            echo "tag version: $TAG_VERSION"
+            if [[ "$TAG_VERSION" != "$CSPROJ_VERSION" ]]; then
+              echo "::error::Tag v$TAG_VERSION does not match <Version>$CSPROJ_VERSION</Version> in CarbonBlazor.csproj"
+              exit 1
+            fi
+          fi
+
+          CHANGELOG_VERSION=$(grep -oPm1 '(?<=^## v)[0-9][^ ]*' CHANGELOG.md)
+          echo "changelog version: $CHANGELOG_VERSION"
+          if [[ "$CHANGELOG_VERSION" != "$CSPROJ_VERSION" ]]; then
+            echo "::error::CHANGELOG.md latest entry (v$CHANGELOG_VERSION) does not match <Version>$CSPROJ_VERSION</Version> in CarbonBlazor.csproj"
+            exit 1
+          fi
+
       - name: Restore
         run: dotnet restore CarbonBlazor.slnx
 

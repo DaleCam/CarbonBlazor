@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.2 - 2026-09-12
+
+- Added `CbOrientation` enum and horizontal layout support to `CbRadioGroup`.
+- Added `Disabled`, `ReadOnly`, `Invalid`, and `InvalidText` states to `CbRadioGroup`, with disabled/read-only enforcement on value changes.
+- Added disabled and read-only pass-through, and a `Class` parameter, to `CbRadio`.
+- Added a version/changelog consistency check to the NuGet publish workflow.
+- Added bUnit tests for the new radio group states.
+- Added `ChartPerformance` and `DataTable` icons, plus icon search in the demo.
+
 ## v0.1.0 - 2026-05-13
 
 - Scaffolded the CarbonBlazor Razor Class Library, Blazor WebAssembly demo app, and bUnit/xUnit test project.

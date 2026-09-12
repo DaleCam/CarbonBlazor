@@ -19,6 +19,49 @@
         <CbRadio Value="weekly">Weekly</CbRadio>
         <CbRadio Value="monthly">Monthly</CbRadio>
     </CbRadioGroup>
+    <CbCodeSnippet>&lt;CbRadioGroup Legend="Select frequency" @@bind-Value="_selected"&gt;
+    &lt;CbRadio Value="daily"&gt;Daily&lt;/CbRadio&gt;
+    &lt;CbRadio Value="weekly"&gt;Weekly&lt;/CbRadio&gt;
+    &lt;CbRadio Value="monthly"&gt;Monthly&lt;/CbRadio&gt;
+&lt;/CbRadioGroup&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Horizontal orientation</h2>
+    <CbRadioGroup Legend="Select size" Orientation="CbOrientation.Horizontal" @bind-Value="_size">
+        <CbRadio Value="sm">Small</CbRadio>
+        <CbRadio Value="md">Medium</CbRadio>
+        <CbRadio Value="lg">Large</CbRadio>
+    </CbRadioGroup>
+    <CbCodeSnippet>&lt;CbRadioGroup Legend="Select size" Orientation="CbOrientation.Horizontal" @@bind-Value="_size"&gt;
+    &lt;CbRadio Value="sm"&gt;Small&lt;/CbRadio&gt;
+    &lt;CbRadio Value="md"&gt;Medium&lt;/CbRadio&gt;
+    &lt;CbRadio Value="lg"&gt;Large&lt;/CbRadio&gt;
+&lt;/CbRadioGroup&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Disabled</h2>
+    <CbRadioGroup Legend="Select plan" Disabled="true" Value="free">
+        <CbRadio Value="free">Free</CbRadio>
+        <CbRadio Value="pro">Pro</CbRadio>
+    </CbRadioGroup>
+    <CbCodeSnippet>&lt;CbRadioGroup Legend="Select plan" Disabled="true" Value="free"&gt;
+    &lt;CbRadio Value="free"&gt;Free&lt;/CbRadio&gt;
+    &lt;CbRadio Value="pro"&gt;Pro&lt;/CbRadio&gt;
+&lt;/CbRadioGroup&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Invalid</h2>
+    <CbRadioGroup Legend="Select plan" Invalid="true" InvalidText="Selection required">
+        <CbRadio Value="free">Free</CbRadio>
+        <CbRadio Value="pro">Pro</CbRadio>
+    </CbRadioGroup>
+    <CbCodeSnippet>&lt;CbRadioGroup Legend="Select plan" Invalid="true" InvalidText="Selection required"&gt;
+    &lt;CbRadio Value="free"&gt;Free&lt;/CbRadio&gt;
+    &lt;CbRadio Value="pro"&gt;Pro&lt;/CbRadio&gt;
+&lt;/CbRadioGroup&gt;</CbCodeSnippet>
 </section>
 
 <section class="docs-section">
@@ -52,6 +95,42 @@
                 <td>Legend text for the group.</td>
             </tr>
             <tr>
+                <td><code>HelperText</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Helper text shown below the group.</td>
+            </tr>
+            <tr>
+                <td><code>Invalid</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Shows the group in an error state.</td>
+            </tr>
+            <tr>
+                <td><code>InvalidText</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Error message shown when <code>Invalid</code> is true.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables every radio button in the group.</td>
+            </tr>
+            <tr>
+                <td><code>ReadOnly</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Prevents selection changes while keeping the group interactive to focus.</td>
+            </tr>
+            <tr>
+                <td><code>Orientation</code></td>
+                <td><code>CbOrientation</code></td>
+                <td><code>Vertical</code></td>
+                <td>Lays out radio buttons vertically or horizontally.</td>
+            </tr>
+            <tr>
                 <td><code>ChildContent</code></td>
                 <td><code>RenderFragment?</code></td>
                 <td><code>null</code></td>
@@ -71,4 +150,5 @@
 
 @code {
     private string? _selected = "weekly";
+    private string? _size = "md";
 }

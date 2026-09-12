@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>DaleCam.CarbonBlazor</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <!-- Keep the shipped asset path as _content/CarbonBlazor/ regardless of PackageId -->
     <StaticWebAssetBasePath>_content/CarbonBlazor</StaticWebAssetBasePath>
     <Authors>Dale Cameron, CarbonBlazor contributors</Authors>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.401" PrivateAssets="All" />
   </ItemGroup>
 
 
