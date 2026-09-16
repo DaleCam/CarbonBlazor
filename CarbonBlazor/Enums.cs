@@ -135,6 +135,7 @@ public enum CbIconName
     Report,
     Search,
     Settings,
+    Table,
     TrashCan,
     User,
     Warning
