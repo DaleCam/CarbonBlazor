@@ -1,5 +1,6 @@
 @page "/components/tabs"
 @using CarbonBlazor
+@using CarbonBlazor.Components.Layout
 
 <PageTitle>Tabs Component</PageTitle>
 
@@ -13,8 +14,46 @@
 <p class="docs-lede">Tabs organize content into separate views within the same context. Users click tab labels to switch between them.</p>
 
 <section class="docs-section">
-    <h2>Example</h2>
+    <h2>Basic</h2>
     <CbTabs Items="@_tabItems" />
+</section>
+
+<section class="docs-section">
+    <h2>Container Type</h2>
+    <p>Use the <code>Type="container"</code> prop for a contained tab style.</p>
+    <CbBox Fill="layer" Padding="6">
+        <CbTabs Type="container" Items="@_tabItems" />
+    </CbBox>
+</section>
+
+<section class="docs-section">
+    <h2>Sizes</h2>
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <div>
+            <h4>Small</h4>
+            <CbTabs Size="sm" Items="@_tabItems" />
+        </div>
+        <div>
+            <h4>Medium</h4>
+            <CbTabs Size="md" Items="@_tabItems" />
+        </div>
+        <div>
+            <h4>Large</h4>
+            <CbTabs Size="lg" Items="@_tabItems" />
+        </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Icon Only</h2>
+    <p>Use the <code>IconOnly</code> prop to display only icons. Set an icon on each tab item.</p>
+    <CbTabs IconOnly="true" Items="@_iconOnlyItems" />
+</section>
+
+<section class="docs-section">
+    <h2>Icons with Labels</h2>
+    <p>Display both icon and label on each tab.</p>
+    <CbTabs Items="@_iconWithLabelItems" />
 </section>
 
 <section class="docs-section">
@@ -48,6 +87,24 @@
                 <td>Event callback fired when selected tab changes.</td>
             </tr>
             <tr>
+                <td><code>IconOnly</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>When true, renders only the icon for each tab, hiding labels. Labels appear as tooltips.</td>
+            </tr>
+            <tr>
+                <td><code>Type</code></td>
+                <td><code>string</code></td>
+                <td><code>"line"</code></td>
+                <td>Tab style: <code>"line"</code> (default) or <code>"container"</code>.</td>
+            </tr>
+            <tr>
+                <td><code>Size</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Tab size: <code>"sm"</code>, <code>"md"</code>, <code>"lg"</code>, or <code>"xl"</code> (container only). Null uses default size.</td>
+            </tr>
+            <tr>
                 <td><code>Class</code></td>
                 <td><code>string?</code></td>
                 <td><code>null</code></td>
@@ -78,6 +135,16 @@
                 <td><code>RenderFragment</code></td>
                 <td>The content rendered when this tab is selected.</td>
             </tr>
+            <tr>
+                <td><code>Icon</code></td>
+                <td><code>RenderFragment?</code></td>
+                <td>Optional icon to display alongside or instead of the label.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td>Whether the tab is disabled and cannot be selected.</td>
+            </tr>
         </tbody>
     </table>
 </section>
@@ -105,5 +172,49 @@
         new() { Label = "Documentation", Content = builder => builder.AddContent(0, "Tab content for documentation with examples and usage patterns.") },
         new() { Label = "Code", Content = builder => builder.AddContent(0, "Code example showing how to use the Tabs component with Blazor.") },
         new() { Label = "Accessibility", Content = builder => builder.AddContent(0, "Accessibility information including keyboard navigation and ARIA attributes.") }
+    ];
+
+    private IReadOnlyList<CbTabItem> _iconOnlyItems { get; } =
+    [
+        new()
+        {
+            Label = "Activity",
+            Icon = @<CbIcon Name="CbIconName.Activity" />,
+            Content = builder => builder.AddContent(0, "Activity tab content.")
+        },
+        new()
+        {
+            Label = "Calendar",
+            Icon = @<CbIcon Name="CbIconName.Calendar" />,
+            Content = builder => builder.AddContent(0, "Calendar tab content.")
+        },
+        new()
+        {
+            Label = "Dashboard",
+            Icon = @<CbIcon Name="CbIconName.Dashboard" />,
+            Content = builder => builder.AddContent(0, "Dashboard tab content.")
+        }
+    ];
+
+    private IReadOnlyList<CbTabItem> _iconWithLabelItems { get; } =
+    [
+        new()
+        {
+            Label = "Activity",
+            Icon = @<CbIcon Name="CbIconName.Activity" />,
+            Content = builder => builder.AddContent(0, "Activity tab content.")
+        },
+        new()
+        {
+            Label = "Calendar",
+            Icon = @<CbIcon Name="CbIconName.Calendar" />,
+            Content = builder => builder.AddContent(0, "Calendar tab content.")
+        },
+        new()
+        {
+            Label = "Dashboard",
+            Icon = @<CbIcon Name="CbIconName.Dashboard" />,
+            Content = builder => builder.AddContent(0, "Dashboard tab content.")
+        }
     ];
 }

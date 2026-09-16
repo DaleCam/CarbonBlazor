@@ -1,0 +1,65 @@
+@namespace CarbonBlazor.Components.Layout
+
+@if (Visible)
+{
+    <div class="@ClassName" style="@InlineStyle" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Fill { get; set; }
+    [Parameter] public string? Border { get; set; }
+    [Parameter] public string? Padding { get; set; }
+    [Parameter] public string? PaddingX { get; set; }
+    [Parameter] public string? PaddingY { get; set; }
+    [Parameter] public string? Margin { get; set; }
+    [Parameter] public string? MarginX { get; set; }
+    [Parameter] public string? MarginY { get; set; }
+    [Parameter] public string? Width { get; set; }
+    [Parameter] public string? Height { get; set; }
+    [Parameter] public bool Visible { get; set; } = true;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ClassName => BuildClassName();
+    private string InlineStyle => BuildInlineStyle();
+
+    private string BuildClassName()
+    {
+        var classes = new System.Collections.Generic.List<string> { "cb-box" };
+
+        if (!string.IsNullOrEmpty(Fill))
+            classes.Add($"cb-box--fill-{Fill}");
+        if (!string.IsNullOrEmpty(Border))
+            classes.Add($"cb-box--border-{Border}");
+        if (!string.IsNullOrEmpty(Padding))
+            classes.Add($"cb-box--p-{Padding}");
+        if (!string.IsNullOrEmpty(PaddingX))
+            classes.Add($"cb-box--px-{PaddingX}");
+        if (!string.IsNullOrEmpty(PaddingY))
+            classes.Add($"cb-box--py-{PaddingY}");
+        if (!string.IsNullOrEmpty(Margin))
+            classes.Add($"cb-box--m-{Margin}");
+        if (!string.IsNullOrEmpty(MarginX))
+            classes.Add($"cb-box--mx-{MarginX}");
+        if (!string.IsNullOrEmpty(MarginY))
+            classes.Add($"cb-box--my-{MarginY}");
+        if (!string.IsNullOrEmpty(Class))
+            classes.Add(Class);
+
+        return string.Join(" ", classes);
+    }
+
+    private string BuildInlineStyle()
+    {
+        var styles = new System.Collections.Generic.List<string>();
+        if (!string.IsNullOrEmpty(Width))
+            styles.Add($"width: {Width}");
+        if (!string.IsNullOrEmpty(Height))
+            styles.Add($"height: {Height}");
+
+        return styles.Count > 0 ? string.Join("; ", styles) : "";
+    }
+}

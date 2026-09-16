@@ -4,8 +4,15 @@
         {
             var index = i;
             var item = Items[index];
-            <button id="@TabId(item)" class="cb-tab" type="button" role="tab" aria-selected="@AriaSelected(index)" aria-controls="@PanelId(item)" disabled="@item.Disabled" tabindex="@(SelectedIndex == index ? 0 : -1)" data-roving-item @onclick="() => Select(index)">
-                @item.Label
+            <button id="@TabId(item)" class="cb-tab" type="button" role="tab" aria-selected="@AriaSelected(index)" aria-controls="@PanelId(item)" disabled="@item.Disabled" tabindex="@(SelectedIndex == index ? 0 : -1)" data-roving-item @onclick="() => Select(index)" title="@(IconOnly ? item.Label : null)">
+                @if (item.Icon != null)
+                {
+                    <span class="cb-tab__icon">@item.Icon</span>
+                }
+                @if (!IconOnly)
+                {
+                    <span class="cb-tab__label">@item.Label</span>
+                }
             </button>
         }
     </div>
@@ -23,9 +30,17 @@
     [Parameter] public IReadOnlyList<CbTabItem> Items { get; set; } = [];
     [Parameter] public int SelectedIndex { get; set; }
     [Parameter] public EventCallback<int> SelectedIndexChanged { get; set; }
+    [Parameter] public bool IconOnly { get; set; }
+    [Parameter] public string Type { get; set; } = "line";
+    [Parameter] public string? Size { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
-    private string ClassName => new CssBuilder("cb-tabs").Add(Class).ToString();
+    private string ClassName => new CssBuilder("cb-tabs")
+        .Add($"cb-tabs--{Type}")
+        .Add(Size != null ? $"cb-tabs--size-{Size}" : null)
+        .Add(IconOnly ? "cb-tabs--icon-only" : null)
+        .Add(Class)
+        .ToString();
     private string TabId(CbTabItem item) => $"cb-tab-{item.Id}";
     private string PanelId(CbTabItem item) => $"cb-tab-panel-{item.Id}";
     private string AriaSelected(int index) => SelectedIndex == index ? "true" : "false";

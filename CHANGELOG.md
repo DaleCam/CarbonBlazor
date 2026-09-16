@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.3 - 2026-09-16
+
+- Added `CbBox` layout component with responsive padding and gap spacing.
+- Enhanced `CbTabs` with `IconOnly`, `Size`, and `Type` parameters for icon-only and size variants.
+- Added keyboard navigation to `CbTabs` (arrow keys, Home, End) with disabled tab handling.
+- Added `Icon` property to `CbTabItem` for icon support in tab buttons.
+- Added icon support to tab buttons with automatic label visibility toggle in icon-only mode.
+
 ## v0.1.2 - 2026-09-12
 
 - Added `CbOrientation` enum and horizontal layout support to `CbRadioGroup`.

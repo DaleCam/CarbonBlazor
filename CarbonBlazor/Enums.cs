@@ -106,7 +106,9 @@ public enum CbIconSize
 
 public enum CbIconName
 {
+    Activity,
     Add,
+    Analytics,
     BrightnessContrast,
     Calendar,
     ChartPerformance,

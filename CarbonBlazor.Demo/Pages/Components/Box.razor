@@ -1,0 +1,255 @@
+@page "/components/box"
+@using CarbonBlazor
+@using CarbonBlazor.Components.Layout
+
+<PageTitle>Box Component</PageTitle>
+
+<CbBreadcrumb>
+    <CbBreadcrumbItem Href="/">Overview</CbBreadcrumbItem>
+    <CbBreadcrumbItem Href="/components">Components</CbBreadcrumbItem>
+    <CbBreadcrumbItem Current="true">Box</CbBreadcrumbItem>
+</CbBreadcrumb>
+
+<h1>Box</h1>
+<p class="docs-lede">Box is a layout utility component for applying spacing and background tokens to containers.</p>
+
+<section class="docs-section">
+    <h2>Basic</h2>
+    <CbBox Fill="layer" Padding="5" Border="strong">
+        <p>Box with layer background, padding 5, and strong border</p>
+    </CbBox>
+</section>
+
+<section class="docs-section">
+    <h2>Fill Tokens</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbBox Fill="background" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">background</span>
+        </CbBox>
+        <CbBox Fill="layer" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">layer</span>
+        </CbBox>
+        <CbBox Fill="layer-accent" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">layer-accent</span>
+        </CbBox>
+        <CbBox Fill="inverse" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600; color: white;">inverse</span>
+        </CbBox>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Border Tokens</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <CbBox Border="subtle" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">subtle</span>
+        </CbBox>
+        <CbBox Border="strong" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">strong</span>
+        </CbBox>
+        <CbBox Border="interactive" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">interactive</span>
+        </CbBox>
+        <CbBox Border="disabled" Padding="5" Width="120px">
+            <span style="font-size: 0.75rem; font-weight: 600;">disabled</span>
+        </CbBox>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Padding Scale</h2>
+    <div style="display: flex; gap: 1rem; flex-direction: column;">
+        <div>
+            <h4>Padding 2</h4>
+            <CbBox Fill="layer" Padding="2">Content with p=2 (0.25rem)</CbBox>
+        </div>
+        <div>
+            <h4>Padding 4</h4>
+            <CbBox Fill="layer" Padding="4">Content with p=4 (0.75rem)</CbBox>
+        </div>
+        <div>
+            <h4>Padding 6</h4>
+            <CbBox Fill="layer" Padding="6">Content with p=6 (1.5rem)</CbBox>
+        </div>
+        <div>
+            <h4>Padding 8</h4>
+            <CbBox Fill="layer" Padding="8">Content with p=8 (2.5rem)</CbBox>
+        </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Directional Padding</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <div>
+            <h4>Horizontal (px=4)</h4>
+            <CbBox Fill="layer" PaddingX="4" PaddingY="3">
+                Content with px=4, py=3
+            </CbBox>
+        </div>
+        <div>
+            <h4>Vertical (py=6)</h4>
+            <CbBox Fill="layer" PaddingX="3" PaddingY="6">
+                Content with px=3, py=6
+            </CbBox>
+        </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>Margin</h2>
+    <div style="display: flex; gap: 1rem; flex-direction: column;">
+        <div>
+            <h4>Margin 3</h4>
+            <CbBox Fill="layer-accent" Padding="3" Margin="3">Box with margin 3</CbBox>
+        </div>
+        <div>
+            <h4>Horizontal Margin (mx=5)</h4>
+            <CbBox Fill="layer-accent" Padding="3" MarginX="5">Box with mx=5</CbBox>
+        </div>
+    </div>
+</section>
+
+<section class="docs-section">
+    <h2>CSS Tokens Reference</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Scale</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>0.125rem (2px)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>0.25rem (4px)</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>0.5rem (8px)</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>0.75rem (12px)</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>1rem (16px)</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>1.5rem (24px)</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>2rem (32px)</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>2.5rem (40px)</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>3rem (48px)</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>4rem (64px)</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>5rem (80px)</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>6rem (96px)</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="docs-section">
+    <h2>Props</h2>
+    <table class="docs-props-table">
+        <thead>
+            <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Fill</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Background token: background, layer, layer-accent, inverse</td>
+            </tr>
+            <tr>
+                <td><code>Border</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Border token: subtle, strong, interactive, disabled</td>
+            </tr>
+            <tr>
+                <td><code>Padding</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Padding on all sides (1-12 or CSS length)</td>
+            </tr>
+            <tr>
+                <td><code>PaddingX</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Horizontal padding (left/right)</td>
+            </tr>
+            <tr>
+                <td><code>PaddingY</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Vertical padding (top/bottom)</td>
+            </tr>
+            <tr>
+                <td><code>Margin</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Margin on all sides (1-12 or CSS length)</td>
+            </tr>
+            <tr>
+                <td><code>MarginX</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Horizontal margin (left/right)</td>
+            </tr>
+            <tr>
+                <td><code>MarginY</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Vertical margin (top/bottom)</td>
+            </tr>
+            <tr>
+                <td><code>Width</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Inline width style</td>
+            </tr>
+            <tr>
+                <td><code>Height</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Block height style</td>
+            </tr>
+            <tr>
+                <td><code>Visible</code></td>
+                <td><code>bool</code></td>
+                <td><code>true</code></td>
+                <td>Toggle visibility of the box</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

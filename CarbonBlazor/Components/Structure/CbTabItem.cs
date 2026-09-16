@@ -8,4 +8,5 @@ public sealed class CbTabItem
     public string Label { get; set; } = "Tab";
     public bool Disabled { get; set; }
     public RenderFragment? Content { get; set; }
+    public RenderFragment? Icon { get; set; }
 }
