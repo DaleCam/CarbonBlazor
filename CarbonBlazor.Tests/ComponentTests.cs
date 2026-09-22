@@ -1051,5 +1051,45 @@ public sealed class ComponentTests : BunitContext
         Assert.Contains("search slot", cut.Find(".probe").TextContent);
     }
 
+    [Fact]
+    public void Dropdown_OpensListboxAndSelectsItem()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        string? value = null;
+        var cut = Render<CbDropdown<string>>(parameters => parameters
+            .Add(p => p.Label, "Choose option")
+            .Add(p => p.Items, new[] { "Option 1", "Option 2" })
+            .Add(p => p.ValueChanged, changed => value = changed));
+
+        cut.Find("button.cb-dropdown__trigger").Click();
+        Assert.NotEmpty(cut.FindAll("ul.cb-dropdown__menu[role=listbox]"));
+
+        cut.Find("li[role=option]:nth-child(2)").Click();
+
+        Assert.Equal("Option 2", value);
+        Assert.Empty(cut.FindAll("ul.cb-dropdown__menu"));
+    }
+
+    [Fact]
+    public void Dropdown_RendersCustomItemTemplate()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var cut = Render<CbDropdown<Person>>(parameters => parameters
+            .Add(p => p.Label, "Assignee")
+            .Add(p => p.Items, new[] { new Person("Ada", "Analyst") })
+            .Add(p => p.ItemToString, (Func<Person, string>)(person => person.Name))
+            .Add(p => p.ItemTemplate, (RenderFragment<Person>)(person => builder =>
+            {
+                builder.OpenElement(0, "span");
+                builder.AddAttribute(1, "class", "probe");
+                builder.AddContent(2, $"{person.Name} ({person.Role})");
+                builder.CloseElement();
+            })));
+
+        cut.Find("button.cb-dropdown__trigger").Click();
+
+        Assert.Equal("Ada (Analyst)", cut.Find(".probe").TextContent);
+    }
+
     private sealed record Person(string Name, string Role);
 }

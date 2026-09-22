@@ -1,21 +1,217 @@
-<CbSelect Label="@Label" Value="@Value" ValueChanged="@ValueChanged" HelperText="@HelperText" Disabled="@Disabled" Invalid="@Invalid" Class="@ClassName">
-    @foreach (var item in Items)
+@typeparam TItem
+@implements IAsyncDisposable
+@inject IJSRuntime Js
+
+<div id="@RootId" class="cb-form-item">
+    @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <option value="@item">@item</option>
+        <label class="cb-label" for="@TriggerId">@Label</label>
     }
-    @ChildContent
-</CbSelect>
+    <div class="@ClassName" @onkeydown="OnTriggerKeyDown">
+        <button id="@TriggerId" type="button" class="cb-dropdown__trigger" disabled="@Disabled"
+                aria-haspopup="listbox" aria-expanded="@(Open ? "true" : "false")" @onclick="Toggle">
+            <span class="cb-dropdown__label">@DisplayLabel</span>
+            <CbIcon Name="CbIconName.ChevronDown" Class="cb-dropdown__chevron" />
+        </button>
+        @if (Open)
+        {
+            <ul class="cb-dropdown__menu" role="listbox" aria-label="@Label" @onkeydown="OnListKeyDown">
+                @{ var index = 0; }
+                @foreach (var item in Items)
+                {
+                    var capturedItem = item;
+                    var isSelected = Equals(capturedItem, Value);
+                    <li role="option" data-roving-item tabindex="@(index == _activeIndex ? 0 : -1)"
+                        aria-selected="@(isSelected ? "true" : "false")"
+                        class="@ItemClassName(isSelected)"
+                        @onclick="() => SelectItem(capturedItem)">
+                        @if (ItemTemplate is not null)
+                        {
+                            @ItemTemplate(capturedItem)
+                        }
+                        else
+                        {
+                            @GetItemLabel(capturedItem)
+                        }
+                    </li>
+                    index++;
+                }
+            </ul>
+        }
+    </div>
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <div class="cb-helper">@HelperText</div>
+    }
+</div>
 
 @code {
-    [Parameter] public string Label { get; set; } = "Dropdown";
-    [Parameter] public string? Value { get; set; }
-    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
-    [Parameter] public IEnumerable<string> Items { get; set; } = [];
+    private readonly string _rootId = $"cb-dropdown-{Guid.NewGuid():N}";
+    private readonly string _triggerId = $"cb-dropdown-trigger-{Guid.NewGuid():N}";
+    private DotNetObjectReference<CbDropdown<TItem>>? _dotNetRef;
+    private IJSObjectReference? _module;
+    private bool _listeningForOutsideClick;
+
+    [Parameter] public string? Label { get; set; } = "Dropdown";
+    [Parameter] public string Placeholder { get; set; } = "Select an option";
+    [Parameter] public IEnumerable<TItem> Items { get; set; } = [];
+    [Parameter] public TItem? Value { get; set; }
+    [Parameter] public EventCallback<TItem?> ValueChanged { get; set; }
+    [Parameter] public Func<TItem, string>? ItemToString { get; set; }
+    [Parameter] public RenderFragment<TItem>? ItemTemplate { get; set; }
+    [Parameter] public CbSize Size { get; set; } = CbSize.Medium;
     [Parameter] public string? HelperText { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool Invalid { get; set; }
+    [Parameter] public string? Id { get; set; }
     [Parameter] public string? Class { get; set; }
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string ClassName => new CssBuilder("cb-dropdown").Add("cb-dropdown--invalid", Invalid).Add(Class).ToString();
+    private bool Open { get; set; }
+    private int _activeIndex;
+    private string RootId => Id ?? _rootId;
+    private string TriggerId => _triggerId;
+    private bool HasSelection => Value is not null && !Equals(Value, default(TItem));
+
+    private string ClassName => new CssBuilder("cb-dropdown")
+        .Add($"cb-dropdown--{Size.ToString().ToLowerInvariant()}")
+        .Add("cb-dropdown--invalid", Invalid)
+        .Add("cb-dropdown--open", Open)
+        .Add("cb-dropdown--disabled", Disabled)
+        .Add(Class)
+        .ToString();
+
+    private string ItemClassName(bool selected) => new CssBuilder("cb-dropdown__item").Add("cb-dropdown__item--selected", selected).ToString();
+
+    private string DisplayLabel => HasSelection ? GetItemLabel(Value!) : Placeholder;
+
+    private string GetItemLabel(TItem item) => ItemToString is not null ? ItemToString(item) : item?.ToString() ?? string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Open && !_listeningForOutsideClick)
+        {
+            _dotNetRef ??= DotNetObjectReference.Create(this);
+            _module ??= await Js.InvokeAsync<IJSObjectReference>("import", "./_content/CarbonBlazor/carbon-blazor.js");
+            await _module.InvokeVoidAsync("clickOutside", RootId, _dotNetRef, nameof(CloseFromOutside));
+            _listeningForOutsideClick = true;
+
+            var items = Items.ToList();
+            _activeIndex = Math.Max(0, items.FindIndex(item => Equals(item, Value)));
+            await _module.InvokeVoidAsync("rove", RootId, _activeIndex);
+        }
+    }
+
+    private void Toggle()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        Open = !Open;
+        if (!Open)
+        {
+            _listeningForOutsideClick = false;
+        }
+    }
+
+    private async Task SelectItem(TItem item)
+    {
+        Value = item;
+        await ValueChanged.InvokeAsync(Value);
+        CloseMenu();
+        await FocusTriggerAsync();
+    }
+
+    private void OnTriggerKeyDown(KeyboardEventArgs args)
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        switch (args.Key)
+        {
+            case "ArrowDown" or "ArrowUp" when !Open:
+                Open = true;
+                break;
+            case "Escape" when Open:
+                CloseMenu();
+                break;
+        }
+    }
+
+    private async Task OnListKeyDown(KeyboardEventArgs args)
+    {
+        var items = Items.ToList();
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        switch (args.Key)
+        {
+            case "Escape":
+                CloseMenu();
+                await FocusTriggerAsync();
+                break;
+            case "Tab":
+                CloseMenu();
+                break;
+            case "ArrowDown":
+                await FocusIndexAsync(((_activeIndex + 1) % items.Count + items.Count) % items.Count);
+                break;
+            case "ArrowUp":
+                await FocusIndexAsync(((_activeIndex - 1) % items.Count + items.Count) % items.Count);
+                break;
+            case "Home":
+                await FocusIndexAsync(0);
+                break;
+            case "End":
+                await FocusIndexAsync(items.Count - 1);
+                break;
+            case "Enter" or " ":
+                await SelectItem(items[_activeIndex]);
+                break;
+        }
+    }
+
+    private async Task FocusIndexAsync(int index)
+    {
+        _activeIndex = index;
+        _module ??= await Js.InvokeAsync<IJSObjectReference>("import", "./_content/CarbonBlazor/carbon-blazor.js");
+        await _module.InvokeVoidAsync("rove", RootId, index);
+    }
+
+    private void CloseMenu()
+    {
+        if (!Open)
+        {
+            return;
+        }
+
+        Open = false;
+        _listeningForOutsideClick = false;
+        StateHasChanged();
+    }
+
+    private async Task FocusTriggerAsync()
+    {
+        _module ??= await Js.InvokeAsync<IJSObjectReference>("import", "./_content/CarbonBlazor/carbon-blazor.js");
+        await _module.InvokeVoidAsync("focusById", TriggerId);
+    }
+
+    [JSInvokable]
+    public void CloseFromOutside() => CloseMenu();
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("disposeClickOutside", RootId);
+            await _module.DisposeAsync();
+        }
+        _dotNetRef?.Dispose();
+    }
 }

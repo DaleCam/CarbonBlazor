@@ -10,11 +10,65 @@
 </CbBreadcrumb>
 
 <h1>Dropdown</h1>
-<p class="docs-lede">Dropdown select component for choosing from list of options.</p>
+<p class="docs-lede">Custom listbox dropdown, matching the Carbon Design System dropdown pattern rather than the native browser select.</p>
 
 <section class="docs-section">
     <h2>Example</h2>
     <CbDropdown Label="Choose option" Items="@_options" @bind-Value="_selectedOption" />
+    <CbCodeSnippet>&lt;CbDropdown Label="Choose option" Items="@@_options" @@bind-Value="_selectedOption" /&gt;
+
+@@code {
+    private string? _selectedOption;
+    private readonly IReadOnlyList&lt;string&gt; _options = new[] { "Option 1", "Option 2", "Option 3" };
+}</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Sizes</h2>
+    <CbDropdown Label="Small" Size="CbSize.Small" Items="@_options" @bind-Value="_selectedSize" />
+    <CbDropdown Label="Medium (default)" Size="CbSize.Medium" Items="@_options" @bind-Value="_selectedSize" />
+    <CbDropdown Label="Large" Size="CbSize.Large" Items="@_options" @bind-Value="_selectedSize" />
+    <CbCodeSnippet>&lt;CbDropdown Label="Small" Size="CbSize.Small" Items="@@_options" @@bind-Value="_selectedSize" /&gt;
+&lt;CbDropdown Label="Large" Size="CbSize.Large" Items="@@_options" @@bind-Value="_selectedSize" /&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Custom slot</h2>
+    <p>Pass an <code>ItemTemplate</code> to render each row however you like, such as an avatar and secondary text.</p>
+    <CbDropdown Label="Assignee" Items="@_people" @bind-Value="_selectedPerson" ItemToString="@(p => p.Name)">
+        <ItemTemplate Context="person">
+            <div class="cb-dropdown-demo__row">
+                <span class="cb-dropdown-demo__avatar">@person.Initials</span>
+                <span class="cb-dropdown-demo__meta">
+                    <span class="cb-dropdown-demo__name">@person.Name</span>
+                    <span class="cb-dropdown-demo__role">@person.Role</span>
+                </span>
+            </div>
+        </ItemTemplate>
+    </CbDropdown>
+    <CbCodeSnippet>&lt;CbDropdown Label="Assignee" Items="@@_people" @@bind-Value="_selectedPerson" ItemToString="@@(p =&gt; p.Name)"&gt;
+    &lt;ItemTemplate Context="person"&gt;
+        &lt;div class="cb-dropdown-demo__row"&gt;
+            &lt;span class="cb-dropdown-demo__avatar"&gt;@@person.Initials&lt;/span&gt;
+            &lt;span class="cb-dropdown-demo__meta"&gt;
+                &lt;span class="cb-dropdown-demo__name"&gt;@@person.Name&lt;/span&gt;
+                &lt;span class="cb-dropdown-demo__role"&gt;@@person.Role&lt;/span&gt;
+            &lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/ItemTemplate&gt;
+&lt;/CbDropdown&gt;
+
+@@code {
+    private record Person(string Name, string Role, string Initials);
+
+    private Person? _selectedPerson;
+    private readonly IReadOnlyList&lt;Person&gt; _people = new[]
+    {
+        new Person("Ana Diaz", "Product designer", "AD"),
+        new Person("Ben Osei", "Frontend engineer", "BO"),
+        new Person("Cara Lin", "Product manager", "CL"),
+    };
+}</CbCodeSnippet>
 </section>
 
 <section class="docs-section">
@@ -32,26 +86,68 @@
             <tr>
                 <td><code>Label</code></td>
                 <td><code>string?</code></td>
-                <td><code>null</code></td>
-                <td>Label text displayed above dropdown.</td>
+                <td><code>"Dropdown"</code></td>
+                <td>Label text displayed above the dropdown.</td>
+            </tr>
+            <tr>
+                <td><code>Placeholder</code></td>
+                <td><code>string</code></td>
+                <td><code>"Select an option"</code></td>
+                <td>Text shown in the trigger when nothing is selected.</td>
             </tr>
             <tr>
                 <td><code>Items</code></td>
-                <td><code>IEnumerable&lt;string&gt;</code></td>
+                <td><code>IEnumerable&lt;TItem&gt;</code></td>
                 <td>-</td>
                 <td>List of options to display.</td>
             </tr>
             <tr>
                 <td><code>Value</code></td>
-                <td><code>string?</code></td>
+                <td><code>TItem?</code></td>
                 <td><code>null</code></td>
-                <td>Currently selected value. Use with @@bind-Value for two-way binding.</td>
+                <td>Currently selected item. Use with @@bind-Value for two-way binding.</td>
             </tr>
             <tr>
                 <td><code>ValueChanged</code></td>
-                <td><code>EventCallback&lt;string?&gt;</code></td>
+                <td><code>EventCallback&lt;TItem?&gt;</code></td>
                 <td>-</td>
                 <td>Event fired when selection changes.</td>
+            </tr>
+            <tr>
+                <td><code>ItemToString</code></td>
+                <td><code>Func&lt;TItem, string&gt;?</code></td>
+                <td><code>null</code></td>
+                <td>Formats an item's label in the trigger and default row rendering. Falls back to <code>ToString()</code>.</td>
+            </tr>
+            <tr>
+                <td><code>ItemTemplate</code></td>
+                <td><code>RenderFragment&lt;TItem&gt;?</code></td>
+                <td><code>null</code></td>
+                <td>Custom slot for rendering each row's content.</td>
+            </tr>
+            <tr>
+                <td><code>Size</code></td>
+                <td><code>CbSize</code></td>
+                <td><code>Medium</code></td>
+                <td>Controls trigger and row height (Small, Medium, Large).</td>
+            </tr>
+            <tr>
+                <td><code>HelperText</code></td>
+                <td><code>string?</code></td>
+                <td><code>null</code></td>
+                <td>Helper text displayed below the dropdown.</td>
+            </tr>
+            <tr>
+                <td><code>Disabled</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Disables the dropdown trigger.</td>
+            </tr>
+            <tr>
+                <td><code>Invalid</code></td>
+                <td><code>bool</code></td>
+                <td><code>false</code></td>
+                <td>Applies the invalid state styling.</td>
             </tr>
             <tr>
                 <td><code>Class</code></td>
@@ -71,7 +167,36 @@
     </ul>
 </section>
 
+<style>
+    .cb-dropdown-demo__row { display: flex; align-items: center; gap: 0.5rem; }
+    .cb-dropdown-demo__avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 50%;
+        background: var(--cb-layer-accent);
+        font-size: 0.75rem;
+        font-weight: 600;
+        flex-shrink: 0;
+    }
+    .cb-dropdown-demo__meta { display: flex; flex-direction: column; line-height: 1.2; }
+    .cb-dropdown-demo__role { font-size: 0.75rem; color: var(--cb-text-secondary); }
+</style>
+
 @code {
     private string? _selectedOption;
+    private string? _selectedSize;
     private readonly IReadOnlyList<string> _options = new[] { "Option 1", "Option 2", "Option 3" };
+
+    private record Person(string Name, string Role, string Initials);
+
+    private Person? _selectedPerson;
+    private readonly IReadOnlyList<Person> _people = new[]
+    {
+        new Person("Ana Diaz", "Product designer", "AD"),
+        new Person("Ben Osei", "Frontend engineer", "BO"),
+        new Person("Cara Lin", "Product manager", "CL"),
+    };
 }

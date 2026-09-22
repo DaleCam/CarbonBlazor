@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>DaleCam.CarbonBlazor</PackageId>
-    <Version>0.1.3</Version>
+    <Version>0.1.4</Version>
     <!-- Keep the shipped asset path as _content/CarbonBlazor/ regardless of PackageId -->
     <StaticWebAssetBasePath>_content/CarbonBlazor</StaticWebAssetBasePath>
     <Authors>Dale Cameron, CarbonBlazor contributors</Authors>

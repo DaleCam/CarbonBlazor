@@ -20,6 +20,38 @@
         <option value="canada">Canada</option>
         <option value="mexico">Mexico</option>
     </CbSelect>
+    <CbCodeSnippet>&lt;CbSelect Label="Choose country"&gt;
+    &lt;option value=""&gt;Select...&lt;/option&gt;
+    &lt;option value="usa"&gt;United States&lt;/option&gt;
+    &lt;option value="canada"&gt;Canada&lt;/option&gt;
+    &lt;option value="mexico"&gt;Mexico&lt;/option&gt;
+&lt;/CbSelect&gt;</CbCodeSnippet>
+</section>
+
+<section class="docs-section">
+    <h2>Sizes</h2>
+    <CbSelect Label="Small" Size="CbSize.Small">
+        <option value="">Select...</option>
+        <option value="usa">United States</option>
+        <option value="canada">Canada</option>
+    </CbSelect>
+    <CbSelect Label="Medium (default)" Size="CbSize.Medium">
+        <option value="">Select...</option>
+        <option value="usa">United States</option>
+        <option value="canada">Canada</option>
+    </CbSelect>
+    <CbSelect Label="Large" Size="CbSize.Large">
+        <option value="">Select...</option>
+        <option value="usa">United States</option>
+        <option value="canada">Canada</option>
+    </CbSelect>
+    <CbCodeSnippet>&lt;CbSelect Label="Small" Size="CbSize.Small"&gt;
+    &lt;option value=""&gt;Select...&lt;/option&gt;
+&lt;/CbSelect&gt;
+
+&lt;CbSelect Label="Large" Size="CbSize.Large"&gt;
+    &lt;option value=""&gt;Select...&lt;/option&gt;
+&lt;/CbSelect&gt;</CbCodeSnippet>
 </section>
 
 <section class="docs-section">
@@ -39,6 +71,12 @@
                 <td><code>string?</code></td>
                 <td><code>null</code></td>
                 <td>Label text displayed above select.</td>
+            </tr>
+            <tr>
+                <td><code>Size</code></td>
+                <td><code>CbSize</code></td>
+                <td><code>Medium</code></td>
+                <td>Controls select height (Small, Medium, Large).</td>
             </tr>
             <tr>
                 <td><code>ChildContent</code></td>

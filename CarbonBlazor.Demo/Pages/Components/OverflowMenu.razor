@@ -17,13 +17,13 @@
     <CbOverflowMenu Label="Row actions">
         <CbMenuItem OnClick="@(() => Pick("Edit"))">Edit</CbMenuItem>
         <CbMenuItem OnClick="@(() => Pick("Share"))">Share</CbMenuItem>
-        <CbMenuItem OnClick="@(() => Pick("Delete"))">Delete</CbMenuItem>
+        <CbMenuItem Danger="true" OnClick="@(() => Pick("Delete"))">Delete</CbMenuItem>
     </CbOverflowMenu>
     <p>Last action: @(_last ?? "none")</p>
     <CbCodeSnippet>&lt;CbOverflowMenu Label="Row actions"&gt;
     &lt;CbMenuItem OnClick="() =&gt; Pick("Edit")"&gt;Edit&lt;/CbMenuItem&gt;
     &lt;CbMenuItem OnClick="() =&gt; Pick("Share")"&gt;Share&lt;/CbMenuItem&gt;
-    &lt;CbMenuItem OnClick="() =&gt; Pick("Delete")"&gt;Delete&lt;/CbMenuItem&gt;
+    &lt;CbMenuItem Danger="true" OnClick="() =&gt; Pick("Delete")"&gt;Delete&lt;/CbMenuItem&gt;
 &lt;/CbOverflowMenu&gt;</CbCodeSnippet>
 </section>
 
@@ -83,7 +83,7 @@
             </tr>
         </tbody>
     </table>
-    <p>Menu items use <a href="/components/menu-button"><code>CbMenuItem</code></a>.</p>
+    <p>Menu items use <a href="/components/menu-button"><code>CbMenuItem</code></a>, which also accepts a <code>Danger</code> flag for destructive actions.</p>
 </section>
 
 <section class="docs-section">

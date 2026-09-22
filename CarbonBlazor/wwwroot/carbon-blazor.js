@@ -5,8 +5,14 @@ export function focusFirst(selector) {
 }
 
 export function focusById(id) {
-  const element = document.getElementById(id);
-  if (element) element.focus();
+  // Deferred so a focus change made while handling a keydown (e.g. Enter/Space)
+  // lands after the browser's default key action, not during it — moving focus
+  // to a <button> mid-keypress can otherwise cause that button to receive a
+  // synthetic click from the same keypress.
+  window.setTimeout(() => {
+    const element = document.getElementById(id);
+    if (element) element.focus();
+  }, 0);
 }
 
 export function setBodyScrollLock(locked) {

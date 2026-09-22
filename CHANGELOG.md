@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.4 - 2026-09-23
+
+- Rewrote `CbDropdown` as a generic, custom listbox with keyboard navigation and outside-click closing, replacing the native `<select>` wrapper.
+- Added `Size` parameter to `CbDropdown` and `CbSelect`.
+- Added `Danger` parameter to `CbMenuItem` for a destructive-action style.
+- Added an open-state class to `CbOverflowMenu` and fixed its `aria-expanded` value to be a proper boolean string.
+- Deferred `focusById` in `carbon-blazor.js` so focus changes made during keydown handling land after the browser's default key action.
+- Added `Save`, `TableSplit`, and `ChartCandlestick` icons.
+- Fixed `CbIcon` throwing `ArgumentOutOfRangeException` for `CbIconName.Table`, which had a sprite symbol but no switch case.
+
 ## v0.1.3 - 2026-09-16
 
 - Added `CbBox` layout component with responsive padding and gap spacing.

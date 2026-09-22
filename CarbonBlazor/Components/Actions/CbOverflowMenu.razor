@@ -3,7 +3,7 @@
 @inject IJSRuntime Js
 
 <div id="@MenuId" class="@ClassName" @onkeydown="OnKeyDown" @attributes="AdditionalAttributes">
-    <CbIconButton Label="@Label" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@Open">
+    <CbIconButton Label="@Label" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@(Open ? "true" : "false")">
         @if (!Icon.IsNullOrEmpty())
         {
             @Icon
@@ -38,7 +38,7 @@
 
     private bool Open { get; set; }
     private string MenuId => _id;
-    private string ClassName => new CssBuilder("cb-overflow-menu").Add(Class).ToString();
+    private string ClassName => new CssBuilder("cb-overflow-menu").Add("cb-overflow-menu--open", Open).Add(Class).ToString();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
