@@ -26,6 +26,7 @@
 @code {
     private readonly string _id = $"cb-modal-{Guid.NewGuid():N}";
     private IJSObjectReference? _module;
+    private bool _wasOpen;
 
     [Parameter] public bool Open { get; set; }
     [Parameter] public EventCallback<bool> OpenChanged { get; set; }
@@ -44,12 +45,14 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Open)
+        if (Open && !_wasOpen)
         {
             _module ??= await Js.InvokeAsync<IJSObjectReference>("import", "./_content/CarbonBlazor/carbon-blazor.js");
             await _module.InvokeVoidAsync("setBodyScrollLock", true);
             await _module.InvokeVoidAsync("focusFirst", $"#{DialogId}");
         }
+
+        _wasOpen = Open;
     }
 
     private async Task RequestClose()
