@@ -1,22 +1,50 @@
+@implements IAsyncDisposable
+@inject IJSRuntime Js
+
 <label class="@ClassName">
-    <input type="checkbox" checked="@Value" disabled="@Disabled" aria-invalid="@Invalid" @onchange="OnChange" @attributes="AdditionalAttributes" />
+    <input id="@InputId" type="checkbox" checked="@Value" disabled="@Disabled" aria-invalid="@Invalid" @onchange="OnChange" @attributes="AdditionalAttributes" />
     <span class="cb-checkbox__box" aria-hidden="true"></span>
     <span>@ChildContent</span>
 </label>
 
 @code {
+    private readonly string _generatedId = $"cb-checkbox-{Guid.NewGuid():N}";
+    private IJSObjectReference? _module;
+    private bool _appliedIndeterminate;
+
     [Parameter] public bool Value { get; set; }
     [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+    [Parameter] public bool Indeterminate { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool Invalid { get; set; }
+    [Parameter] public string? Id { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    private string InputId => Id ?? _generatedId;
     private string ClassName => new CssBuilder("cb-checkbox").Add("cb-checkbox--invalid", Invalid).Add(Class).ToString();
+
     private async Task OnChange(ChangeEventArgs args)
     {
         Value = args.Value is bool value && value;
         await ValueChanged.InvokeAsync(Value);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Indeterminate == _appliedIndeterminate) return;
+
+        _module ??= await Js.InvokeAsync<IJSObjectReference>("import", "./_content/CarbonBlazor/carbon-blazor.js");
+        await _module.InvokeVoidAsync("setIndeterminate", InputId, Indeterminate);
+        _appliedIndeterminate = Indeterminate;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.DisposeAsync();
+        }
     }
 }

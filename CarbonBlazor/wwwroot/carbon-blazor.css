@@ -13,6 +13,7 @@
   --cb-text-disabled: #8d8d8d;
   --cb-text-on-color: #ffffff;
   --cb-icon-primary: #161616;
+  --cb-icon-inverse: #ffffff;
   --cb-icon-disabled: #c6c6c6;
   --cb-border-subtle: #e0e0e0;
   --cb-border-strong: #8d8d8d;
@@ -77,6 +78,7 @@
   --cb-text-placeholder: #8d8d8d;
   --cb-text-on-color: #ffffff;
   --cb-icon-primary: #f4f4f4;
+  --cb-icon-inverse: #161616;
   --cb-border-subtle: #525252;
   --cb-border-strong: #8d8d8d;
   --cb-border-interactive: #78a9ff;
@@ -113,6 +115,7 @@
   --cb-text-secondary: #c6c6c6;
   --cb-text-placeholder: #8d8d8d;
   --cb-icon-primary: #f4f4f4;
+  --cb-icon-inverse: #161616;
   --cb-border-subtle: #393939;
   --cb-border-strong: #6f6f6f;
   --cb-border-interactive: #78a9ff;
@@ -1158,17 +1161,35 @@ a.cb-link:hover { text-decoration: underline; }
 .cb-checkbox__box::after {
   content: "";
   position: absolute;
-  left: 0.2rem;
-  top: 0.225rem;
-  width: 0.5625rem;
-  height: 0.3125rem;
-  border-bottom: 1.5px solid var(--cb-text-on-color);
-  border-left: 1.5px solid var(--cb-text-on-color);
+  left: 0.1675rem;
+  top: 0.255rem;
+  width: 0.5rem;
+  height: 0.25rem;
+  border-bottom: 2px solid var(--cb-icon-inverse);
+  border-left: 2px solid var(--cb-icon-inverse);
   transform: scale(0) rotate(-45deg);
   transition: transform var(--cb-motion-fast);
 }
 .cb-checkbox input:checked + .cb-checkbox__box::after { transform: scale(1) rotate(-45deg); }
+.cb-checkbox input:indeterminate + .cb-checkbox__box {
+  border: none;
+  background: var(--cb-icon-primary);
+}
+.cb-checkbox input:indeterminate + .cb-checkbox__box::after { transform: scale(0) rotate(-45deg); }
+.cb-checkbox__box::before {
+  content: "";
+  position: absolute;
+  left: 0.1875rem;
+  top: 0.4375rem;
+  width: 0.625rem;
+  height: 2px;
+  background: var(--cb-icon-inverse);
+  transform: scale(0);
+  transition: transform var(--cb-motion-fast);
+}
+.cb-checkbox input:indeterminate + .cb-checkbox__box::before { transform: scale(1); }
 .cb-checkbox input:disabled + .cb-checkbox__box { border-color: var(--cb-icon-disabled); background: transparent; }
+.cb-checkbox input:disabled + .cb-checkbox__box::before { background: var(--cb-icon-disabled); }
 .cb-checkbox input:focus-visible + .cb-checkbox__box { outline: 2px solid var(--cb-focus); outline-offset: 1px; }
 
 .cb-radio__dot {

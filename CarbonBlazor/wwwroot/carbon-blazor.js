@@ -131,6 +131,11 @@ export async function copyElementText(id) {
   }
 }
 
+export function setIndeterminate(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.indeterminate = value;
+}
+
 export function matchesMedia(query) {
   return window.matchMedia(query).matches;
 }
