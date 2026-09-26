@@ -900,7 +900,20 @@ a.cb-link:hover { text-decoration: underline; }
   color: var(--cb-icon-primary);
 }
 
-.cb-icon-btn:hover { background: var(--cb-layer-hover); }
+.cb-icon-btn--small { width: 2rem; }
+.cb-icon-btn--large { width: 4rem; }
+
+.cb-icon-btn--ghost:hover { background: var(--cb-layer-hover); }
+.cb-icon-btn--primary { background: var(--cb-button-primary); color: var(--cb-text-on-color); }
+.cb-icon-btn--primary:hover { background: var(--cb-button-primary-hover); }
+.cb-icon-btn--secondary { background: var(--cb-button-secondary); color: var(--cb-text-on-color); }
+.cb-icon-btn--secondary:hover { background: var(--cb-button-secondary-hover); }
+.cb-icon-btn--tertiary { border-color: var(--cb-interactive); color: var(--cb-interactive); }
+.cb-icon-btn--tertiary:hover { background: var(--cb-interactive); color: var(--cb-text-on-color); }
+.cb-icon-btn--danger { background: var(--cb-danger); color: var(--cb-text-on-color); }
+.cb-icon-btn--danger:hover { background: var(--cb-danger-hover); }
+.cb-icon-btn--dangertertiary { border-color: var(--cb-danger); color: var(--cb-danger); }
+.cb-icon-btn--dangertertiary:hover { background: var(--cb-danger); color: var(--cb-text-on-color); }
 .cb-button-set { display: flex; flex-wrap: wrap; gap: 1px; }
 
 .cb-menu-button,

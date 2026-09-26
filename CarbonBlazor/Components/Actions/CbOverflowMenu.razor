@@ -3,7 +3,7 @@
 @inject IJSRuntime Js
 
 <div id="@MenuId" class="@ClassName" @onkeydown="OnKeyDown" @attributes="AdditionalAttributes">
-    <CbIconButton Label="@Label" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@(Open ? "true" : "false")">
+    <CbIconButton IconDescription="@Label" OnClick="Toggle" aria-haspopup="menu" aria-expanded="@(Open ? "true" : "false")">
         @if (!Icon.IsNullOrEmpty())
         {
             @Icon

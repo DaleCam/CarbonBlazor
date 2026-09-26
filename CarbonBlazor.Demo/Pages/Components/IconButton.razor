@@ -10,30 +10,47 @@
 </CbBreadcrumb>
 
 <h1>IconButton</h1>
-<p class="docs-lede">A button with only an icon. A required <code>Label</code> supplies the accessible name and tooltip.</p>
+<p class="docs-lede">A button with only an icon. A required <code>IconDescription</code> supplies the accessible name and tooltip.</p>
 
 <section class="docs-section">
     <h2>Examples</h2>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-        <CbIconButton Label="Add" OnClick="() => _count++">
+        <CbIconButton IconDescription="Add" OnClick="() => _count++">
             <CbIcon Name="CbIconName.Add" />
         </CbIconButton>
-        <CbIconButton Label="Search">
+        <CbIconButton IconDescription="Search">
             <CbIcon Name="CbIconName.Search" />
         </CbIconButton>
-        <CbIconButton Label="Filter">
+        <CbIconButton IconDescription="Filter">
             <CbIcon Name="CbIconName.Filter" />
         </CbIconButton>
-        <CbIconButton Label="Delete" Disabled="true">
+        <CbIconButton IconDescription="Delete" Disabled="true">
             <CbIcon Name="CbIconName.TrashCan" />
         </CbIconButton>
     </div>
     <p>Add clicked: @_count</p>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-block-start: 1rem;">
+        <CbIconButton IconDescription="Add" Variant="CbButtonVariant.Primary">
+            <CbIcon Name="CbIconName.Add" />
+        </CbIconButton>
+        <CbIconButton IconDescription="Add" Variant="CbButtonVariant.Secondary">
+            <CbIcon Name="CbIconName.Add" />
+        </CbIconButton>
+        <CbIconButton IconDescription="Add" Variant="CbButtonVariant.Tertiary">
+            <CbIcon Name="CbIconName.Add" />
+        </CbIconButton>
+        <CbIconButton IconDescription="Add" Variant="CbButtonVariant.Ghost">
+            <CbIcon Name="CbIconName.Add" />
+        </CbIconButton>
+        <CbIconButton IconDescription="Delete" Variant="CbButtonVariant.Danger">
+            <CbIcon Name="CbIconName.TrashCan" />
+        </CbIconButton>
+    </div>
 </section>
 
 <section class="docs-section">
     <h2>Usage</h2>
-    <CbCodeSnippet>&lt;CbIconButton Label="Add" OnClick="Add"&gt;
+    <CbCodeSnippet>&lt;CbIconButton IconDescription="Add" OnClick="Add"&gt;
     &lt;CbIcon Name="CbIconName.Add" /&gt;
 &lt;/CbIconButton&gt;</CbCodeSnippet>
 </section>
@@ -51,10 +68,10 @@
         </thead>
         <tbody>
             <tr>
-                <td><code>Label</code> <em>(required)</em></td>
+                <td><code>IconDescription</code> <em>(required)</em></td>
                 <td><code>string</code></td>
                 <td><code>""</code></td>
-                <td>Accessible name; also used as the <code>title</code> tooltip.</td>
+                <td>Accessible name; also shown in a <code>CbTooltip</code> bubble.</td>
             </tr>
             <tr>
                 <td><code>Icon</code></td>
@@ -72,7 +89,19 @@
                 <td><code>Size</code></td>
                 <td><code>CbSize</code></td>
                 <td><code>Medium</code></td>
-                <td>Button size: Small, Medium, or Large.</td>
+                <td>Button size: Small, Medium, or Large. Sets a square footprint.</td>
+            </tr>
+            <tr>
+                <td><code>Variant</code></td>
+                <td><code>CbButtonVariant</code></td>
+                <td><code>Ghost</code></td>
+                <td>Kind: Primary, Secondary, Tertiary, Ghost, Danger, or DangerTertiary.</td>
+            </tr>
+            <tr>
+                <td><code>Direction</code></td>
+                <td><code>CbTooltipDirection</code></td>
+                <td><code>Bottom</code></td>
+                <td>Side the tooltip appears on: Top, Right, Bottom, or Left.</td>
             </tr>
             <tr>
                 <td><code>Disabled</code></td>
